@@ -1,0 +1,433 @@
+
+<?php
+// Function to ensure absolute URL
+function getAbsoluteUrl($path, $baseUrl) {
+    if (strpos($path, 'http') === 0) return $path;
+    return rtrim($baseUrl, '/') . '/' . ltrim($path, '/');
+}
+
+// Function to optimize Image for OG Tags (Size + Aspect Ratio)
+// Uses images.weserv.nl to resize, pad, and compress on the fly.
+// Solves: 1. WhatsApp 300KB limit (compression) 2. LinkedIn cropping (fit=contain)
+function getOptimizedOgImage($url) {
+    // Encode the source URL
+    $encodedUrl = urlencode($url);
+    // w=1200&h=630 (Standard OG Size)
+    // fit=contain (Adds padding instead of cropping/cutting)
+    // output=jpg (Broad compatibility)
+    // q=80 (Quality compression to ensure <300KB)
+    // bg=ffffff (White background for padding)
+    return "https://images.weserv.nl/?url=" . $encodedUrl . "&w=1200&h=630&fit=contain&output=jpg&q=80&bg=ffffff";
+}
+
+$request_uri = $_SERVER['REQUEST_URI'];
+$path = parse_url($request_uri, PHP_URL_PATH);
+
+// Determine protocol and host dynamically
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'];
+$baseUrl = $protocol . $host;
+
+// Default Meta Tags
+$defaultTitle = "Success Wikis";
+$defaultDesc = "Discover stories of purpose, resilience, and innovation. Exploring the journeys behind success.";
+// Absolute -> Optimized
+$defaultAbsImage = getAbsoluteUrl("/assets/logo.png", $baseUrl); 
+$defaultImage = getOptimizedOgImage($defaultAbsImage);
+$defaultUrl = $baseUrl . "/";
+
+$title = $defaultTitle;
+$description = $defaultDesc;
+$image = $defaultImage;
+$url = $defaultUrl;
+
+// 1. Blog Metadata
+// Data from src/blogs/metadata.js
+$blogMetadata = [
+    [
+        "id" => "AmbitionPost",
+        "title" => "Ambition Is Changing — And That's a Good Thing",
+        "slug" => "ambition-is-changing",
+        "metaDescription" => "Ambition is no longer just about climbing the corporate ladder. It's about finding purpose and redefining success on your own terms.",
+        "image" => "/assets/blogs/blogs-images/1.png",
+        "url" => $baseUrl . "/blogs/ambition-is-changing"
+    ],
+    [
+        "id" => "FearFounderPost",
+        "title" => "The Fear Every Founder Has (But Nobody Talks About)",
+        "slug" => "fear-every-founder-has",
+        "metaDescription" => "Imposter syndrome and the fear of failure are common among founders. Learn why these feelings are normal and how to overcome them.",
+        "image" => "/assets/blogs/blogs-images/2.png",
+        "url" => $baseUrl . "/blogs/fear-every-founder-has"
+    ],
+    [
+        "id" => "FiguredOutPost",
+        "title" => "You Don't Need to Have It All Figured Out",
+        "slug" => "dont-need-figured-out",
+        "metaDescription" => "The pressure to have a perfect 5-year plan can be paralyzing. Discover the power of iteration and starting before you're ready.",
+        "image" => "/assets/blogs/blogs-images/3.jpeg",
+        "url" => $baseUrl . "/blogs/dont-need-figured-out"
+    ],
+    [
+        "id" => "TellStoryPost",
+        "title" => "How to Tell Your Story Without Feeling Like PR",
+        "slug" => "how-to-tell-story",
+        "metaDescription" => "Authenticity wins in modern marketing. Learn how to share your journey and connect with your audience without sounding corporate.",
+        "image" => "/assets/blogs/blogs-images/4.jpeg",
+        "url" => $baseUrl . "/blogs/how-to-tell-story"
+    ],
+];
+
+// 2. Pod Metadata
+$podMetadata = [
+    [
+        "id" => "RaghavFoundationPost",
+        "title" => "Raghav Foundation: Building Schools, Shaping Futures",
+        "slug" => "raghav-foundation",
+        "categorySlug" => "driven-by-purpose",
+        "image" => "/assets/Driven-by-Purpose/Raghav.png",
+        "category" => "Driven by Purpose",
+    ],
+    [
+        "id" => "ZenithEnergyPost",
+        "title" => "Zenith Energy – Turning Efficiency Into Legacy",
+        "slug" => "zenith-energy",
+        "categorySlug" => "driven-by-purpose",
+        "image" => "/assets/Driven-by-Purpose/zenith.png",
+        "category" => "Driven by Purpose",
+    ],
+    [
+        "id" => "AECSastraPost",
+        "title" => "AEC Sastra: Shaping Global AEC Leaders",
+        "slug" => "aec-sastra",
+        "categorySlug" => "driven-by-purpose",
+        "image" => "/assets/Driven-by-Purpose/AEC-1.png",
+        "category" => "Driven by Purpose",
+    ],
+    [
+        "id" => "DesiDipsPost",
+        "title" => "Desi Dips: Authentic Chutneys That Do More Than Just Taste Good",
+        "slug" => "desi-dips",
+        "categorySlug" => "driven-by-purpose",
+        "image" => "/assets/Driven-by-Purpose/Desi-Dips.png",
+        "category" => "Driven by Purpose",
+    ],
+    [
+        "id" => "FintechIPOWavePost",
+        "title" => "India’s Fintech IPO Wave: KreditBee, Fibe, and MoneyView Gear Up for 2026",
+        "slug" => "fintech-ipo-wave",
+        "categorySlug" => "driven-by-purpose",
+        "image" => "/assets/Driven-by-Purpose/Fintech.jpeg.jpeg",
+        "category" => "Driven by Purpose",
+    ],
+    [
+        "id" => "TariniSaiPost",
+        "title" => "Tarini Sai Padmanabhan: Building the Trust Layer of the Internet with Axory AI",
+        "slug" => "tarini-sai",
+        "categorySlug" => "stage-behind-the-story",
+        "image" => "/assets/The-stage-behind-the-story/Tarini-Sai-Padmanabhan.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "SoldierRewiredPost",
+        "title" => "The Soldier Who Rewired the Future — One STEM Lab at a Time",
+        "slug" => "soldier-rewired",
+        "categorySlug" => "stage-behind-the-story",
+        "image" => "/assets/The-stage-behind-the-story/The-Soldier.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "ManWhoBuildsSchoolsPost",
+        "title" => "The Man Who Builds Schools for People Who Dream of Building Them",
+        "slug" => "man-who-builds-schools",
+        "categorySlug" => "stage-behind-the-story",
+        "image" => "/assets/The-stage-behind-the-story/raghav.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "LeenusInfraPost",
+        "title" => "From Supreme Pipes to Complete Infrastructure – How Leenus Infra Builds Smarter",
+        "slug" => "leenus-infra",
+        "categorySlug" => "founders-unfiltered",
+        "image" => "/assets/Founder's-Unfiltered/leenus.png",
+        "category" => "Founder's Unfiltered",
+    ],
+    [
+        "id" => "SindhuReddyPost",
+        "title" => "Sindhu Reddy on Powering a Greener Future: Zenith Energy and the Road to Net Zero",
+        "slug" => "sindhu-reddy",
+        "categorySlug" => "founders-unfiltered",
+        "image" => "/assets/Founder's-Unfiltered/sindu.png",
+        "category" => "Founder's Unfiltered",
+    ],
+    [
+        "id" => "RaghuBodduPost",
+        "title" => "Exclusive Interview: Raghu Boddu on ToggleNow, Innovation, and the AI-Powered Future",
+        "slug" => "raghu-boddu",
+        "categorySlug" => "founders-unfiltered",
+        "image" => "/assets/Founder's-Unfiltered/raghu.jpeg",
+        "category" => "Founder's Unfiltered",
+    ],
+];
+
+// 3. Success Lens Metadata
+$successLensMetadata = [
+    [
+        "id" => "NightSolarTech",
+        "title" => "Scientists Advance Night-Solar Technology with Breakthrough Thermoradiative Cells",
+        "slug" => "night-solar-tech",
+        "metaDescription" => "Researchers at Stanford and UNSW Sydney develop solar cells that generate electricity after dark.",
+        "image" => "/assets/success-wire/solar.webp",
+    ],
+    [
+        "id" => "JPMorganEarnings",
+        "title" => "JPMorgan Chase & Co.: Q4 Earnings and Leadership Transition",
+        "slug" => "jpmorgan-chase-earnings",
+        "metaDescription" => "JPMorgan Chase reports strong Q4 earnings alongside significant leadership shifts and legal challenges.",
+        "image" => "/assets/success-wire/jp-morgon.jpeg",
+    ],
+    [
+        "id" => "GoogleAIHub",
+        "title" => "Google to invest $15 billion in AI hub...",
+        "slug" => "google-invest-15-billion-ai",
+        "metaDescription" => "Google announces a massive $15 billion investment to build a new AI hub, signaling a major shift in the tech landscape.",
+        "image" => "/assets/success-wire/google.png",
+    ],
+    [
+        "id" => "SharkTankHoora",
+        "title" => "Shark Tank Said No, Investors Said Yes: Hoora's...",
+        "slug" => "shark-tank-hoora-success",
+        "metaDescription" => "The story of Hoora, a startup that was rejected on Shark Tank but found massive success with other investors.",
+        "image" => "/assets/success-wire/Shark-tank.jpeg",
+    ],
+    [
+        "id" => "HandmadeRoots",
+        "title" => "From Handmade Roots to a Global Movement: How...",
+        "slug" => "handmade-roots-global-movement",
+        "metaDescription" => "Tracing the journey of a local handmade brand that scaled into a global movement.",
+        "image" => "/assets/success-wire/taavi.jpeg",
+    ],
+    [
+        "id" => "HypeToHabit",
+        "title" => "From Hype to Habit: The New Normal of...",
+        "slug" => "hype-to-habit-new-normal",
+        "metaDescription" => "Analyzing how fleeting trends transform into permanent habits in the consumer market.",
+        "image" => "/assets/success-wire/hype-to-habit.png",
+    ],
+    [
+        "id" => "IndiasDeeptech",
+        "title" => "India's Deeptech : How Talent and Patience Can...",
+        "slug" => "india-deeptech-talent-patience",
+        "metaDescription" => "India's deeptech sector is rising. Discover how talent and patience are fueling this growth.",
+        "image" => "/assets/success-wire/India’s-Deeptech.png",
+    ],
+    [
+        "id" => "D2CBrands",
+        "title" => "What D2C Brands Can Learn from Blinkit's and...",
+        "slug" => "d2c-brands-learn-blinkit",
+        "metaDescription" => "Key lessons for D2C brands from the rapid rise and strategies of massive players like Blinkit.",
+        "image" => "/assets/success-wire/D2C.png",
+    ],
+    [
+        "id" => "ZohoArattai",
+        "title" => "Zoho's Arattai Surge: India's Messaging Moment or Mirage?",
+        "slug" => "zoho-arattai-surge",
+        "metaDescription" => "An in-depth look at Zoho's Arattai app and whether it can truly capture India's messaging market.",
+        "image" => "/assets/success-wire/Zoho.jpeg",
+    ],
+    [
+        "id" => "AmazonFresh",
+        "title" => "Amazon Fresh Expands to 270+ Cities. What This...",
+        "slug" => "amazon-fresh-expansion",
+        "metaDescription" => "Amazon Fresh's aggressive expansion to 270+ cities and its implications for local markets.",
+        "image" => "/assets/success-wire/Amazon.jpeg",
+    ],
+    [
+        "id" => "WorldTightens",
+        "title" => "When the World Tightens, India's Tech Founders Step...",
+        "slug" => "india-tech-founders-step-up",
+        "metaDescription" => "How Indian tech founders are responding to global economic tightening with innovation and resilience.",
+        "image" => "/assets/success-wire/When-the-World-Tightens.jpeg",
+    ],
+];
+
+// 4. Event Metadata
+$eventMetadata = [
+    [
+        "id" => "Episode1",
+        "title" => "Founders Meet 2025 | Episode-1",
+        "slug" => "episode-1",
+        "metaDescription" => "Join the Founder meet 2025. Meet and Network with other amazing founders, Share stories, challenges & wins.",
+        "image" => "/assets/events/episode-1.png",
+    ],
+];
+
+// 4. Static Pages
+$staticPages = [
+    '/about' => [
+        'title' => 'About Us | Success Wikis',
+        'description' => 'Learn more about Success Wikis, our mission, and the team behind the stories.'
+    ],
+    '/contact' => [
+        'title' => 'Contact Us | Success Wikis',
+        'description' => 'Get in touch with us for collaborations, inquiries, or feedback.'
+    ],
+    '/careers' => [
+        'title' => 'Careers | Success Wikis',
+        'description' => 'Join our team and help us build the future of Success Wikis.'
+    ],
+    '/access-statement' => [
+        'title' => 'Accessibility Statement | Success Wikis',
+        'description' => 'Our commitment to ensuring digital accessibility for all users.'
+    ],
+    '/ads' => [
+        'title' => 'Advertise with Us | Success Wikis',
+        'description' => 'Reach our engaged audience through our advertising solutions.'
+    ],
+    '/cookies-policy' => [
+        'title' => 'Cookies Policy | Success Wikis',
+        'description' => 'Understand how we use cookies to improve your experience.'
+    ],
+    '/privacy-policy' => [
+        'title' => 'Privacy Policy | Success Wikis',
+        'description' => 'Read our privacy policy to understand how we handle your data.'
+    ],
+    '/terms-of-use' => [
+        'title' => 'Terms of Use | Success Wikis',
+        'description' => 'Terms and conditions for using our website.'
+    ],
+    '/works' => [
+        'title' => 'Our Works | Success Wikis',
+        'description' => 'Explore our portfolio and the projects we have delivered.'
+    ],
+    '/events' => [
+        'title' => 'Events | Success Wikis',
+        'description' => 'Stay updated with our latest events and episodes.'
+    ],
+];
+
+if (array_key_exists($path, $staticPages)) {
+    $title = $staticPages[$path]['title'];
+    $description = $staticPages[$path]['description'];
+}
+
+// ROUTING LOGIC
+
+$cleanPath = trim($path, '/');
+
+// 1. Blogs: /blogs/:slug
+if (stripos($cleanPath, 'blogs/') === 0) {
+    $parts = explode('/', $cleanPath);
+    $blogId = end($parts); // Get last part
+    foreach ($blogMetadata as $item) {
+        if ($item['id'] === $blogId || $item['slug'] === $blogId) { 
+            $title = $item['title'];
+            $description = $item['metaDescription'];
+            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+            $image = getOptimizedOgImage($absImage);
+            $url = $baseUrl . "/blogs/" . $item['slug'];
+            break;
+        }
+    }
+}
+// 3. Success Wire: /success-wire/:slug
+elseif (stripos($cleanPath, 'success-wire/') === 0) {
+    $parts = explode('/', $cleanPath);
+    $lensSlug = end($parts);
+    foreach ($successLensMetadata as $item) {
+        if ($item['slug'] === $lensSlug) {
+            $title = $item['title'];
+            $description = $item['metaDescription'];
+            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+            $image = getOptimizedOgImage($absImage);
+            $url = $baseUrl . "/success-wire/" . $item['slug'];
+            break;
+        }
+    }
+}
+// 4. Events: /events/:slug
+elseif (stripos($cleanPath, 'events/') === 0) {
+    $parts = explode('/', $cleanPath);
+    $eventSlug = end($parts);
+    foreach ($eventMetadata as $item) {
+        if ($item['slug'] === $eventSlug) {
+            $title = $item['title'];
+            $description = $item['metaDescription'];
+            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+            $image = getOptimizedOgImage($absImage);
+            $url = $baseUrl . "/events/" . $item['slug'];
+            break;
+        }
+    }
+}
+// 2. Pod: /:categorySlug/:slug
+else {
+    foreach ($podMetadata as $item) {
+        // Construct expected path without slashes for comparison
+        $expectedPath = $item['categorySlug'] . "/" . $item['slug'];
+        
+        // Case-insensitive comparison
+        if (strcasecmp($cleanPath, $expectedPath) === 0) {
+             $title = $item['title'];
+             $description = "Listen to " . $item['title'] . ". " . $item['category'];
+             $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+            $image = getOptimizedOgImage($absImage);
+             $url = $baseUrl . "/" . $expectedPath;
+             break;
+        }
+    }
+}
+
+// Read index.html
+if (file_exists('index.html')) {
+    $html = file_get_contents('index.html');
+} else {
+    die("index.html not found.");
+}
+
+// CLEANUP existing tags to prevent duplicates (Robust Regex for Multi-line)
+// Remove existing title
+$html = preg_replace('/<title>.*?<\/title>/is', '', $html);
+// Remove existing OG and Description tags (handling multi-line attributes)
+$html = preg_replace('/<meta\s+[^>]*property=["\']og:[^"\']+["\'][^>]*\/?>/is', '', $html);
+$html = preg_replace('/<meta\s+[^>]*name=["\']og:[^"\']+["\'][^>]*\/?>/is', '', $html);
+$html = preg_replace('/<meta\s+[^>]*name=["\']description["\'][^>]*\/?>/is', '', $html);
+$html = preg_replace('/<meta\s+[^>]*name=["\']twitter:[^"\']+["\'][^>]*\/?>/is', '', $html);
+$html = preg_replace('/<meta\s+[^>]*name=["\']keywords["\'][^>]*\/?>/is', '', $html);
+$html = preg_replace('/<meta\s+[^>]*name=["\']author["\'][^>]*\/?>/is', '', $html);
+$html = preg_replace('/<meta\s+[^>]*name=["\']robots["\'][^>]*\/?>/is', '', $html);
+
+// Prepare New Tags
+$headEnd = '</head>';
+$ogTags = "
+    <!-- Dynamic OG Tags via index.php -->
+    <title>" . htmlspecialchars($title) . "</title>
+    <meta name=\"description\" content=\"" . htmlspecialchars($description) . "\">
+    <meta name=\"keywords\" content=\"success, wikis, motivation, achievement, personal development\">
+    <meta name=\"author\" content=\"SuccessWikis Team\">
+    <meta name=\"robots\" content=\"index, follow\">
+
+    <meta property=\"og:title\" content=\"" . htmlspecialchars($title) . "\">
+    <meta property=\"og:description\" content=\"" . htmlspecialchars($description) . "\">
+    <meta property=\"og:image\" content=\"" . htmlspecialchars($image) . "\">
+    <meta property=\"og:url\" content=\"" . htmlspecialchars($url) . "\">
+    <meta property=\"og:type\" content=\"website\">
+    <meta property=\"og:site_name\" content=\"Success Wikis\">
+
+    <!-- Additional Image Properties -->
+    <meta property=\"og:image:type\" content=\"image/jpeg\">
+    <meta property=\"og:image:width\" content=\"1200\">
+    <meta property=\"og:image:height\" content=\"630\">
+    <meta property=\"og:image:alt\" content=\"" . htmlspecialchars($title) . "\">
+
+    <meta name=\"twitter:card\" content=\"summary_large_image\">
+    <meta name=\"twitter:title\" content=\"" . htmlspecialchars($title) . "\">
+    <meta name=\"twitter:description\" content=\"" . htmlspecialchars($description) . "\">
+    <meta name=\"twitter:image\" content=\"" . htmlspecialchars($image) . "\">
+";
+
+// Inject before </head>
+$html = str_replace($headEnd, $ogTags . "\n" . $headEnd, $html);
+
+echo $html;
+?>

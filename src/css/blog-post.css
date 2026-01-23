@@ -1,0 +1,556 @@
+/* src/css/blog-post.css */
+
+.pod-post-page {
+  background-color: #fff;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* 1. Hero Section */
+.pod-hero-section {
+  max-width: 1400px; /* Wider for hero */
+  margin: 0 auto;
+  padding: 120px 40px 60px 40px; /* Top padding clears the Fixed Main Navbar */
+}
+
+.pod-split-header {
+  display: flex;
+  gap: 60px;
+  align-items: center; /* Center vertically align title and image */
+  justify-content: space-between;
+}
+
+.pod-title-section {
+  flex: 1;
+}
+.social-link-header {
+  color: #000;
+  margin: 0 10px;
+}
+
+.pod-hero-img-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pod-hero-img-container img {
+  width: 60%;
+  border-radius: 0; /* Sharp edges typically looked better in screenshot, user wants 'just like image' */
+  display: block;
+}
+
+/* 2. Sticky Header Bar */
+.pod-sticky-header-container {
+  position: sticky;
+  top: 100px; /* Stick below the main fixed navbar */
+  z-index: 800;
+  background-color: #fff; /* Ensure it covers content */
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.pod-sticky-header {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.pod-header-content {
+  padding: 15px 40px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  align-items: center;
+}
+
+.pod-header-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.pod-header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.social-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.social-icon.facebook {
+  background: #0077b5
+    url("https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png")
+    center/cover;
+} /* Placeholder LinkedIn */
+.social-icon.linkedin {
+  background: #ff4500
+    url("https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg")
+    center/cover;
+} /* Placeholder FB */
+
+.detail-share-btn {
+  background: #000;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.detail-share-btn:hover {
+  background: #333;
+}
+
+.share-menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.share-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 10px;
+  width: 180px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid #eee;
+  animation: fadeInScale 0.2s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.share-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.share-menu-item:hover {
+  background: #f5f5f5;
+}
+
+.share-menu-item span {
+  flex: 1;
+}
+
+/* Progress Bar */
+.scroll-progress-bar {
+  height: 3px;
+  background-color: #000;
+  width: 0%; /* Updates via GSAP */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* 3. Three-Column Content Layout */
+.pod-container.three-column-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  display: grid;
+  grid-template-columns: 280px 1fr 340px; /* Left: 280px, Mid: Flex, Right: 340px */
+  gap: 60px;
+  position: relative;
+  align-items: start; /* Ensure sticky columns work */
+}
+
+/* Left Sidebar (Recent Posts) */
+.pod-sidebar-left {
+  position: sticky;
+  top: 200px; /* 80px Nav + ~60px Sticky Bar + padding */
+}
+
+.recent-posts {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.recent-posts h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  padding-left: 10px;
+  line-height: 1;
+}
+
+.recent-post-item {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  text-decoration: none;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  transition: color 0.2s;
+}
+
+.recent-post-item:hover {
+  color: #000;
+}
+
+.recent-post-item hr {
+  margin-top: 15px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+/* Middle Column (Main Content) */
+.pod-main-content {
+  min-width: 0; /* Prevents overflow */
+}
+
+.pod-body {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.pod-body h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 50px;
+  margin-bottom: 25px;
+  color: #000;
+}
+
+.pod-body p {
+  margin-bottom: 24px;
+}
+
+.pod-body ul {
+  margin-bottom: 24px;
+  padding-left: 20px;
+}
+
+.pod-body li {
+  margin-bottom: 15px;
+}
+
+/* Two-Column Layout (Event Page) */
+.pod-container.two-column-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  display: grid;
+  grid-template-columns: 1fr 340px; /* Main content + Right Sidebar */
+  gap: 60px;
+  align-items: start;
+}
+
+/* Right Sidebar (Sponsored) */
+.pod-sidebar-right {
+  position: sticky;
+  top: 200px;
+}
+
+.sponsored-label {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.sponsored-card {
+  background-color: transparent;
+}
+.sponsored-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.sponsored-text h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.sponsored-text p {
+  font-size: 14px;
+  color: #666;
+}
+
+.footer {
+  background-color: #111111;
+  color: #9ca3af;
+  padding: 48px 24px 24px;
+  font-family: var(--font-primary);
+}
+
+.footer-top {
+  max-width: 100%;
+  padding: 20px 60px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .footer-top {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .footer-left {
+    align-items: flex-start;
+  }
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: -10px;
+}
+
+.logo-text {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+.social-icons {
+  display: flex;
+  gap: 24px;
+}
+
+.social-link {
+  text-decoration: none;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.linkedin {
+  background-color: #0a66c2;
+}
+
+.instagram {
+  background: linear-gradient(135deg, #f56040, #c13584, #833ab4);
+}
+
+.footer-right {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .footer-right {
+    justify-content: flex-end;
+  }
+}
+
+.carbon-badge {
+  background-color: white;
+  border-radius: 9999px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.badge-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.badge-subtitle {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.footer-bottom {
+  max-width: 1280px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid #374151;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+}
+
+.footer-link {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: white;
+}
+
+.copyright {
+  color: white;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .pod-container.three-column-layout {
+    grid-template-columns: 240px 1fr 300px;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 900px) {
+  .pod-container.three-column-layout {
+    grid-template-columns: 1fr; /* Stack everything on mobile */
+    padding: 40px 20px;
+  }
+  .pod-container.two-column-layout {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+  }
+  .pod-body h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 25px;
+    color: #000;
+  }
+  .pod-body {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  .pod-sidebar-left,
+  .pod-sidebar-right {
+    display: none; /* User said 'remove the side bar for mobile' */
+  }
+  .pod-main-content {
+    order: 1;
+  }
+  .pod-sticky-header-container {
+    top: 80px; /* Match mobile header height */
+  }
+  .pod-header-content {
+    padding: 10px 20px;
+    gap: 20px;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .pod-header-title {
+    font-size: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .pod-hero-section {
+    padding: 100px 20px 40px 20px;
+  }
+  .pod-split-header {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+  .pod-hero-img-container img {
+    width: 100%;
+  }
+  .pod-title-section .head-text {
+    font-size: 24px;
+  }
+}
+
+/* Custom Quote Style */
+.pod-quote {
+  border-left: 4px solid #ccc; /* Thick gray border as per screenshot */
+  padding-left: 24px;
+  margin: 30px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.6;
+}

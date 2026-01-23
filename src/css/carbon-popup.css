@@ -1,0 +1,147 @@
+/* src/css/carbon-popup.css */
+
+.carbon-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000000000000 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.carbon-popup-content {
+  background: #fff;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: scaleIn 0.2s ease-out;
+  padding-bottom: 30px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.carbon-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.carbon-popup-image {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.carbon-popup-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carbon-location-badge {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carbon-text-content {
+  padding: 25px 30px;
+  text-align: left;
+}
+
+.carbon-text-content h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.carbon-text-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 25px;
+}
+
+.carbon-text-content a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.highlight-red {
+  color: #ff0000;
+  font-weight: 700;
+}
+
+.click-verify {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.verify-icon {
+  margin-top: -2px;
+}
+
+.carbon-badge-large {
+  display: inline-block;
+  border: 1px solid #eee;
+  border-radius: 8px; /* Slightly rounded */
+  padding: 5px 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow per screenshot */
+}
+
+.carbon-badge-large img {
+  height: 40px; /* Adjust based on asset aspect ratio */
+  display: block;
+}

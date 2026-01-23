@@ -1,0 +1,46 @@
+
+> successwikis@0.0.0 build
+> vite build
+
+[36mrolldown-vite v7.2.5 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming...
+../fonts/TASA_Orbiter/static/TASAOrbiter-Regular.ttf referenced in ../fonts/TASA_Orbiter/static/TASAOrbiter-Regular.ttf didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../fonts/TASA_Orbiter/static/TASAOrbiter-Medium.ttf referenced in ../fonts/TASA_Orbiter/static/TASAOrbiter-Medium.ttf didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../fonts/TASA_Orbiter/static/TASAOrbiter-SemiBold.ttf referenced in ../fonts/TASA_Orbiter/static/TASAOrbiter-SemiBold.ttf didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../fonts/TASA_Orbiter/static/TASAOrbiter-ExtraBold.ttf referenced in ../fonts/TASA_Orbiter/static/TASAOrbiter-ExtraBold.ttf didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../fonts/TASA_Orbiter/static/TASAOrbiter-Bold.ttf referenced in ../fonts/TASA_Orbiter/static/TASAOrbiter-Bold.ttf didn't resolve at build time, it will remain unchanged to be resolved at runtime
+✓ 44 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:  0.29 kB
+dist/assets/react-CHdo91hT.svg    4.12 kB │ gzip:  2.06 kB
+dist/assets/index-RjvaaOIf.css   10.54 kB │ gzip:  2.12 kB
+dist/assets/index-Bj-vfeZa.js   264.51 kB │ gzip: 82.11 kB
+[31m✗[39m Build failed in 1.26s
+[31merror during build:
+[31mBuild failed with 1 error:
+
+Error: [vite]: Rolldown failed to resolve import "react-icons/bs" from "C:/Users/REDDY JASWANTH/OneDrive/Desktop/successwikis/src/components/Header.jsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`
+    at viteLog (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33561:57)
+    at file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33597:73
+    at onwarn (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/@vitejs/plugin-react/dist/index.js:76:7)
+    at file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33597:28
+    at onRollupLog (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33592:63)
+    at onLog (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33360:4)
+    at file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/rolldown/dist/shared/src-CYkh2Ybc.mjs:294:26
+    at logger (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/rolldown/dist/shared/src-CYkh2Ybc.mjs:285:3)
+    at onLog (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/rolldown/dist/shared/src-CYkh2Ybc.mjs:3964:32)[31m
+    at aggregateBindingErrorsIntoJsError (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/rolldown/dist/shared/src-CYkh2Ybc.mjs:2659:18)
+    at unwrapBindingResult (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/rolldown/dist/shared/src-CYkh2Ybc.mjs:2634:128)
+    at #build (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/rolldown/dist/shared/src-CYkh2Ybc.mjs:4433:34)
+    at async buildEnvironment (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33468:64)
+    at async Object.build (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33871:19)
+    at async Object.buildApp (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/chunks/node.js:33868:153)
+    at async CAC.<anonymous> (file:///C:/Users/REDDY%20JASWANTH/OneDrive/Desktop/successwikis/node_modules/vite/dist/node/cli.js:629:3)[39m
