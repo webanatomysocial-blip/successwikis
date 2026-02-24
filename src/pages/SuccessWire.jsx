@@ -5,7 +5,7 @@ import { successLensMetadata } from "../success-lens/metadata.js";
 
 const SuccessWire = () => {
   const sortedMetadata = [...successLensMetadata].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
+    (a, b) => new Date(b.date) - new Date(a.date),
   );
 
   return (
@@ -27,7 +27,7 @@ const SuccessWire = () => {
               }}
             />
             <div className="lens-card-content">
-              <h3 className="lens-card-title">{lens.title}</h3>
+              <h3 className="lens-card-title">{lens.title.slice(0, 50)}...</h3>
               <span className="read-more-btn">Read more</span>
             </div>
           </Link>

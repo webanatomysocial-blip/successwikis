@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Force index.php to be the default index file
+  DirectoryIndex index.php index.html
+
+  # 2. If the request is for an existing file or directory...
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  # ...AND it is NOT index.html (we want index.html to be handled by PHP)...
+  RewriteCond %{REQUEST_URI} !^/index\.html$ [NC]
+  # ...then serve it directly (images, css, js)
+  RewriteRule ^ - [L]
+
+  # Rewrite sitemap.xml to sitemap.php
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+  # 3. Everything else sends to index.php
+  RewriteRule ^ index.php [L]
+</IfModule>

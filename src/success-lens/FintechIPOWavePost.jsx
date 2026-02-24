@@ -1,6 +1,6 @@
 import React from "react";
 import BlogLayout from "../components/BlogLayout";
-import sampleImage from "../assets/Driven-by-Purpose/Fintech.jpeg.jpeg";
+import sampleImage from "../assets/Driven-by-Purpose/Fintech.jpeg";
 
 const FintechIPOWavePost = ({ dynamicRecentPosts }) => {
   const content = (

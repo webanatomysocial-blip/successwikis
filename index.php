@@ -1,15 +1,17 @@
-
 <?php
 // Function to ensure absolute URL
-function getAbsoluteUrl($path, $baseUrl) {
-    if (strpos($path, 'http') === 0) return $path;
+function getAbsoluteUrl($path, $baseUrl)
+{
+    if (strpos($path, 'http') === 0)
+        return $path;
     return rtrim($baseUrl, '/') . '/' . ltrim($path, '/');
 }
 
 // Function to optimize Image for OG Tags (Size + Aspect Ratio)
 // Uses images.weserv.nl to resize, pad, and compress on the fly.
 // Solves: 1. WhatsApp 300KB limit (compression) 2. LinkedIn cropping (fit=contain)
-function getOptimizedOgImage($url) {
+function getOptimizedOgImage($url)
+{
     // Encode the source URL
     $encodedUrl = urlencode($url);
     // w=1200&h=630 (Standard OG Size)
@@ -30,9 +32,9 @@ $baseUrl = $protocol . $host;
 
 // Default Meta Tags
 $defaultTitle = "Success Wikis";
-$defaultDesc = "Discover stories of purpose, resilience, and innovation. Exploring the journeys behind success.";
+$defaultDesc = "SuccessWikis is a selective media house dedicated to authentic, impact-driven storytelling. We craft transformative founder narratives, podcasts, and editorial features that blend creativity with precision—helping entrepreneurs inspire trust, elevate their brand, and spark meaningful change.";
 // Absolute -> Optimized
-$defaultAbsImage = getAbsoluteUrl("/assets/logo.png", $baseUrl); 
+$defaultAbsImage = getAbsoluteUrl("/assets/logo.png", $baseUrl);
 $defaultImage = getOptimizedOgImage($defaultAbsImage);
 $defaultUrl = $baseUrl . "/";
 
@@ -40,6 +42,15 @@ $title = $defaultTitle;
 $description = $defaultDesc;
 $image = $defaultImage;
 $url = $defaultUrl;
+
+// Robots Tag Logic
+// Default: Allow large image previews (good for blogs/articles)
+$robotsContent = "index, follow, max-image-preview:large";
+
+// Homepage: Hide image in Google Search results (max-image-preview:none)
+if ($path === '/' || $path === '/index.php') {
+    $robotsContent = "index, follow, max-image-preview:none";
+}
 
 // 1. Blog Metadata
 // Data from src/blogs/metadata.js
@@ -117,7 +128,7 @@ $podMetadata = [
         "title" => "India’s Fintech IPO Wave: KreditBee, Fibe, and MoneyView Gear Up for 2026",
         "slug" => "fintech-ipo-wave",
         "categorySlug" => "driven-by-purpose",
-        "image" => "/assets/Driven-by-Purpose/Fintech.jpeg.jpeg",
+        "image" => "/assets/Driven-by-Purpose/Fintech.jpeg",
         "category" => "Driven by Purpose",
     ],
     [
@@ -145,11 +156,35 @@ $podMetadata = [
         "category" => "The stage behind the story",
     ],
     [
+        "id" => "GreenRecykloplastPost",
+        "title" => "Turning Waste Into Worth: The Story of Raghuram Natarajan and Green Recykloplast",
+        "slug" => "green-recykloplast",
+        "categorySlug" => "stage-behind-the-story",
+        "image" => "/assets/The-stage-behind-the-story/grp.webp",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "NexGenSoftwarePost",
+        "title" => "Venkat’s Journey: Building NexGen Software Solutions on Transparency and Trust",
+        "slug" => "nexgen-software",
+        "categorySlug" => "stage-behind-the-story",
+        "image" => "/assets/The-stage-behind-the-story/venkat.webp",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "WestfieldInternationalPost",
+        "title" => "Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futures",
+        "slug" => "westfield-international",
+        "categorySlug" => "stage-behind-the-story",
+        "image" => "/assets/The-stage-behind-the-story/wf.webp",
+        "category" => "The stage behind the story",
+    ],
+    [
         "id" => "LeenusInfraPost",
         "title" => "From Supreme Pipes to Complete Infrastructure – How Leenus Infra Builds Smarter",
         "slug" => "leenus-infra",
         "categorySlug" => "founders-unfiltered",
-        "image" => "/assets/Founder's-Unfiltered/leenus.png",
+        "image" => "/assets/founders-unfiltered/leenus.png",
         "category" => "Founder's Unfiltered",
     ],
     [
@@ -157,7 +192,7 @@ $podMetadata = [
         "title" => "Sindhu Reddy on Powering a Greener Future: Zenith Energy and the Road to Net Zero",
         "slug" => "sindhu-reddy",
         "categorySlug" => "founders-unfiltered",
-        "image" => "/assets/Founder's-Unfiltered/sindu.png",
+        "image" => "/assets/founders-unfiltered/sindu.png",
         "category" => "Founder's Unfiltered",
     ],
     [
@@ -165,13 +200,41 @@ $podMetadata = [
         "title" => "Exclusive Interview: Raghu Boddu on ToggleNow, Innovation, and the AI-Powered Future",
         "slug" => "raghu-boddu",
         "categorySlug" => "founders-unfiltered",
-        "image" => "/assets/Founder's-Unfiltered/raghu.jpeg",
+        "image" => "/assets/founders-unfiltered/raghu.jpeg",
         "category" => "Founder's Unfiltered",
     ],
 ];
 
 // 3. Success Lens Metadata
 $successLensMetadata = [
+    [
+        "id" => "TorrentPharmaFDA",
+        "title" => "Torrent Pharma’s Dahej Facility Clears US FDA Inspection With Zero Observations",
+        "slug" => "torrent-pharma-fda-inspection",
+        "metaDescription" => "Torrent Pharma's Dahej facility clears US FDA inspection with zero observations.",
+        "image" => "/assets/success-wire/torrent-pharma.webp",
+    ],
+    [
+        "id" => "VigyanShaalaAward",
+        "title" => "VigyanShaala Wins Nikkei Asia Award, Putting Rural STEM Education on the Global Map",
+        "slug" => "vigyanshaala-nikkei-asia-award",
+        "metaDescription" => "Grassroots non-profit VigyanShaala wins Nikkei Asia Award for expanding STEM access to rural India.",
+        "image" => "/assets/success-wire/asia-nikkei.webp",
+    ],
+    [
+        "id" => "NeemansFunding",
+        "title" => "Sustainable Footwear Startup Neeman’s Secures ₹35.5 Crore to Scale Direct-to-Consumer Growth",
+        "slug" => "neemans-funding-growth",
+        "metaDescription" => "Hyderabad-based Neeman's secures ₹35.5 crore in Series B extension to expand product lines and D2C presence.",
+        "image" => "/assets/success-wire/neemans-tn.webp",
+    ],
+    [
+        "id" => "LucknowAIHub",
+        "title" => "Lucknow Emerges as India’s Next AI Hub With Regional Impact Conference",
+        "slug" => "lucknow-india-next-ai-hub",
+        "metaDescription" => "Lucknow hosts IndiaAI–MeitY Mega Meet, positioning tier-2 cities as critical nodes in India's AI strategy.",
+        "image" => "/assets/success-wire/Lucknow.webp",
+    ],
     [
         "id" => "NightSolarTech",
         "title" => "Scientists Advance Night-Solar Technology with Breakthrough Thermoradiative Cells",
@@ -249,6 +312,70 @@ $successLensMetadata = [
         "metaDescription" => "How Indian tech founders are responding to global economic tightening with innovation and resilience.",
         "image" => "/assets/success-wire/When-the-World-Tightens.jpeg",
     ],
+    [
+        "id" => "CGPowerOrder",
+        "title" => "CG Power Secures Landmark $99M US Data Center Order, Enters Global Digital Infrastructure Race",
+        "slug" => "cg-power-us-data-center-order",
+        "metaDescription" => "CG Power and Industrial Solutions Ltd has announced its largest-ever single export order, valued at ₹900 crore (~$99M), from Tallgrass Integrated Logistics Solutions LLC in the United States.",
+        "image" => "/assets/success-wire/SW-blog.png",
+    ],
+    [
+        "id" => "TataMotorsHydrogenBus",
+        "title" => "Tata Motors Unveils India’s First Hydrogen Fuel Cell Bus, Signaling a New Era in Clean Mobility",
+        "slug" => "tata-motors-hydrogen-fuel-cell-bus",
+        "metaDescription" => "Tata Motors has unveiled India’s first hydrogen fuel cell bus, marking a breakthrough in the country’s push toward sustainable public transport.",
+        "image" => "/assets/success-wire/TATA-MOTORS.webp",
+    ],
+    [
+        "id" => "GoogleGeminiChrome",
+        "title" => "Google Brings Gemini AI Into Chrome, Reimagining the Browser Experience",
+        "slug" => "google-brings-gemini-ai-chrome",
+        "metaDescription" => "Google integrates Gemini AI into Chrome, introducing features like a reimagined side panel, Nano Banana for creativity, and proactive Personal Intelligence.",
+        "image" => "/assets/success-wire/GeminiAI.webp",
+    ],
+    [
+        "id" => "GlobalInnovationForumCES",
+        "title" => "Global Innovation Forum at CES 2026 Redefines Startup Networking Through Country‑Led Collaboration",
+        "slug" => "global-innovation-forum-ces-2026",
+        "metaDescription" => "The Seoul Business Agency hosted the Global Innovation Forum at CES 2026, the first country-based startup competition, fostering international collaboration.",
+        "image" => "/assets/success-wire/CES.webp",
+    ],
+
+    [
+        "id" => "RBIBorrowingCosts",
+        "title" => "RBI Keeps Borrowing Costs Steady, Signals Stronger Growth Ahead",
+        "slug" => "rbi-keeps-borrowing-costs-steady",
+        "metaDescription" => "The Reserve Bank of India’s MPC has kept the repo rate unchanged at 5.25%, signaling stability while revising India’s growth outlook upward to 6.8–7.2%.",
+        "image" => "/assets/success-wire/RBI.webp",
+    ],
+    [
+        "id" => "Budget2026Overhaul",
+        "title" => "Budget 2026 Brings Customs Duty Overhaul and Record Infrastructure Push",
+        "slug" => "budget-2026-customs-duty-overhaul",
+        "metaDescription" => "The Union Budget 2026 introduces sweeping reforms in customs duty and a record ₹12.2 lakh crore capital expenditure target.",
+        "image" => "/assets/success-wire/Nirmala.jpg",
+    ],
+    [
+        "id" => "IKEATamilNaduOnline",
+        "title" => "IKEA Expands Into Tamil Nadu With Online Deliveries, Signaling Deeper South India Push",
+        "slug" => "ikea-expands-tamil-nadu-online",
+        "metaDescription" => "IKEA begins online deliveries in Tamil Nadu, marking its first step into the state's retail market with a digital-first approach.",
+        "image" => "/assets/success-wire/IKEA.webp",
+    ],
+    [
+        "id" => "CarbonCreditStartups",
+        "title" => "India’s Carbon Credit Startups Push Global Boundaries With Verified Climate Solutions",
+        "slug" => "india-carbon-credit-startups-global-boundaries",
+        "metaDescription" => "Indian startups like Varaha and Alt Carbon are leading the way in verified carbon removal projects, attracting global buyers like Microsoft and Google.",
+        "image" => "/assets/success-wire/Varaha.webp",
+    ],
+    [
+        "id" => "AlzheimersPollutionLink",
+        "title" => "New Study Links Long-Term Air Pollution Exposure to Higher Alzheimer’s Risk",
+        "slug" => "air-pollution-alzheimers-risk",
+        "metaDescription" => "A major study finds that prolonged exposure to PM2.5 air pollution may directly increase the risk of Alzheimer’s disease.",
+        "image" => "/assets/success-wire/alz.webp",
+    ],
 ];
 
 // 4. Event Metadata
@@ -320,7 +447,7 @@ if (stripos($cleanPath, 'blogs/') === 0) {
     $parts = explode('/', $cleanPath);
     $blogId = end($parts); // Get last part
     foreach ($blogMetadata as $item) {
-        if ($item['id'] === $blogId || $item['slug'] === $blogId) { 
+        if ($item['id'] === $blogId || $item['slug'] === $blogId) {
             $title = $item['title'];
             $description = $item['metaDescription'];
             $absImage = getAbsoluteUrl($item['image'], $baseUrl);
@@ -365,24 +492,32 @@ else {
     foreach ($podMetadata as $item) {
         // Construct expected path without slashes for comparison
         $expectedPath = $item['categorySlug'] . "/" . $item['slug'];
-        
+
         // Case-insensitive comparison
         if (strcasecmp($cleanPath, $expectedPath) === 0) {
-             $title = $item['title'];
-             $description = "Listen to " . $item['title'] . ". " . $item['category'];
-             $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+            $title = $item['title'];
+            $description = "Listen to " . $item['title'] . ". " . $item['category'];
+            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
             $image = getOptimizedOgImage($absImage);
-             $url = $baseUrl . "/" . $expectedPath;
-             break;
+            $url = $baseUrl . "/" . $expectedPath;
+            break;
         }
     }
 }
 
 // Read index.html
-if (file_exists('index.html')) {
-    $html = file_get_contents('index.html');
+// Read Source HTML (Support 'template.html' to bypass server index.html priority)
+$sourceFile = 'index.html';
+if (file_exists('template.html')) {
+    $sourceFile = 'template.html';
+}
+
+if (file_exists($sourceFile)) {
+    $html = file_get_contents($sourceFile);
 } else {
-    die("index.html not found.");
+    // If neither exists, we can't serve the page.
+    // However, if on server and only index.html exists but is being served directly, this script wouldn't run anyway.
+    die("Error: Source HTML file ($sourceFile) not found. Please ensure template.html or index.html exists.");
 }
 
 // CLEANUP existing tags to prevent duplicates (Robust Regex for Multi-line)
@@ -405,7 +540,7 @@ $ogTags = "
     <meta name=\"description\" content=\"" . htmlspecialchars($description) . "\">
     <meta name=\"keywords\" content=\"success, wikis, motivation, achievement, personal development\">
     <meta name=\"author\" content=\"SuccessWikis Team\">
-    <meta name=\"robots\" content=\"index, follow\">
+    <meta name=\"robots\" content=\"" . htmlspecialchars($robotsContent) . "\">
 
     <meta property=\"og:title\" content=\"" . htmlspecialchars($title) . "\">
     <meta property=\"og:description\" content=\"" . htmlspecialchars($description) . "\">
@@ -426,8 +561,36 @@ $ogTags = "
     <meta name=\"twitter:image\" content=\"" . htmlspecialchars($image) . "\">
 ";
 
+// JSON-LD Schema for Sitelinks & Organization
+$jsonLd = [
+    "@context" => "https://schema.org",
+    "@graph" => [
+        [
+            "@type" => "WebSite",
+            "name" => "Success Wikis",
+            "url" => $baseUrl . "/",
+            "potentialAction" => [
+                "@type" => "SearchAction",
+                "target" => $baseUrl . "/?s={search_term_string}",
+                "query-input" => "required name=search_term_string"
+            ]
+        ],
+        [
+            "@type" => "Organization",
+            "name" => "Success Wikis",
+            "url" => $baseUrl . "/",
+            "logo" => getAbsoluteUrl("/assets/logo.png", $baseUrl),
+            "sameAs" => [
+                "https://www.linkedin.com/company/successwikis",
+                "https://www.instagram.com/successwikis"
+            ]
+        ]
+    ]
+];
+$jsonLdScript = "\n    <script type=\"application/ld+json\">\n    " . json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . "\n    </script>\n";
+
 // Inject before </head>
-$html = str_replace($headEnd, $ogTags . "\n" . $headEnd, $html);
+$html = str_replace($headEnd, $ogTags . $jsonLdScript . $headEnd, $html);
 
 echo $html;
 ?>

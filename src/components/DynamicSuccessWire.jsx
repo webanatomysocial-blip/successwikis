@@ -14,7 +14,7 @@ export default function DynamicSuccessWire() {
     if (!lensId) return null;
     return (
       successLensMetadata.find(
-        (item) => item.slug === lensId || item.id === lensId
+        (item) => item.slug === lensId || item.id === lensId,
       ) || null
     );
   }, [lensId]);
@@ -24,7 +24,7 @@ export default function DynamicSuccessWire() {
     if (metadata) {
       // E.g. ../success-lens/GoogleAIHub.jsx
       const key = Object.keys(lensModules).find((k) =>
-        k.includes(`/${metadata.id}.jsx`)
+        k.includes(`/${metadata.id}.jsx`),
       );
       return key;
     }

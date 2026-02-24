@@ -2,8 +2,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../css/blog-post.css";
-import carbonBadge from "../assets/carbon-footer.png";
-import whiteLogo from "../assets/logo-white.png";
+
 
 // Import specific icons from react-icons
 import { FiFacebook, FiLinkedin, FiInstagram } from "react-icons/fi";

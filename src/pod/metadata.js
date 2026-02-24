@@ -10,9 +10,14 @@ import soldierImg from '../assets/The-stage-behind-the-story/The-Soldier.jpeg';
 import raghavManImg from '../assets/The-stage-behind-the-story/raghav.jpeg';
 
 // Founder's Unfiltered
-import leenusImg from '../assets/Founder\'s-Unfiltered/leenus.png';
-import sinduImg from '../assets/Founder\'s-Unfiltered/sindu.png';
-import raghuImg from '../assets/Founder\'s-Unfiltered/raghu.jpeg';
+import leenusImg from '../assets/founders-unfiltered/leenus.png';
+import sinduImg from '../assets/founders-unfiltered/sindu.png';
+import raghuImg from '../assets/founders-unfiltered/raghu.jpeg';
+
+// Moved to Stage Behind the Story
+import grpImg from '../assets/The-stage-behind-the-story/grp.webp';
+import venkatImg from '../assets/The-stage-behind-the-story/venkat.webp';
+import wfImg from '../assets/The-stage-behind-the-story/wf.webp';
 
 export const podMetadata = [
     // Driven by Purpose
@@ -81,6 +86,33 @@ export const podMetadata = [
         category: "The Stage Behind the Story",
         categorySlug: "stage-behind-the-story",
         date: "2025-07-25"
+    },
+    {
+        id: "GreenRecykloplastPost",
+        title: "Turning Waste Into Worth: The Story of Raghuram Natarajan and Green Recykloplast",
+        slug: "green-recykloplast",
+        image: grpImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-01-28"
+    },
+    {
+        id: "NexGenSoftwarePost",
+        title: "Venkat’s Journey: Building NexGen Software Solutions on Transparency and Trust",
+        slug: "nexgen-software",
+        image: venkatImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-01-28"
+    },
+    {
+        id: "WestfieldInternationalPost",
+        title: "Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futures",
+        slug: "westfield-international",
+        image: wfImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-01-29"
     },
 
     // Founder's Unfiltered

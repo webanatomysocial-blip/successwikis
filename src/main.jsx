@@ -88,5 +88,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Layout>
       </BrowserRouter>
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
