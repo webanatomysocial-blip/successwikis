@@ -264,9 +264,10 @@ $eventMetadata = [
 
 // 4. Static Pages
 $staticPages = [
+
     '/about' => [
-        'title' => 'About Us | Success Wikis',
-        'description' => 'Learn more about Success Wikis, our mission, and the team behind the stories.'
+        'title' => 'Startup Paths, Founder Choices and Real Lessons | SuccessWikis',
+        'description' => 'See how founders build, fail and grow through real startup journeys. Read honest stories, important choices and lessons that shape meaningful businesses.'
     ],
     '/contact' => [
         'title' => 'Contact Us | Success Wikis',
@@ -277,32 +278,32 @@ $staticPages = [
         'description' => 'Join our team and help us build the future of Success Wikis.'
     ],
     '/access-statement' => [
-        'title' => 'Accessibility Statement | Success Wikis',
-        'description' => 'Our commitment to ensuring digital accessibility for all users.'
+        'title' => 'Accessibility Statement and WCAG 2.1 Level AA | SuccessWikis',
+        'description' => 'Learn about SuccessWikis’ commitment to accessibility, including WCAG 2.1 Level AA guidelines, screen-reader support, keyboard navigation, and feedback options.'
     ],
     '/ads' => [
-        'title' => 'Advertise with Us | Success Wikis',
-        'description' => 'Reach our engaged audience through our advertising solutions.'
+        'title' => 'Building Brand Attention Through Trust and Value | SuccessWikis',
+        'description' => 'Reach people through trusted content and real stories, not interruptions. Build genuine engagement by adding value where your audience already listens.'
     ],
     '/cookies-policy' => [
-        'title' => 'Cookies Policy | Success Wikis',
-        'description' => 'Understand how we use cookies to improve your experience.'
+        'title' => 'How We Use Cookies on SuccessWikis',
+        'description' => 'Find out what cookies are, the types we use for site features, analytics and ads, how third parties may use cookies, and how you can manage them in your browser.'
     ],
     '/privacy-policy' => [
-        'title' => 'Privacy Policy | Success Wikis',
-        'description' => 'Read our privacy policy to understand how we handle your data.'
+        'title' => 'Privacy Policy and Personal Data Protection | SuccessWikis',
+        'description' => 'Learn how SuccessWikis collects, uses and protects personal data, including cookies, data sharing, user rights, security measures, and contact details.'
     ],
     '/terms-of-use' => [
-        'title' => 'Terms of Use | Success Wikis',
-        'description' => 'Terms and conditions for using our website.'
+        'title' => 'Website Terms and Conditions | SuccessWikis',
+        'description' => 'Read SuccessWikis Terms of Use covering content usage, accuracy and liability, user submissions, external links, intellectual property, and policy updates.'
     ],
     '/works' => [
         'title' => 'Our Works | Success Wikis',
         'description' => 'Explore our portfolio and the projects we have delivered.'
     ],
     '/events' => [
-        'title' => 'Events | Success Wikis',
-        'description' => 'Stay updated with our latest events and episodes.'
+        'title' => 'Events Where Founders Connect and Share Ideas | SuccessWikis',
+        'description' => 'Join founder meetups, talks and live sessions where ideas are shared, connections are built and real startup journeys come to life at SuccessWikis today.'
     ],
 ];
 
