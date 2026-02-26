@@ -24,6 +24,8 @@ import ikeaImg from '../assets/success-wire/IKEA.webp';
 import varahaImg from '../assets/success-wire/Varaha.webp';
 import alzImg from '../assets/success-wire/alz.webp';
 import cabineImg from '../assets/success-wire/Cabine.png';
+import bewImg from '../assets/success-wire/bew.webp';
+import jqiImg from '../assets/success-wire/jqi.webp';
 
 export const successLensMetadata = [
   {
@@ -259,6 +261,23 @@ export const successLensMetadata = [
     excerpt: "The Union Cabinet has approved a ₹10,000 crore fund to strengthen deep-tech and innovative manufacturing startups, boosting India's tech ecosystem.",
     image: cabineImg,
     date: "2026-02-19",
+  },
+  {
+    id: "BewakoofCEOStepsDown",
+    title: "Prabhkiran Singh Steps Down as CEO of Bewakoof After Fourteen Years",
+    slug: "bewakoof-ceo-steps-down",
+    metaDescription: "Prabhkiran Singh, co-founder of Bewakoof, steps down as CEO after fourteen years, marking the end of an era for India's iconic youth fashion brand.",
+    excerpt: "Prabhkiran Singh, co-founder of Bewakoof, steps down as CEO after fourteen years, marking the end of an era for India's iconic youth fashion brand.",
+    image: bewImg,
+    date: "2026-02-25",
+  },
+  {
+    id: "PhotonicChipNewColors",
+    title: "Scientists Develop Photonic Chip That Generates Entirely New Colors of Light",
+    slug: "photonic-chip-new-colors-of-light",
+    metaDescription: "A breakthrough photonic chip can generate entirely new colors of light, with applications in telecommunications, medical imaging, and quantum computing.",
+    excerpt: "A breakthrough photonic chip can generate entirely new colors of light, with applications in telecommunications, medical imaging, and quantum computing.",
+    image: jqiImg,
+    date: "2026-02-25",
   }
 ];
-  

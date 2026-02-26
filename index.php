@@ -376,6 +376,20 @@ $successLensMetadata = [
         "metaDescription" => "A major study finds that prolonged exposure to PM2.5 air pollution may directly increase the risk of Alzheimer’s disease.",
         "image" => "/assets/success-wire/alz.webp",
     ],
+    [
+        "id" => "BewakoofCEOStepsDown",
+        "title" => "Prabhkiran Singh Steps Down as CEO of Bewakoof After Fourteen Years",
+        "slug" => "bewakoof-ceo-steps-down",
+        "metaDescription" => "Prabhkiran Singh, co-founder of Bewakoof, steps down as CEO after fourteen years, marking the end of an era for India's iconic youth fashion brand.",
+        "image" => "/assets/success-wire/bew.webp",
+    ],
+    [
+        "id" => "PhotonicChipNewColors",
+        "title" => "Scientists Develop Photonic Chip That Generates Entirely New Colors of Light",
+        "slug" => "photonic-chip-new-colors-of-light",
+        "metaDescription" => "A breakthrough photonic chip can generate entirely new colors of light, with applications in telecommunications, medical imaging, and quantum computing.",
+        "image" => "/assets/success-wire/jqi.webp",
+    ],
 ];
 
 // 4. Event Metadata
