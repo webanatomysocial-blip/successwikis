@@ -31,8 +31,8 @@ $host = $_SERVER['HTTP_HOST'];
 $baseUrl = $protocol . $host;
 
 // Default Meta Tags
-$defaultTitle = "Success Wikis";
-$defaultDesc = "SuccessWikis is a selective media house dedicated to authentic, impact-driven storytelling. We craft transformative founder narratives, podcasts, and editorial features that blend creativity with precision—helping entrepreneurs inspire trust, elevate their brand, and spark meaningful change.";
+$defaultTitle = "Startup Success & Entrepreneur Stories Hub | SuccessWikis";
+$defaultDesc = "Explore startup success stories and real entrepreneur journeys on SuccessWikis. Learn from founders, innovators and creators shaping the future with purpose.";
 // Absolute -> Optimized
 $defaultAbsImage = getAbsoluteUrl("/assets/logo.png", $baseUrl);
 $defaultImage = getOptimizedOgImage($defaultAbsImage);
@@ -57,33 +57,33 @@ if ($path === '/' || $path === '/index.php') {
 $blogMetadata = [
     [
         "id" => "AmbitionPost",
-        "title" => "Ambition Is Changing — And That's a Good Thing",
+        "title" => "Why Ambition Is Changing and Why It Matters | SuccessWikis",
         "slug" => "ambition-is-changing",
-        "metaDescription" => "Ambition is no longer just about climbing the corporate ladder. It's about finding purpose and redefining success on your own terms.",
+        "metaDescription" => "Explore how ambition is shifting from loud hustle to clarity, balance, and purpose, and why building slower and more intentionally matters in today’s world.",
         "image" => "/assets/blogs/blogs-images/1.png",
         "url" => $baseUrl . "/blogs/ambition-is-changing"
     ],
     [
         "id" => "FearFounderPost",
-        "title" => "The Fear Every Founder Has (But Nobody Talks About)",
+        "title" => "The Fear Behind Every Founder’s Confidence | SuccessWikis",
         "slug" => "fear-every-founder-has",
-        "metaDescription" => "Imposter syndrome and the fear of failure are common among founders. Learn why these feelings are normal and how to overcome them.",
+        "metaDescription" => "An honest look at the hidden fear behind every founder’s confidence, why it exists, and how caring deeply about what you build often feels like doubt.",
         "image" => "/assets/blogs/blogs-images/2.png",
         "url" => $baseUrl . "/blogs/fear-every-founder-has"
     ],
     [
         "id" => "FiguredOutPost",
-        "title" => "You Don't Need to Have It All Figured Out",
+        "title" => "You Don't Need to Have It All Figured Out | SuccessWikis",
         "slug" => "dont-need-figured-out",
-        "metaDescription" => "The pressure to have a perfect 5-year plan can be paralyzing. Discover the power of iteration and starting before you're ready.",
+        "metaDescription" => "Explore why uncertainty is part of growth, and learn how not having everything figured out can lead to curiosity, action and meaningful progress in life and work.",
         "image" => "/assets/blogs/blogs-images/3.jpeg",
         "url" => $baseUrl . "/blogs/dont-need-figured-out"
     ],
     [
         "id" => "TellStoryPost",
-        "title" => "How to Tell Your Story Without Feeling Like PR",
+        "title" => "How to Tell Your Story Without Feeling Like PR | SuccessWikis",
         "slug" => "how-to-tell-story",
-        "metaDescription" => "Authenticity wins in modern marketing. Learn how to share your journey and connect with your audience without sounding corporate.",
+        "metaDescription" => "Learn how to tell your story honestly without sounding like PR. Simple storytelling tips to share real moments, connect with people, and stay authentic.",
         "image" => "/assets/blogs/blogs-images/4.jpeg",
         "url" => $baseUrl . "/blogs/how-to-tell-story"
     ],
@@ -96,110 +96,115 @@ $podMetadata = [
         "title" => "Raghav Foundation: Building Schools, Shaping Futures",
         "slug" => "raghav-foundation",
         "categorySlug" => "driven-by-purpose",
+        "metaDescription" => "Raghav Foundation helps school founders with planning, operations, training and long-term support to turn ideas into fully functioning schools across India.",
         "image" => "/assets/Driven-by-Purpose/Raghav.png",
         "category" => "Driven by Purpose",
     ],
     [
         "id" => "ZenithEnergyPost",
-        "title" => "Zenith Energy – Turning Efficiency Into Legacy",
+        "title" => "Zenith Energy and Building Smarter, Cleaner Businesses",
         "slug" => "zenith-energy",
         "categorySlug" => "driven-by-purpose",
+        "metaDescription" => "Zenith Energy helps businesses cut energy use, design clean systems, track carbon emissions, and build practical roadmaps for long-term sustainability.",
         "image" => "/assets/Driven-by-Purpose/zenith.png",
         "category" => "Driven by Purpose",
     ],
     [
         "id" => "AECSastraPost",
-        "title" => "AEC Sastra: Shaping Global AEC Leaders",
+        "title" => "AEC Sastra Building Future AEC Professionals Worldwide",
         "slug" => "aec-sastra",
         "categorySlug" => "driven-by-purpose",
+        "metaDescription" => "AEC Sastra offers hands-on BIM training and industry mentoring to help architects and engineers build globally certified careers across AEC projects worldwide.",
         "image" => "/assets/Driven-by-Purpose/AEC-1.png",
         "category" => "Driven by Purpose",
     ],
     [
         "id" => "DesiDipsPost",
-        "title" => "Desi Dips: Authentic Chutneys That Do More Than Just Taste Good",
+        "title" => "Desi Dips and the Return of Authentic Chutney Flavors",
         "slug" => "desi-dips",
         "categorySlug" => "driven-by-purpose",
+        "metaDescription" => "Desi Dips brings preservative-free South Indian chutneys made in small batches using farm-fresh ingredients while supporting women and local communities.",
         "image" => "/assets/Driven-by-Purpose/Desi-Dips.png",
         "category" => "Driven by Purpose",
     ],
     [
-        "id" => "FintechIPOWavePost",
-        "title" => "India’s Fintech IPO Wave: KreditBee, Fibe, and MoneyView Gear Up for 2026",
-        "slug" => "fintech-ipo-wave",
-        "categorySlug" => "driven-by-purpose",
-        "image" => "/assets/Driven-by-Purpose/Fintech.jpeg",
-        "category" => "Driven by Purpose",
-    ],
-    [
         "id" => "TariniSaiPost",
-        "title" => "Tarini Sai Padmanabhan: Building the Trust Layer of the Internet with Axory AI",
+        "title" => "How Tarini Sai Is Restoring Trust on the Internet Safely",
         "slug" => "tarini-sai",
         "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Tarini Sai Padmanabhan shares how Axory AI detects deepfakes and verifies digital content to protect people, restore online trust, and fight misuse of AI.",
         "image" => "/assets/The-stage-behind-the-story/Tarini-Sai-Padmanabhan.jpeg",
         "category" => "The stage behind the story",
     ],
     [
         "id" => "SoldierRewiredPost",
-        "title" => "The Soldier Who Rewired the Future — One STEM Lab at a Time",
+        "title" => "The Soldier Who Rewired the Future One STEM Lab at a Time",
         "slug" => "soldier-rewired",
         "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "The story of Col. Merugu Solomon Saneev and how STEMClub brings affordable STEM labs to schools, helping children learn robotics, science and innovation hands-on.",
         "image" => "/assets/The-stage-behind-the-story/The-Soldier.jpeg",
         "category" => "The stage behind the story",
     ],
     [
         "id" => "ManWhoBuildsSchoolsPost",
-        "title" => "The Man Who Builds Schools for People Who Dream of Building Them",
+        "title" => "TMan Who Builds Schools for People Who Dream of Building Them",
         "slug" => "man-who-builds-schools",
         "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "The story of Ravi Madabhushi and how Raghav Foundation supports school builders with hands-on guidance, clear planning, mentoring, and long-term support.",
         "image" => "/assets/The-stage-behind-the-story/raghav.jpeg",
         "category" => "The stage behind the story",
     ],
     [
         "id" => "GreenRecykloplastPost",
-        "title" => "Turning Waste Into Worth: The Story of Raghuram Natarajan and Green Recykloplast",
+        "title" => "Turning Waste Into Worth: Green Recykloplast Story",
         "slug" => "green-recykloplast",
-        "categorySlug" => "stage-behind-the-story",
+        "categorySlug" => "founders-unfiltered",
+        "metaDescription" => "Raghuram Natarajan shares how Green Recykloplast recycles multi-layer plastics into pallets, benches, bricks and other durable products for a circular economy.",
         "image" => "/assets/The-stage-behind-the-story/grp.webp",
-        "category" => "The stage behind the story",
+        "category" => "Founder's Unfiltered",
     ],
     [
         "id" => "NexGenSoftwarePost",
-        "title" => "Venkat’s Journey: Building NexGen Software Solutions on Transparency and Trust",
+        "title" => "Building NexGen Software Solutions on Trust and Transparency",
         "slug" => "nexgen-software",
-        "categorySlug" => "stage-behind-the-story",
+        "categorySlug" => "founders-unfiltered",
+        "metaDescription" => "Venkat shares how NexGen Software Solutions connects IT talent with clients through transparent staffing, people-first values, and growing trust in the U.S. market.",
         "image" => "/assets/The-stage-behind-the-story/venkat.webp",
-        "category" => "The stage behind the story",
+        "category" => "Founder's Unfiltered",
     ],
     [
         "id" => "WestfieldInternationalPost",
-        "title" => "Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futures",
+        "title" => "Kasturi Manjula: Guiding Parents and Building Schools",
         "slug" => "westfield-international",
-        "categorySlug" => "stage-behind-the-story",
+        "categorySlug" => "founders-unfiltered",
+        "metaDescription" => "Kasturi Manjula’s journey in education spans school consulting parent guidance, teacher training, and building Westfield International School with a vision now.",
         "image" => "/assets/The-stage-behind-the-story/wf.webp",
-        "category" => "The stage behind the story",
+        "category" => "Founder's Unfiltered",
     ],
     [
         "id" => "LeenusInfraPost",
-        "title" => "From Supreme Pipes to Complete Infrastructure – How Leenus Infra Builds Smarter",
+        "title" => "How Leenus Infra Builds Complete Piping Infrastructure Solutions",
         "slug" => "leenus-infra",
         "categorySlug" => "founders-unfiltered",
+        "metaDescription" => "Leenus Infra delivers end-to-end piping, drainage and water supply systems using Supreme Pipes, with expert design, installation, and full project support.",
         "image" => "/assets/founders-unfiltered/leenus.png",
         "category" => "Founder's Unfiltered",
     ],
     [
         "id" => "SindhuReddyPost",
-        "title" => "Sindhu Reddy on Powering a Greener Future: Zenith Energy and the Road to Net Zero",
+        "title" => "Sindhu Reddy on Zenith Energy and Net Zero Journey",
         "slug" => "sindhu-reddy",
         "categorySlug" => "founders-unfiltered",
+        "metaDescription" => "Sindhu Reddy shares how Zenith Energy helps businesses cut energy waste, reduce emissions, and build long-term sustainability roadmaps toward net zero.",
         "image" => "/assets/founders-unfiltered/sindu.png",
         "category" => "Founder's Unfiltered",
     ],
     [
         "id" => "RaghuBodduPost",
-        "title" => "Exclusive Interview: Raghu Boddu on ToggleNow, Innovation, and the AI-Powered Future",
+        "title" => "Raghu Boddu on ToggleNow, SAP Security and AI Innovation",
         "slug" => "raghu-boddu",
         "categorySlug" => "founders-unfiltered",
+        "metaDescription" => "An interview with Raghu Boddu on building ToggleNow, SAP security and governance, AI-powered solutions, Digybots, and the future of enterprise technology.",
         "image" => "/assets/founders-unfiltered/raghu.jpeg",
         "category" => "Founder's Unfiltered",
     ],
@@ -223,65 +228,72 @@ $successLensMetadata = [
     ],
     [
         "id" => "NeemansFunding",
-        "title" => "Sustainable Footwear Startup Neeman’s Secures ₹35.5 Crore to Scale Direct-to-Consumer Growth",
+        "title" => "Neeman’s Raises ₹35.5 Cr to Scale Sustainable D2C Footwear",
         "slug" => "neemans-funding-growth",
-        "metaDescription" => "Hyderabad-based Neeman's secures ₹35.5 crore in Series B extension to expand product lines and D2C presence.",
+        "metaDescription" => "Neeman’s secures ₹35.5 crore in extended Series B funding to expand sustainable footwear lines, strengthen D2C growth, and scale manufacturing and distribution.",
         "image" => "/assets/success-wire/neemans-tn.webp",
     ],
     [
         "id" => "LucknowAIHub",
-        "title" => "Lucknow Emerges as India’s Next AI Hub With Regional Impact Conference",
+        "title" => "Lucknow Emerges as India’s Next AI Innovation Hub Now Today!",
         "slug" => "lucknow-india-next-ai-hub",
-        "metaDescription" => "Lucknow hosts IndiaAI–MeitY Mega Meet, positioning tier-2 cities as critical nodes in India's AI strategy.",
+        "metaDescription" => "Lucknow steps into the national AI spotlight by hosting the IndiaAI–MeitY Mega Meet, highlighting how tier-2 cities are driving India’s regional AI growth.",
         "image" => "/assets/success-wire/Lucknow.webp",
     ],
     [
         "id" => "NightSolarTech",
-        "title" => "Scientists Advance Night-Solar Technology with Breakthrough Thermoradiative Cells",
+        "title" => "Night-Solar Tech Advances with Thermoradiative Cells Today",
         "slug" => "night-solar-tech",
-        "metaDescription" => "Researchers at Stanford and UNSW Sydney develop solar cells that generate electricity after dark.",
+        "metaDescription" => "Scientists develop night-solar technology using thermoradiative cells that generate electricity after dark, reducing reliance on batteries and fossil fuels.",
         "image" => "/assets/success-wire/solar.webp",
     ],
     [
         "id" => "JPMorganEarnings",
-        "title" => "JPMorgan Chase & Co.: Q4 Earnings and Leadership Transition",
+        "title" => "JPMorgan Chase Q4 Earnings, Dividend & Leadership Shift",
         "slug" => "jpmorgan-chase-earnings",
-        "metaDescription" => "JPMorgan Chase reports strong Q4 earnings alongside significant leadership shifts and legal challenges.",
+        "metaDescription" => "JPMorgan Chase reports strong Q4 earnings, raises its dividend, and announces key leadership changes as it navigates legal challenges and succession planning.",
         "image" => "/assets/success-wire/jp-morgon.jpeg",
     ],
     [
+        "id" => "FintechIPOWave",
+        "title" => "India’s Fintech IPO Wave: KreditBee, Fibe & MoneyView",
+        "slug" => "fintech-ipo-wave",
+        "metaDescription" => "India’s fintech IPO wave builds as KreditBee, Fibe, and MoneyView prepare for 2026 listings, signaling maturity, governance focus, and public market readiness.",
+        "image" => "/assets/Driven-by-Purpose/Fintech.jpeg",
+    ],
+    [
         "id" => "GoogleAIHub",
-        "title" => "Google to invest $15 billion in AI hub...",
+        "title" => "Google Invests $15B in AI Hub & Data Center Expansion",
         "slug" => "google-invest-15-billion-ai",
-        "metaDescription" => "Google announces a massive $15 billion investment to build a new AI hub, signaling a major shift in the tech landscape.",
+        "metaDescription" => "Google commits $15 billion over five years to build a large AI hub and data center infrastructure in India, boosting jobs, innovation, and AI ecosystem growth.",
         "image" => "/assets/success-wire/google.png",
     ],
     [
         "id" => "SharkTankHoora",
-        "title" => "Shark Tank Said No, Investors Said Yes: Hoora's...",
+        "title" => "Hoora Success: From Shark Tank Rejection to ₹5 Cr Funding",
         "slug" => "shark-tank-hoora-success",
-        "metaDescription" => "The story of Hoora, a startup that was rejected on Shark Tank but found massive success with other investors.",
+        "metaDescription" => "Learn how Hoora bounced back after Shark Tank India rejection, raised ₹5 Cr, expanded vehicle care services, and grew its auto-care startup nationwide. ",
         "image" => "/assets/success-wire/Shark-tank.jpeg",
     ],
     [
         "id" => "HandmadeRoots",
-        "title" => "From Handmade Roots to a Global Movement: How...",
+        "title" => "Handmade Roots to Global Movement: Craft Goes Worldwide",
         "slug" => "handmade-roots-global-movement",
-        "metaDescription" => "Tracing the journey of a local handmade brand that scaled into a global movement.",
+        "metaDescription" => "Handmade traditions are evolving into a global movement, linking artisans to markets while preserving culture, sustainability, and craft-led growth worldwide.",
         "image" => "/assets/success-wire/taavi.jpeg",
     ],
     [
         "id" => "HypeToHabit",
-        "title" => "From Hype to Habit: The New Normal of...",
+        "title" => "AI Investments Move from Hype to Habit, Defining New Normal",
         "slug" => "hype-to-habit-new-normal",
-        "metaDescription" => "Analyzing how fleeting trends transform into permanent habits in the consumer market.",
+        "metaDescription" => "AI investments are shifting from short-term hype to long-term habit, as leaders highlight sustained demand, responsible growth, and AI as a strategic resource!!",
         "image" => "/assets/success-wire/hype-to-habit.png",
     ],
     [
         "id" => "IndiasDeeptech",
-        "title" => "India's Deeptech : How Talent and Patience Can...",
+        "title" => "How Talent and Patience Are Powering India’s Deeptech",
         "slug" => "india-deeptech-talent-patience",
-        "metaDescription" => "India's deeptech sector is rising. Discover how talent and patience are fueling this growth.",
+        "metaDescription" => "India’s deeptech growth depends on long-term talent, patient capital, and sustained execution, not quick wins. A look at what will shape the next wave.",
         "image" => "/assets/success-wire/India’s-Deeptech.png",
     ],
     [
@@ -293,37 +305,37 @@ $successLensMetadata = [
     ],
     [
         "id" => "ZohoArattai",
-        "title" => "Zoho's Arattai Surge: India's Messaging Moment or Mirage?",
+        "title" => "Zoho Arattai’s 100x Surge: Breakout or Short-Term Hype?",
         "slug" => "zoho-arattai-surge",
-        "metaDescription" => "An in-depth look at Zoho's Arattai app and whether it can truly capture India's messaging market.",
+        "metaDescription" => "Zoho’s Arattai messaging app sees 100x user growth, sparking debate on whether the surge signals lasting adoption or a short-lived moment in India’s chat space.",
         "image" => "/assets/success-wire/Zoho.jpeg",
     ],
     [
         "id" => "AmazonFresh",
-        "title" => "Amazon Fresh Expands to 270+ Cities. What This...",
+        "title" => "Amazon Fresh Expansion & Whole Foods Grocery Strategy",
         "slug" => "amazon-fresh-expansion",
-        "metaDescription" => "Amazon Fresh's aggressive expansion to 270+ cities and its implications for local markets.",
+        "metaDescription" => "Learn how Amazon is shifting its grocery strategy expanding online Fresh delivery and growing Whole Foods Market stores across new locations for broader reach.",
         "image" => "/assets/success-wire/Amazon.jpeg",
     ],
     [
         "id" => "WorldTightens",
-        "title" => "When the World Tightens, India's Tech Founders Step...",
+        "title" => "Indian Tech Founders Step Up: Startup Growth & Leadership",
         "slug" => "india-tech-founders-step-up",
-        "metaDescription" => "How Indian tech founders are responding to global economic tightening with innovation and resilience.",
+        "metaDescription" => "Discover how Indian tech founders are stepping up with bold leadership, scaling startups, and reshaping the innovation ecosystem for growth and global impact.",
         "image" => "/assets/success-wire/When-the-World-Tightens.jpeg",
     ],
     [
         "id" => "CGPowerOrder",
-        "title" => "CG Power Secures Landmark $99M US Data Center Order, Enters Global Digital Infrastructure Race",
+        "title" => "CG Power Wins $99M US Data Center Deal, Enters Global Race",
         "slug" => "cg-power-us-data-center-order",
-        "metaDescription" => "CG Power and Industrial Solutions Ltd has announced its largest-ever single export order, valued at ₹900 crore (~$99M), from Tallgrass Integrated Logistics Solutions LLC in the United States.",
+        "metaDescription" => "CG Power secures a $99M US data center order to supply transformers for hyperscale facilities, marking a strategic entry into global digital infrastructure.",
         "image" => "/assets/success-wire/SW-blog.png",
     ],
     [
         "id" => "TataMotorsHydrogenBus",
-        "title" => "Tata Motors Unveils India’s First Hydrogen Fuel Cell Bus, Signaling a New Era in Clean Mobility",
+        "title" => "Tata Motors Unveils India’s First Hydrogen Fuel Cell Bus",
         "slug" => "tata-motors-hydrogen-fuel-cell-bus",
-        "metaDescription" => "Tata Motors has unveiled India’s first hydrogen fuel cell bus, marking a breakthrough in the country’s push toward sustainable public transport.",
+        "metaDescription" => "Tata Motors launches India’s first hydrogen fuel cell bus at Auto Expo 2026, marking a major step toward clean mobility and sustainable public transport.",
         "image" => "/assets/success-wire/TATA-MOTORS.webp",
     ],
     [
@@ -390,6 +402,20 @@ $successLensMetadata = [
         "metaDescription" => "A breakthrough photonic chip can generate entirely new colors of light, with applications in telecommunications, medical imaging, and quantum computing.",
         "image" => "/assets/success-wire/jqi.webp",
     ],
+    [
+        "id" => "SamsungPrivacyDisplay",
+        "title" => "Samsung Unveils Privacy Display in Galaxy S26 Ultra",
+        "slug" => "samsung-privacy-display-galaxy-s26-ultra",
+        "metaDescription" => "Samsung has introduced a new display technology with the launch of its Galaxy S26 Ultra, unveiling a hardware-level privacy screen that restricts side-angle visibility and prevents onlookers from viewing sensitive information.",
+        "image" => "/assets/success-wire/samsung-privacy.png",
+    ],
+    [
+        "id" => "SelfHealingConcrete",
+        "title" => "Scientists Develop Self-Healing Concrete That Could Transform Urban Infrastructure",
+        "slug" => "self-healing-concrete-urban-infrastructure",
+        "metaDescription" => "A team of researchers has unveiled a new form of self-healing concrete that uses embedded mineral-producing bacteria to repair cracks automatically, offering a potential revolution in how cities manage aging infrastructure.",
+        "image" => "/assets/success-wire/concrete.png",
+    ],
 ];
 
 // 4. Event Metadata
@@ -406,8 +432,8 @@ $eventMetadata = [
 // 4. Static Pages
 $staticPages = [
     '/about' => [
-        'title' => 'About Us | Success Wikis',
-        'description' => 'Learn more about Success Wikis, our mission, and the team behind the stories.'
+        'title' => 'Startup Paths, Founder Choices and Real Lessons | SuccessWikis',
+        'description' => 'See how founders build, fail and grow through real startup journeys. Read honest stories, important choices and lessons that shape meaningful businesses.'
     ],
     '/contact' => [
         'title' => 'Contact Us | Success Wikis',
@@ -417,33 +443,33 @@ $staticPages = [
         'title' => 'Careers | Success Wikis',
         'description' => 'Join our team and help us build the future of Success Wikis.'
     ],
-    '/access-statement' => [
-        'title' => 'Accessibility Statement | Success Wikis',
-        'description' => 'Our commitment to ensuring digital accessibility for all users.'
+    '/accessibility-statement' => [
+        'title' => 'Accessibility Statement and WCAG 2.1 Level AA | SuccessWikis',
+        'description' => 'Learn about SuccessWikis’ commitment to accessibility, including WCAG 2.1 Level AA guidelines, screen-reader support, keyboard navigation, and feedback options.'
     ],
     '/ads' => [
-        'title' => 'Advertise with Us | Success Wikis',
-        'description' => 'Reach our engaged audience through our advertising solutions.'
+        'title' => 'Building Brand Attention Through Trust and Value | SuccessWikis',
+        'description' => 'Reach people through trusted content and real stories, not interruptions. Build genuine engagement by adding value where your audience already listens.'
     ],
     '/cookies-policy' => [
-        'title' => 'Cookies Policy | Success Wikis',
-        'description' => 'Understand how we use cookies to improve your experience.'
+        'title' => 'How We Use Cookies on SuccessWikis',
+        'description' => 'Find out what cookies are, the types we use for site features, analytics and ads, how third parties may use cookies, and how you can manage them in your browser.'
     ],
     '/privacy-policy' => [
-        'title' => 'Privacy Policy | Success Wikis',
-        'description' => 'Read our privacy policy to understand how we handle your data.'
+        'title' => 'Privacy Policy and Personal Data Protection | SuccessWikis',
+        'description' => 'Learn how SuccessWikis collects, uses and protects personal data, including cookies, data sharing, user rights, security measures, and contact details.'
     ],
     '/terms-of-use' => [
-        'title' => 'Terms of Use | Success Wikis',
-        'description' => 'Terms and conditions for using our website.'
+        'title' => 'Website Terms and Conditions | SuccessWikis',
+        'description' => 'Read SuccessWikis Terms of Use covering content usage, accuracy and liability, user submissions, external links, intellectual property, and policy updates.'
     ],
     '/works' => [
         'title' => 'Our Works | Success Wikis',
         'description' => 'Explore our portfolio and the projects we have delivered.'
     ],
     '/events' => [
-        'title' => 'Events | Success Wikis',
-        'description' => 'Stay updated with our latest events and episodes.'
+        'title' => 'Events Where Founders Connect and Share Ideas | SuccessWikis',
+        'description' => 'Join founder meetups, talks and live sessions where ideas are shared, connections are built and real startup journeys come to life at SuccessWikis today.'
     ],
 ];
 
@@ -510,7 +536,7 @@ else {
         // Case-insensitive comparison
         if (strcasecmp($cleanPath, $expectedPath) === 0) {
             $title = $item['title'];
-            $description = "Listen to " . $item['title'] . ". " . $item['category'];
+            $description = isset($item['metaDescription']) ? $item['metaDescription'] : "Listen to " . $item['title'] . ". " . $item['category'];
             $absImage = getAbsoluteUrl($item['image'], $baseUrl);
             $image = getOptimizedOgImage($absImage);
             $url = $baseUrl . "/" . $expectedPath;

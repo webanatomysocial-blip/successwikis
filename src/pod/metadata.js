@@ -107,7 +107,7 @@ export const podMetadata = [
     },
     {
         id: "WestfieldInternationalPost",
-        title: "Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futures",
+        title: "Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futuresss",
         slug: "westfield-international",
         image: wfImg,
         category: "The Stage Behind the Story",

@@ -26,6 +26,8 @@ import alzImg from '../assets/success-wire/alz.webp';
 import cabineImg from '../assets/success-wire/Cabine.png';
 import bewImg from '../assets/success-wire/bew.webp';
 import jqiImg from '../assets/success-wire/jqi.webp';
+import samsungPrivacyImg from '../assets/success-wire/samsung-privacy.png';
+import concreteImg from '../assets/success-wire/concrete.png';
 
 export const successLensMetadata = [
   {
@@ -279,5 +281,23 @@ export const successLensMetadata = [
     excerpt: "A breakthrough photonic chip can generate entirely new colors of light, with applications in telecommunications, medical imaging, and quantum computing.",
     image: jqiImg,
     date: "2026-02-25",
-  }
+  },
+  {
+    id: "SamsungPrivacyDisplay",
+    title: "Samsung Unveils Privacy Display in Galaxy S26 Ultra",
+    slug: "samsung-privacy-display-galaxy-s26-ultra",
+    metaDescription: "Samsung introduces hardware-level privacy screen technology with Flex Magic Pixel in the Galaxy S26 Ultra.",
+    excerpt: "Samsung introduces hardware-level privacy screen technology with Flex Magic Pixel in the Galaxy S26 Ultra.",
+    image: samsungPrivacyImg,
+    date: "2026-02-27",
+  },
+  {
+    id: "SelfHealingConcrete",
+    title: "Scientists Develop Self-Healing Concrete That Could Transform Urban Infrastructure",
+    slug: "self-healing-concrete-urban-infrastructure",
+    metaDescription: "Researchers develop concrete that uses bacteria to repair cracks automatically, extending infrastructure lifespan.",
+    excerpt: "Researchers develop concrete that uses bacteria to repair cracks automatically, extending infrastructure lifespan.",
+    image: concreteImg,
+    date: "2026-02-27",
+  },
 ];

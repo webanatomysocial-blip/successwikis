@@ -89,7 +89,7 @@ const WestfieldInternationalPost = ({ dynamicRecentPosts }) => {
   return (
     <PodLayout
       category="The stage behind the story"
-      title="Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futures"
+      title="Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futuress"
       image={sampleImage}
       content={content}
       recentPosts={recentPosts}
