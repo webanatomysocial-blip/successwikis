@@ -6,6 +6,28 @@ import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 const NexGenSoftwarePost = ({ dynamicRecentPosts }) => {
   const content = (
     <>
+      <div 
+        className="post-inline-video" 
+        style={{ 
+          marginBottom: "30px", 
+          aspectRatio: "16/9", 
+          width: "100%", 
+          overflow: "hidden", 
+          borderRadius: "8px", 
+          background: "#000" 
+        }}
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/g6rV7it7QnA?origin=${window.location.origin}`}
+          title="YouTube video player"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          style={{ border: "none" }}
+        ></iframe>
+      </div>
       <p>
         When Venkat speaks about his company, NexGen Software Solutions, his
         words carry the conviction of someone who has lived both sides of the IT

@@ -6,6 +6,28 @@ import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 const WestfieldInternationalPost = ({ dynamicRecentPosts }) => {
   const content = (
     <>
+      <div
+        className="post-inline-video"
+        style={{
+          marginBottom: "30px",
+          aspectRatio: "16/9",
+          width: "100%",
+          overflow: "hidden",
+          borderRadius: "8px",
+          background: "#000",
+        }}
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/j-M52mul3Wo?origin=${window.location.origin}`}
+          title="YouTube video player"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          style={{ border: "none" }}
+        ></iframe>
+      </div>
       <p>
         For Kasturi Manjula, education has never been just about classrooms and
         curricula—it has always been about people. With more than 15 years of

@@ -1,41 +1,33 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import PodLayout from "../../components/PodLayout";
 import sampleImage from "../../assets/The-stage-behind-the-story/grp.webp";
 import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
-import { FaYoutube } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
-import gsap from "gsap";
-import "../../css/youtube-modal.css";
 
 const GreenRecykloplastPost = ({ dynamicRecentPosts }) => {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const overlayRef = useRef(null);
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    if (isVideoOpen) {
-      gsap.to(overlayRef.current, { 
-        autoAlpha: 1, 
-        duration: 0.4, 
-        ease: "power2.out" 
-      });
-      gsap.fromTo(modalRef.current, 
-        { scale: 0.8, opacity: 0, y: 20 }, 
-        { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" }
-      );
-      document.body.style.overflow = "hidden";
-    } else {
-      gsap.to(overlayRef.current, { 
-        autoAlpha: 0, 
-        duration: 0.3, 
-        ease: "power2.in" 
-      });
-      document.body.style.overflow = "auto";
-    }
-  }, [isVideoOpen]);
-
   const content = (
     <>
+      <div
+        className="post-inline-video"
+        style={{
+          marginBottom: "30px",
+          aspectRatio: "16/9",
+          width: "100%",
+          overflow: "hidden",
+          borderRadius: "8px",
+          background: "#000",
+        }}
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/DmSFTMkjcCo?start=7&origin=${window.location.origin}`}
+          title="YouTube video player"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          style={{ border: "none" }}
+        ></iframe>
+      </div>
       <p>
         When Raghuram Natarajan speaks about plastics, it is not with the
         detachment of an industry veteran but with the urgency of someone who
@@ -138,57 +130,14 @@ const GreenRecykloplastPost = ({ dynamicRecentPosts }) => {
   ];
 
   return (
-    <>
-      <PodLayout
-        category="The stage behind the story"
-        title="Turning Waste Into Worth: The Story of Raghuram Natarajan and Green Recykloplast"
-        image={sampleImage}
-        content={content}
-        recentPosts={recentPosts}
-        sponsoredImage={sponsoredImage}
-      />
-
-      {/* YouTube Floating Button */}
-      <button
-        className="youtube-float-button"
-        onClick={() => setIsVideoOpen(true)}
-        aria-label="Play YouTube Video"
-        title="Watch Video"
-      >
-        <FaYoutube size={32} />
-      </button>
-
-      {/* YouTube Video Modal */}
-      <div
-        className="youtube-modal-overlay"
-        ref={overlayRef}
-        onClick={() => setIsVideoOpen(false)}
-        style={{ visibility: "hidden", opacity: 0 }}
-      >
-        <div
-          className="youtube-modal-container"
-          ref={modalRef}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            className="youtube-close-button"
-            onClick={() => setIsVideoOpen(false)}
-          >
-            <IoClose size={24} /> Close
-          </button>
-          {isVideoOpen && (
-            <iframe
-              className="youtube-iframe"
-              src={`https://www.youtube.com/embed/DmSFTMkjcCo?start=7&autoplay=1&mute=1&origin=${window.location.origin}`}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
-          )}
-        </div>
-      </div>
-    </>
+    <PodLayout
+      category="The stage behind the story"
+      title="Turning Waste Into Worth: The Story of Raghuram Natarajan and Green Recykloplast"
+      image={sampleImage}
+      content={content}
+      recentPosts={recentPosts}
+      sponsoredImage={sponsoredImage}
+    />
   );
 };
 
