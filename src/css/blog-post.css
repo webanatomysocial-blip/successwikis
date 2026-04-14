@@ -554,3 +554,27 @@
   color: #333;
   line-height: 1.6;
 }
+
+/* External Links Section */
+.pod-external-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.pod-external-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.pod-external-link:hover {
+  opacity: 0.8;
+}

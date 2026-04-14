@@ -18,6 +18,8 @@ import raghuImg from '../assets/founders-unfiltered/raghu.jpeg';
 import grpImg from '../assets/The-stage-behind-the-story/grp.webp';
 import venkatImg from '../assets/The-stage-behind-the-story/venkat.webp';
 import wfImg from '../assets/The-stage-behind-the-story/wf.webp';
+import manojImg from '../assets/The-stage-behind-the-story/Manoj.webp';
+import jogImg from '../assets/The-stage-behind-the-story/JOG.webp';
 
 export const podMetadata = [
     // Driven by Purpose
@@ -60,6 +62,24 @@ export const podMetadata = [
 
 
     // The Stage Behind the Story
+    {
+        id: "JogeeswaraPost",
+        title: "When Trial and Error Turns Into Direction",
+        slug: "when-trial-and-error-turns-into-direction",
+        image: jogImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-14"
+    },
+    {
+        id: "ManojGarlapatiPost",
+        title: "Manoj Garlapati Wasn’t Planning to Build a Startup. He Was Just Paying Attention",
+        slug: "manoj-garlapati",
+        image: manojImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-14"
+    },
     {
         id: "TariniSaiPost",
         title: "Tarini Sai Padmanabhan: Building the Trust Layer of the Internet with Axory AI",

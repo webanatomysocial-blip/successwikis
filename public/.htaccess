@@ -19,3 +19,40 @@
   # 3. Everything else sends to index.php
   RewriteRule ^ index.php [L]
 </IfModule>
+
+
+
+
+# BEGIN Custom Redirects
+
+Redirect 301 /blog/you-dont-need-to-have-it-all-figured-out/ https://successwikis.com/blogs/dont-need-figured-out
+Redirect 301 /success-lens/zohos-arattai-surge/ https://successwikis.com/success-wire/zoho-arattai-surge
+Redirect 301 /founders-unfiltered/raghu-boddu-togglenow-ai/ https://successwikis.com/founders-unfiltered/raghu-boddu
+Redirect 301 /driven-by-purpose/raghav-foundation-building-schools-shaping-futures/ https://successwikis.com/driven-by-purpose/raghav-foundation
+Redirect 301 /success-lens/hooras-vehicle-360-success/ https://successwikis.com/success-wire/shark-tank-hoora-success
+Redirect 301 /the-stage-behind-the-story/soldier-rewired-future/ https://successwikis.com/stage-behind-the-story/soldier-rewired
+Redirect 301 /driven-by-purpose/aec-sastra-bim-leaders/ https://successwikis.com/driven-by-purpose/aec-sastra
+Redirect 301 /driven-by-purpose/zenith-energy-turning-efficiency-into-legacy/ https://successwikis.com/driven-by-purpose/zenith-energy
+Redirect 301 /success-lens/shark-tank-said-no-investors-said-yes-hooras-journey-to-vehicle-360-success/ https://successwikis.com/success-wire/shark-tank-hoora-success
+Redirect 301 /success-lens/when-the-world-tightens-indias-tech-founders-step-into-the-spotlight/ https://successwikis.com/success-wire/cabinet-approves-fund-deep-tech-manufacturing
+Redirect 301 /founders-unfiltered/sindhu-reddy-zenith-energy/ https://successwikis.com/founders-unfiltered/sindhu-reddy
+Redirect 301 /founders-unfiltered/from-supreme-pipes-to-complete-infrastructure-how-leenus-infra-builds-smarter/ https://successwikis.com/founders-unfiltered/leenus-infra
+Redirect 301 /founders-unfiltered/leenus-infra-builds-smarter/ https://successwikis.com/founders-unfiltered/leenus-infra
+Redirect 301 /founders-unfiltered/exclusive-interview-sindhu-reddy-jannareddy-on-powering-a-greener-future-zenith-energy-and-the-road-to-net-zero/ https://successwikis.com/founders-unfiltered/sindhu-reddy
+Redirect 301 /the-stage-behind-the-story/tarini-sai-padmanabhan/ https://successwikis.com/stage-behind-the-story/tarini-sai
+Redirect 301 /founders-unfiltered/raghu-boddu-togglenow-ai/feed/ https://successwikis.com/founders-unfiltered/raghu-boddu
+Redirect 301 /the-stage-behind-the-story/soldier-rewired-future/feed/ https://successwikis.com/stage-behind-the-story/soldier-rewired
+Redirect 301 /feed/ https://successwikis.com/
+Redirect 301 /success-lens/hooras-vehicle-360-success/feed/ https://successwikis.com/success-wire/shark-tank-hoora-success
+Redirect 301 /success-lens https://successwikis.com/success-wire
+Redirect 301 /blog/how-to-tell-your-story-without-feeling-like-pr/feed/ https://successwikis.com/blogs/how-to-tell-story
+Redirect 301 /audio-playlists/ https://successwikis.com/
+Redirect 301 /the-stage-behind-the-story/the-soldier-who-rewired-the-future/ https://successwikis.com/stage-behind-the-story/soldier-rewired
+Redirect 301 /success-lens/amazon-fresh-expands-to-270-cities-what-this-means-for-indias-founders/ https://successwikis.com/success-wire/amazon-fresh-expansion
+Redirect 301 /driven-by-purpose/aec-sastra-shaping-global-aec-leaders-one-bim-student-at-a-time/ https://successwikis.com/driven-by-purpose/aec-sastra
+Redirect 301 /success-lens/zohos-arattai-surge-indias-messaging-moment-or-mirage/ https://successwikis.com/success-wire/zoho-arattai-surge
+Redirect 301 /dummy/ https://successwikis.com/
+Redirect 301 /contact-us/ https://successwikis.com/contact
+Redirect 301 /dummy-2/ https://successwikis.com/
+
+# END Custom Redirects
