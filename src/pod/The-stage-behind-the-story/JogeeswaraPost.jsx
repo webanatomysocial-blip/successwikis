@@ -8,7 +8,7 @@ const JogeeswaraPost = ({ dynamicRecentPosts }) => {
     const content = (
         <>
             <p>
-                <a href='https://www.linkedin.com/in/jogeeswara-puvvala-85603b24b'>Jogeeswara</a> didn’t set out with a roadmap. He was simply curious — tinkering with machine learning models, trying to understand how they worked beyond theory. That curiosity eventually led him to connect those models to everyday workflows, like responding to customer queries or handling follow‑ups. Out of those experiments came <a href='https://www.j-agents.in/'>J Agents</a>, a venture focused on building AI systems that take care of repetitive business tasks.
+                <a href='https://www.linkedin.com/in/jogeeswara-puvvala-85603b24b'>Jogeeswara</a> didn’t set out with a roadmap. He was simply curious, tinkering with machine learning models, trying to understand how they worked beyond theory. That curiosity eventually led him to connect those models to everyday workflows, like responding to customer queries or handling follow‑ups. Out of those experiments came <a href='https://www.j-agents.in/'>J Agents</a>, a venture focused on building AI systems that take care of repetitive business tasks.
             </p>
 
             <p>
@@ -16,7 +16,7 @@ const JogeeswaraPost = ({ dynamicRecentPosts }) => {
             </p>
 
             <p>
-                From the outside, the journey might look structured. In reality, it was shaped by persistence and small wins. Jogeeswara admits there was no clear plan — just trial, error, and learning from what didn’t work. That willingness to keep building until something useful emerged is what gave J Agents its direction.
+                From the outside, the journey might look structured. In reality, it was shaped by persistence and small wins. Jogeeswara admits there was no clear plan, just trial, error, and learning from what didn’t work. That willingness to keep building until something useful emerged is what gave J Agents its direction.
             </p>
 
             <p>

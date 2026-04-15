@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../css/blog-post.css'; // Reusing base styles
@@ -19,7 +20,13 @@ gsap.registerPlugin(ScrollTrigger);
 const EventLayout = ({ category, title, content, image, sponsoredImage }) => {
     const progressBarRef = useRef(null);
     const headerRef = useRef(null);
-    const currentUrl = window.location.href;
+    const location = useLocation();
+    const [currentUrl, setCurrentUrl] = useState(window.location.href);
+
+    useEffect(() => {
+        // Update currentUrl whenever location changes
+        setCurrentUrl(window.location.href);
+    }, [location]);
 
     useEffect(() => {
         // Animate Progress Bar width based on scroll

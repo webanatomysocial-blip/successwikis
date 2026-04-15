@@ -24,6 +24,7 @@ import DynamicSuccessWire from "./components/DynamicSuccessWire";
 import DynamicPod from "./components/DynamicPod";
 import Events from "./pages/Events";
 import DynamicEvent from "./components/DynamicEvent";
+import NotFound from "./pages/NotFound";
 
 import Lenis from "lenis";
 import { HelmetProvider } from "react-helmet-async";
@@ -84,6 +85,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
             <Route path="/events" element={<Events />} />
             <Route path="/events/:eventSlug" element={<DynamicEvent />} />
+
+            {/* 404 Not Found - Must be last */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </BrowserRouter>

@@ -103,6 +103,14 @@ $podMetadata = [
         "categorySlug" => "stage-behind-the-story"
     ],
     [
+        "slug" => "when-trial-and-error-turns-into-direction",
+        "categorySlug" => "stage-behind-the-story"
+    ],
+    [
+        "slug" => "manoj-garlapati",
+        "categorySlug" => "stage-behind-the-story"
+    ],
+    [
         "slug" => "green-recykloplast",
         "categorySlug" => "stage-behind-the-story"
     ],

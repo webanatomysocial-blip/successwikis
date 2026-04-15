@@ -16,7 +16,7 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
             </p>
 
             <p>
-                That observation became the foundation of <a href=''>Aspivance</a>, a platform designed to simplify hiring by enabling organizations to efficiently discover, evaluate, and hire the right candidates, while giving job seekers a way to showcase their abilities and connect with meaningful opportunities. Instead of focusing on resumes alone, Aspivance emphasizes skills and potential — a shift that reflects how modern workforces are evolving.
+                That observation became the foundation of <a href=''>Aspivance</a>, a platform designed to simplify hiring by enabling organizations to efficiently discover, evaluate, and hire the right candidates, while giving job seekers a way to showcase their abilities and connect with meaningful opportunities. Instead of focusing on resumes alone, Aspivance emphasizes skills and potential, a shift that reflects how modern workforces are evolving.
             </p>
 
             <p>
@@ -24,7 +24,7 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
             </p>
 
             <p>
-                Before starting Aspivance, Manoj worked as a Product Analyst for three years, gaining strong experience in understanding user behavior, product strategy, and problem‑solving. His professional journey involved working closely with customers and businesses, which shaped his entrepreneurial mindset. Outside of work, writing quotes has always been his favorite hobby — a way to reflect, stay creative, and express ideas that inspire both himself and others.
+                Before starting Aspivance, Manoj worked as a Product Analyst for three years, gaining strong experience in understanding user behavior, product strategy, and problem‑solving. His professional journey involved working closely with customers and businesses, which shaped his entrepreneurial mindset. Outside of work, writing quotes has always been his favorite hobby, a way to reflect, stay creative, and express ideas that inspire both himself and others.
             </p>
 
             <p>
@@ -36,7 +36,7 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
             </p>
 
             <p>
-                Today, Manoj is focused on refining Aspivance with early users, building a reliable ecosystem where employers can find talent efficiently and candidates can connect with meaningful opportunities. His vision is simple but ambitious: hiring should be based on skills and potential, not just background or connections. And as he continues to build, he carries with him the same persistence that shaped his journey — the habit of paying attention, and the belief that even small, thoughtful solutions can change how people work and hire.
+                Today, Manoj is focused on refining Aspivance with early users, building a reliable ecosystem where employers can find talent efficiently and candidates can connect with meaningful opportunities. His vision is simple but ambitious: hiring should be based on skills and potential, not just background or connections. And as he continues to build, he carries with him the same persistence that shaped his journey,the habit of paying attention, and the belief that even small, thoughtful solutions can change how people work and hire.
             </p>
             
             <div className="pod-external-links">

@@ -12,6 +12,12 @@ function getAbsoluteUrl($path, $baseUrl)
 // Solves: 1. WhatsApp 300KB limit (compression) 2. LinkedIn cropping (fit=contain)
 function getOptimizedOgImage($url)
 {
+    // Check if URL is localhost or development URL
+    // images.weserv.nl cannot access localhost, so return URL as-is for dev
+    if (strpos($url, 'localhost') !== false || strpos($url, '127.0.0.1') !== false || strpos($url, '.local') !== false) {
+        return $url;
+    }
+    
     // Encode the source URL
     $encodedUrl = urlencode($url);
     // w=1200&h=630 (Standard OG Size)
@@ -155,31 +161,49 @@ $podMetadata = [
         "category" => "The stage behind the story",
     ],
     [
+        "id" => "JogeeswaraPost",
+        "title" => "When Trial and Error Turns Into Direction",
+        "slug" => "when-trial-and-error-turns-into-direction",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Jogeeswara's journey from curiosity and experimentation with machine learning models to building J Agents, an AI system for automating business workflows.",
+        "image" => "/assets/The-stage-behind-the-story/JOG.webp",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "ManojGarlapatiPost",
+        "title" => "Manoj Garlapati Wasn't Planning to Build a Startup. He Was Just Paying Attention",
+        "slug" => "manoj-garlapati",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Manoj Garlapati shares how paying attention to a broken hiring process led him to create Aspivance, a platform connecting talent with opportunity.",
+        "image" => "/assets/The-stage-behind-the-story/Manoj.webp",
+        "category" => "The stage behind the story",
+    ],
+    [
         "id" => "GreenRecykloplastPost",
         "title" => "Turning Waste Into Worth: Green Recykloplast Story",
         "slug" => "green-recykloplast",
-        "categorySlug" => "founders-unfiltered",
+        "categorySlug" => "stage-behind-the-story",
         "metaDescription" => "Raghuram Natarajan shares how Green Recykloplast recycles multi-layer plastics into pallets, benches, bricks and other durable products for a circular economy.",
         "image" => "/assets/The-stage-behind-the-story/grp.webp",
-        "category" => "Founder's Unfiltered",
+        "category" => "The stage behind the story",
     ],
     [
         "id" => "NexGenSoftwarePost",
         "title" => "Building NexGen Software Solutions on Trust and Transparency",
         "slug" => "nexgen-software",
-        "categorySlug" => "founders-unfiltered",
+        "categorySlug" => "stage-behind-the-story",
         "metaDescription" => "Venkat shares how NexGen Software Solutions connects IT talent with clients through transparent staffing, people-first values, and growing trust in the U.S. market.",
         "image" => "/assets/The-stage-behind-the-story/venkat.webp",
-        "category" => "Founder's Unfiltered",
+        "category" => "The stage behind the story",
     ],
     [
         "id" => "WestfieldInternationalPost",
         "title" => "Kasturi Manjula: Guiding Parents and Building Schools",
         "slug" => "westfield-international",
-        "categorySlug" => "founders-unfiltered",
-        "metaDescription" => "Kasturi Manjula’s journey in education spans school consulting parent guidance, teacher training, and building Westfield International School with a vision now.",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Kasturi Manjula's journey in education spans school consulting parent guidance, teacher training, and building Westfield International School with a vision now.",
         "image" => "/assets/The-stage-behind-the-story/wf.webp",
-        "category" => "Founder's Unfiltered",
+        "category" => "The stage behind the story",
     ],
     [
         "id" => "LeenusInfraPost",
