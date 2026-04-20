@@ -1,6 +1,6 @@
 import React from 'react';
 import PodLayout from '../../components/PodLayout';
-import sampleImage from '../../assets/The-stage-behind-the-story/JOG.webp'; 
+import sampleImage from '../../assets/The-stage-behind-the-story/JOG.webp';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 import { FaLinkedin, FaInstagram, FaEnvelope, FaGlobe, FaBookOpen } from 'react-icons/fa';
 
@@ -8,7 +8,7 @@ const JogeeswaraPost = ({ dynamicRecentPosts }) => {
     const content = (
         <>
             <p>
-                <a href='https://www.linkedin.com/in/jogeeswara-puvvala-85603b24b'>Jogeeswara</a> didn’t set out with a roadmap. He was simply curious, tinkering with machine learning models, trying to understand how they worked beyond theory. That curiosity eventually led him to connect those models to everyday workflows, like responding to customer queries or handling follow‑ups. Out of those experiments came <a href='https://www.j-agents.in/'>J Agents</a>, a venture focused on building AI systems that take care of repetitive business tasks.
+                <a target="_blank" href='https://www.linkedin.com/in/jogeeswara-puvvala-85603b24b'>Jogeeswara</a> didn’t set out with a roadmap. He was simply curious, tinkering with machine learning models, trying to understand how they worked beyond theory. That curiosity eventually led him to connect those models to everyday workflows, like responding to customer queries or handling follow‑ups. Out of those experiments came <a href='https://www.j-agents.in/'>J Agents</a>, a venture focused on building AI systems that take care of repetitive business tasks.
             </p>
 
             <p>
@@ -34,24 +34,24 @@ const JogeeswaraPost = ({ dynamicRecentPosts }) => {
             <p>
                 Jogeeswara knows he’s still early in the journey, but he’s clear about what drives him: the satisfaction of building something that actually gets used. For him, the energy comes not from grand visions but from the small, practical wins that prove AI can make everyday work easier. And that’s the direction he’s determined to keep following.
             </p>
-            
+
             <div className="pod-external-links">
-                <a href='https://www.linkedin.com/in/jogeeswara-puvvala-85603b24b' target="_blank" rel="noopener noreferrer" className="pod-external-link">
+                <a target="_blank" href='https://www.linkedin.com/in/jogeeswara-puvvala-85603b24b' rel="noopener noreferrer" className="pod-external-link">
                     <FaLinkedin size={24} color="#0a66c2" /> Jogeeswara's LinkedIn Profile
                 </a>
-                <a href='https://www.linkedin.com/company/j-agents/' target="_blank" rel="noopener noreferrer" className="pod-external-link">
+                <a target="_blank" href='https://www.linkedin.com/company/j-agents/' rel="noopener noreferrer" className="pod-external-link">
                     <FaLinkedin size={24} color="#0a66c2" /> J Agents LinkedIn
                 </a>
-                <a href='https://www.instagram.com/jagents.ai/' target="_blank" rel="noopener noreferrer" className="pod-external-link">
+                <a target="_blank" href='https://www.instagram.com/jagents.ai/' rel="noopener noreferrer" className="pod-external-link">
                     <FaInstagram size={24} color="#E1306C" /> J Agents Instagram
                 </a>
-                <a href='mailto:contact.jagents@gmail.com' className="pod-external-link">
+                <a target="_blank" href='mailto:contact.jagents@gmail.com' className="pod-external-link">
                     <FaEnvelope size={24} color="#D44638" /> contact.jagents@gmail.com
                 </a>
-                <a href='https://www.j-agents.in/' target="_blank" rel="noopener noreferrer" className="pod-external-link">
+                <a target="_blank" href='https://www.j-agents.in/' rel="noopener noreferrer" className="pod-external-link">
                     <FaGlobe size={24} color="#555" /> J Agents Website
                 </a>
-                <a href='https://www.processmaker.com/blog/repetitive-tasks-at-work-research-and-statistics-2024/' target="_blank" rel="noopener noreferrer" className="pod-external-link">
+                <a target="_blank" href='https://www.processmaker.com/blog/repetitive-tasks-at-work-research-and-statistics-2024/' rel="noopener noreferrer" className="pod-external-link">
                     <FaBookOpen size={24} color="#e53935" /> Research Study: Repetitive Tasks at Work
                 </a>
             </div>
@@ -65,13 +65,13 @@ const JogeeswaraPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
             category="The stage behind the story"
             title="When Trial and Error Turns Into Direction"
             image={sampleImage}
             content={content}
             recentPosts={recentPosts}
-            sponsoredImage={sponsoredImage} 
+            sponsoredImage={sponsoredImage}
         />
     );
 };

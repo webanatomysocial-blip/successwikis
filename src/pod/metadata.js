@@ -8,6 +8,11 @@ import desiDipsImg from '../assets/Driven-by-Purpose/Desi-Dips.png';
 import tariniImg from '../assets/The-stage-behind-the-story/Tarini-Sai-Padmanabhan.jpeg';
 import soldierImg from '../assets/The-stage-behind-the-story/The-Soldier.jpeg';
 import raghavManImg from '../assets/The-stage-behind-the-story/raghav.jpeg';
+import shyamImg from '../assets/The-stage-behind-the-story/Shyam.jpeg';
+import krithikaImg from '../assets/The-stage-behind-the-story/Krithika.jpeg';
+import gopalImg from '../assets/The-stage-behind-the-story/Gopal.jpeg';
+import yagnaImg from '../assets/The-stage-behind-the-story/Yagna.jpeg';
+import sampathImg from '../assets/The-stage-behind-the-story/sampath.jpeg';
 
 // Founder's Unfiltered
 import leenusImg from '../assets/founders-unfiltered/leenus.png';
@@ -70,6 +75,51 @@ export const podMetadata = [
         category: "The Stage Behind the Story",
         categorySlug: "stage-behind-the-story",
         date: "2026-04-14"
+    },
+    {
+        id: "ShyamSankeerthGuptaPost",
+        title: "Shyam Sankeerth Gupta: Rejected Twice, Accepted Everywhere",
+        slug: "shyam-sankeerth-gupta-applywizz",
+        image: shyamImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-16"
+    },
+    {
+        id: "KrithikaRoyPost",
+        title: "Krithika Roy: Creativity Without Borders",
+        slug: "krithika-roy-realivant",
+        image: krithikaImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-16"
+    },
+    {
+        id: "GopalaKrishnaPost",
+        title: "Gopala Krishna: Hiring Without the Waiting Room",
+        slug: "gopala-krishna-hirenest-workforce",
+        image: gopalImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-16"
+    },
+    {
+        id: "YagnakumarMallavarapuPost",
+        title: "Yagnakumar Mallavarapu: Building Order Out of Chaos",
+        slug: "yagnakumar-mallavarapu-yagnexor",
+        image: yagnaImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-16"
+    },
+    {
+        id: "SampathKumarCharandasPost",
+        title: "Sampath Kumar Charandas: Navigating Real Estate with Precision",
+        slug: "sampath-kumar-charandas-nandaka-asset-advisory",
+        image: sampathImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-16"
     },
     {
         id: "ManojGarlapatiPost",

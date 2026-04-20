@@ -1,6 +1,6 @@
 import React from 'react';
 import PodLayout from '../../components/PodLayout';
-import sampleImage from '../../assets/The-stage-behind-the-story/Manoj.webp'; 
+import sampleImage from '../../assets/The-stage-behind-the-story/Manoj.webp';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 import { FaLinkedin, FaGlobe, FaNewspaper } from 'react-icons/fa';
 
@@ -8,7 +8,7 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
     const content = (
         <>
             <p>
-                <a href=' https://www.linkedin.com/in/manoj-garlapati-878632226'>Manoj Garlapati</a> wasn’t your typical startup founder with a grand plan. He was simply someone who couldn’t stop noticing a problem.
+                <a target="_blank" href=' https://www.linkedin.com/in/manoj-garlapati-878632226'>Manoj Garlapati</a> wasn’t your typical startup founder with a grand plan. He was simply someone who couldn’t stop noticing a problem.
             </p>
 
             <p>
@@ -16,7 +16,7 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
             </p>
 
             <p>
-                That observation became the foundation of <a href=''>Aspivance</a>, a platform designed to simplify hiring by enabling organizations to efficiently discover, evaluate, and hire the right candidates, while giving job seekers a way to showcase their abilities and connect with meaningful opportunities. Instead of focusing on resumes alone, Aspivance emphasizes skills and potential, a shift that reflects how modern workforces are evolving.
+                That observation became the foundation of <a target="_blank" href=''>Aspivance</a>, a platform designed to simplify hiring by enabling organizations to efficiently discover, evaluate, and hire the right candidates, while giving job seekers a way to showcase their abilities and connect with meaningful opportunities. Instead of focusing on resumes alone, Aspivance emphasizes skills and potential, a shift that reflects how modern workforces are evolving.
             </p>
 
             <p>
@@ -38,7 +38,7 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
             <p>
                 Today, Manoj is focused on refining Aspivance with early users, building a reliable ecosystem where employers can find talent efficiently and candidates can connect with meaningful opportunities. His vision is simple but ambitious: hiring should be based on skills and potential, not just background or connections. And as he continues to build, he carries with him the same persistence that shaped his journey,the habit of paying attention, and the belief that even small, thoughtful solutions can change how people work and hire.
             </p>
-            
+
             <div className="pod-external-links">
                 <a href='https://www.linkedin.com/in/manoj-garlapati-878632226' target="_blank" rel="noopener noreferrer" className="pod-external-link">
                     <FaLinkedin size={24} color="#0a66c2" /> LinkedIn Profile
@@ -60,13 +60,13 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
             category="The stage behind the story"
             title="Manoj Garlapati Wasn’t Planning to Build a Startup. He Was Just Paying Attention"
             image={sampleImage}
             content={content}
             recentPosts={recentPosts}
-            sponsoredImage={sponsoredImage} 
+            sponsoredImage={sponsoredImage}
         />
     );
 };

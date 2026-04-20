@@ -170,6 +170,42 @@ $podMetadata = [
         "category" => "The stage behind the story",
     ],
     [
+        "id" => "ShyamSankeerthGuptaPost",
+        "title" => "Shyam Sankeerth Gupta: Rejected Twice, Accepted Everywhere",
+        "slug" => "shyam-sankeerth-gupta-applywizz",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Shyam Sankeerth Gupta shares how ApplyWizz helps job seekers through automation and human intelligence, scaling to 100+ employees in a tier-3 city.",
+        "image" => "/assets/The-stage-behind-the-story/Shyam.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "KrithikaRoyPost",
+        "title" => "Krithika Roy: Creativity Without Borders",
+        "slug" => "krithika-roy-realivant",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Krithika Roy's journey building Realivant, a design agency that blends AI, creativity, and wellness to foster independent, flexible careers.",
+        "image" => "/assets/The-stage-behind-the-story/Krithika.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "GopalaKrishnaPost",
+        "title" => "Gopala Krishna: Hiring Without the Waiting Room",
+        "slug" => "gopala-krishna-hirenest-workforce",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Gopala Krishna shares how HireNest Workforce simplifies tech hiring through a pre-vetted talent ecosystem, enabling companies to scale faster.",
+        "image" => "/assets/The-stage-behind-the-story/Gopal.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
+        "id" => "YagnakumarMallavarapuPost",
+        "title" => "Yagnakumar Mallavarapu: Building Order Out of Chaos",
+        "slug" => "yagnakumar-mallavarapu-yagnexor",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Yagnakumar Mallavarapu's journey with Yagnexor, building operational infrastructure to help institutions unify fragmented workflows and data.",
+        "image" => "/assets/The-stage-behind-the-story/Yagna.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
         "id" => "ManojGarlapatiPost",
         "title" => "Manoj Garlapati Wasn't Planning to Build a Startup. He Was Just Paying Attention",
         "slug" => "manoj-garlapati",
@@ -440,6 +476,7 @@ $successLensMetadata = [
         "metaDescription" => "A team of researchers has unveiled a new form of self-healing concrete that uses embedded mineral-producing bacteria to repair cracks automatically, offering a potential revolution in how cities manage aging infrastructure.",
         "image" => "/assets/success-wire/concrete.png",
     ],
+    
 ];
 
 // 4. Event Metadata
