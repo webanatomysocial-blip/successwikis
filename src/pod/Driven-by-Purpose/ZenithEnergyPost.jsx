@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampleImage from '../../assets/Driven-by-Purpose/zenith.png'; 
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const ZenithEnergyPost = ({ dynamicRecentPosts }) => {
+const ZenithEnergyPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -45,7 +45,8 @@ const ZenithEnergyPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
+      postId={postId} 
             category="Driven by Purpose"
             title="Zenith Energy – Turning Efficiency Into Legacy"
             image={sampleImage}

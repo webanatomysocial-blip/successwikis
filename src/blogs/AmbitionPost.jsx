@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../blogs/blogs-images/1.png';
 
-const AmbitionPost = ({ dynamicRecentPosts }) => {
+const AmbitionPost = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -107,7 +107,9 @@ const AmbitionPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Blogs"
             title="Ambition Is Changing — And That's a Good Thing"
             image={heroImage}

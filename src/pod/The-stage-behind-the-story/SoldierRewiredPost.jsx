@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampleImage from '../../assets/The-stage-behind-the-story/The-Soldier.jpeg'; 
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const SoldierRewiredPost = ({ dynamicRecentPosts }) => {
+const SoldierRewiredPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <h2>From the Army to AI: The Man Rebuilding India’s Classrooms</h2>
@@ -149,7 +149,8 @@ const SoldierRewiredPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
+      postId={postId} 
             category="The stage behind the story"
             title="The Soldier Who Rewired the Future — One STEM Lab at a Time"
             image={sampleImage}

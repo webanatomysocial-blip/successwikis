@@ -3,7 +3,7 @@ import PodLayout from "../../components/PodLayout";
 import sampleImage from "../../assets/The-stage-behind-the-story/grp.webp";
 import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 
-const GreenRecykloplastPost = ({ dynamicRecentPosts }) => {
+const GreenRecykloplastPost = ({ dynamicRecentPosts, postId }) => {
   const content = (
     <>
       <div
@@ -131,6 +131,7 @@ const GreenRecykloplastPost = ({ dynamicRecentPosts }) => {
 
   return (
     <PodLayout
+      postId={postId}
       category="The stage behind the story"
       title="Turning Waste Into Worth: The Story of Raghuram Natarajan and Green Recykloplast"
       image={sampleImage}

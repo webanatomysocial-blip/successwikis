@@ -3,7 +3,7 @@ import PodLayout from "../../components/PodLayout";
 import sampleImage from "../../assets/founders-unfiltered/leenus.png";
 import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 
-const LeenusInfraPost = ({ dynamicRecentPosts }) => {
+const LeenusInfraPost = ({ dynamicRecentPosts, postId }) => {
   const content = (
     <>
       <h2>What does your company do, and what problem does it solve?</h2>
@@ -116,6 +116,7 @@ const LeenusInfraPost = ({ dynamicRecentPosts }) => {
 
   return (
     <PodLayout
+      postId={postId}
       category="Founder's Unfiltered"
       title="From Supreme Pipes to Complete Infrastructure – How Leenus Infra Builds Smarter"
       image={sampleImage}

@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "../assets/success-wire/TATA-MOTORS.webp";
 
-const TataMotorsHydrogenBus = ({ dynamicRecentPosts }) => {
+const TataMotorsHydrogenBus = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -57,6 +57,8 @@ const TataMotorsHydrogenBus = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Tata Motors Unveils India’s First Hydrogen Fuel Cell Bus, Signaling a New Era in Clean Mobility"
       image={heroImage}

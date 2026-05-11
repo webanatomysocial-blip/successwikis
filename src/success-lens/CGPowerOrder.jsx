@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "../assets/success-wire/SW-blog.png";
 
-const CGPowerOrder = ({ dynamicRecentPosts }) => {
+const CGPowerOrder = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -64,6 +64,8 @@ const CGPowerOrder = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="CG Power Secures Landmark $99M US Data Center Order, Enters Global Digital Infrastructure Race"
       image={heroImage}

@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "../assets/success-wire/Asia-Nikkei.webp";
 
-const VigyanShaalaAward = ({ dynamicRecentPosts }) => {
+const VigyanShaalaAward = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -60,6 +60,8 @@ const VigyanShaalaAward = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="VigyanShaala Wins Nikkei Asia Award, Putting Rural STEM Education on the Global Map"
       image={heroImage}

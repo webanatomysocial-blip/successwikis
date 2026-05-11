@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import krithikaImg from '../../assets/The-stage-behind-the-story/Krithika.jpeg';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const KrithikaRoyPost = ({ dynamicRecentPosts }) => {
+const KrithikaRoyPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -60,6 +60,7 @@ const KrithikaRoyPost = ({ dynamicRecentPosts }) => {
 
     return (
         <PodLayout
+      postId={postId}
             category="The stage behind the story"
             title="Krithika Roy: Creativity Without Borders"
             image={krithikaImg}

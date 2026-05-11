@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/Amazon.jpeg';
 
-const AmazonFresh = ({ dynamicRecentPosts }) => {
+const AmazonFresh = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -45,7 +45,9 @@ const AmazonFresh = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="Amazon Fresh Expands to 270+ Cities: What It Means"
             image={heroImage}

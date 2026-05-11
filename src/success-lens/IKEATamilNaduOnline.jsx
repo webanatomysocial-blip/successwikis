@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/IKEA.webp";
 
-const IKEATamilNaduOnline = ({ dynamicRecentPosts }) => {
+const IKEATamilNaduOnline = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -67,6 +67,8 @@ const IKEATamilNaduOnline = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="IKEA Expands Into Tamil Nadu With Online Deliveries, Signaling Deeper South India Push"
       image={heroImage}

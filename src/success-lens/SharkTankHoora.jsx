@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/Shark-tank.jpeg';
 
-const SharkTankHoora = ({ dynamicRecentPosts }) => {
+const SharkTankHoora = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -63,7 +63,9 @@ const SharkTankHoora = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="Shark Tank Said No, Investors Said Yes: Hoora's Journey"
             image={heroImage}

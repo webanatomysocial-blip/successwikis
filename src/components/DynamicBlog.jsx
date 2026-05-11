@@ -1,13 +1,44 @@
-import React, { Suspense, useMemo } from 'react';
+import React, { Suspense, useMemo, useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogMetadata } from '../blogs/metadata.js';
 import { Helmet } from 'react-helmet-async';
+import BlogLayout from '../components/BlogLayout';
 
 // Import all blog modules from ../blogs/*.jsx
 const blogModules = import.meta.glob('../blogs/*.jsx');
 
+function renderYouTube(url) {
+  if (!url) return null;
+  let videoId = '';
+  const watchMatch = url.match(/v=([^&]+)/);
+  if (watchMatch) videoId = watchMatch[1];
+  else {
+      const shortMatch = url.match(/youtu\.be\/([^?]+)/);
+      if (shortMatch) videoId = shortMatch[1];
+      else if (url.includes('youtube.com/embed/')) videoId = url.split('embed/')[1].split('?')[0];
+  }
+  if (!videoId) return null;
+
+  return (
+    <div style={{ marginBottom: "30px", position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden" }}>
+      <iframe 
+        src={`https://www.youtube.com/embed/${videoId}`} 
+        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: "10px" }}
+        frameBorder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowFullScreen
+        title="YouTube Video"
+      ></iframe>
+    </div>
+  );
+}
+
+// GenericPostLayout removed, natively using BlogPostLayout
+
 export default function DynamicBlog() {
   const { blogId } = useParams(); // Expecting slug or id
+  const [dbPost, setDbPost] = useState(null);
+  const [loadingDb, setLoadingDb] = useState(true);
 
   // 1. Find metadata based on the URL param (slug or id)
   const metadata = useMemo(() => {
@@ -17,16 +48,35 @@ export default function DynamicBlog() {
     ) || null;
   }, [blogId]);
 
-  // 2. Determine the file path key for import.meta.glob
+  // Fetch db post if not found in metadata
+  useEffect(() => {
+    if (metadata) {
+       setLoadingDb(false);
+       return;
+    }
+    const fetchDbPost = async () => {
+      try {
+        const apiBaseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
+        const res = await fetch(`${apiBaseURL}/api/posts.php?slug=${blogId}`);
+        const data = await res.json();
+        if (data.status === 'success' && data.data.post_type === 'blog') {
+             setDbPost(data.data);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingDb(false);
+      }
+    };
+    fetchDbPost();
+  }, [blogId, metadata]);
+
+  // 2. Determine the file path key for import.meta.glob (for static only)
   const moduleKey = useMemo(() => {
-     // If metadata found, look for its ID in filenames
-     if (metadata) {
-         // E.g. ../blogs/AmbitionPost.jsx
-         const key = Object.keys(blogModules).find(k => k.includes(`/${metadata.id}.jsx`));
-         return key;
-     }
-     // Fallback: try to match the URL param directly to filename
-     // E.g. /blogs/AmbitionPost -> matches ../blogs/AmbitionPost.jsx
+     if (!metadata) return null;
+     const key = Object.keys(blogModules).find(k => k.includes(`/${metadata.id}.jsx`));
+     if (key) return key;
+
      const directKey = Object.keys(blogModules).find(k => {
         const fname = k.split('/').pop().replace('.jsx', '');
         return fname === blogId;
@@ -34,14 +84,27 @@ export default function DynamicBlog() {
      return directKey;
   }, [metadata, blogId]);
 
-
-  // 3. Lazy Load the component
+  // 3. Lazy Load the static component
   const BlogComponent = useMemo(() => {
     if (!moduleKey) return null;
     return React.lazy(blogModules[moduleKey]);
   }, [moduleKey]);
 
-  if (!BlogComponent) {
+  // 4. Compute recent posts for sidebar (we only use static here for simplicity, or we could fetch db ones too)
+  const recentPosts = useMemo(() => {
+    return blogMetadata
+      .filter(b => b.slug !== blogId && b.id !== blogId)
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 4)
+      .map(b => ({
+        title: b.title,
+        link: `/blogs/${b.slug}`
+      }));
+  }, [blogId]);
+
+  if (loadingDb) return <div style={{ padding: '100px', textAlign: 'center' }}>Loading...</div>;
+
+  if (!BlogComponent && !dbPost) {
     return (
         <div style={{ padding: '100px', textAlign: 'center' }}>
             <h1>Blog Not Found</h1>
@@ -51,31 +114,42 @@ export default function DynamicBlog() {
     );
   }
 
-  // 4. Compute 4 recent posts for sidebar
-  const recentPosts = useMemo(() => {
-    return blogMetadata
-      .filter(b => b.slug !== blogId && b.id !== blogId) // Exclude current
-      .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date descending
-      .slice(0, 4) // Take top 4
-      .map(b => ({
-        title: b.title,
-        link: `/blogs/${b.slug}`
-      }));
-  }, [blogId]);
-
   // 5. Render
-  // The styled BlogLayout is inside the imported component itself.
-  // We just mount it.
+  const pageTitle = metadata ? metadata.title : (dbPost ? dbPost.title : 'Blog');
+  const pageDesc = metadata ? metadata.metaDescription : (dbPost ? dbPost.meta_description : '');
+
   return (
     <>
       <Helmet>
-        <title>{metadata ? `${metadata.title} | Success Wikis` : 'Blog | Success Wikis'}</title>
-        <meta name="description" content={metadata?.metaDescription || ''} />
+        <title>{`${pageTitle} | Success Wikis`}</title>
+        <meta name="description" content={pageDesc || ''} />
       </Helmet>
       
-      <Suspense fallback={<div style={{ padding: '100px', textAlign: 'center' }}>Loading...</div>}>
-        <BlogComponent dynamicRecentPosts={recentPosts} />
-      </Suspense>
+      {BlogComponent ? (
+        <Suspense fallback={<div style={{ padding: '100px', textAlign: 'center' }}>Loading...</div>}>
+          <BlogComponent dynamicRecentPosts={recentPosts} date={metadata?.date} postId={metadata?.slug} />
+        </Suspense>
+      ) : (
+        <BlogLayout 
+           category={dbPost.category || 'Blog'}
+           title={dbPost.title}
+           postId={dbPost.slug}
+           image={dbPost.image_url}
+           date={dbPost.published_date ? new Date(dbPost.published_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : undefined}
+           content={
+             <>
+               {renderYouTube(dbPost.youtube_link)}
+                <div 
+                  className="quill-content" 
+                  dangerouslySetInnerHTML={{ 
+                    __html: (dbPost.content || "").replace(/&nbsp;|\u00a0/g, " ") 
+                  }} 
+                />
+             </>
+           }
+           recentPosts={recentPosts}
+        />
+      )}
     </>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/taavi.jpeg';
 
-const HandmadeRoots = ({ dynamicRecentPosts }) => {
+const HandmadeRoots = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -52,7 +52,9 @@ const HandmadeRoots = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="From Handmade Roots to a Global Movement: Taavi"
             image={heroImage}

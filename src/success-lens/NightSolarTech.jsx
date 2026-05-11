@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import solarImg from "../assets/success-wire/solar.webp";
 
-const NightSolarTech = ({ dynamicRecentPosts }) => {
+const NightSolarTech = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p>
@@ -66,6 +66,8 @@ const NightSolarTech = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Scientists Advance Night-Solar Technology with Breakthrough Thermoradiative Cells"
       image={solarImg}

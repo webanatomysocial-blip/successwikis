@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampleImage from '../../assets/The-stage-behind-the-story/raghav.jpeg'; 
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const ManWhoBuildsSchoolsPost = ({ dynamicRecentPosts }) => {
+const ManWhoBuildsSchoolsPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -89,7 +89,8 @@ const ManWhoBuildsSchoolsPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
+      postId={postId} 
             category="The stage behind the story"
             title="The Man Who Builds Schools for People Who Dream of Building Them"
             image={sampleImage}

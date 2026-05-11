@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../blogs/blogs-images/2.png';
 
-const FearFounderPost = ({ dynamicRecentPosts }) => {
+const FearFounderPost = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -113,7 +113,9 @@ const FearFounderPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Blogs"
             title="The Fear Every Founder Has (But Nobody Talks About)"
             image={heroImage}

@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "../assets/success-wire/Torrent Pharma.webp";
 
-const TorrentPharmaFDA = ({ dynamicRecentPosts }) => {
+const TorrentPharmaFDA = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -43,6 +43,8 @@ const TorrentPharmaFDA = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Torrent Pharma’s Dahej Facility Clears US FDA Inspection With Zero Observations"
       image={heroImage}

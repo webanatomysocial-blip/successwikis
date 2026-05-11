@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../blogs/blogs-images/4.jpeg';
 
-const TellStoryPost = ({ dynamicRecentPosts }) => {
+const TellStoryPost = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -77,7 +77,9 @@ const TellStoryPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Blogs"
             title="How to Tell Your Story Without Feeling Like PR"
             image={heroImage}

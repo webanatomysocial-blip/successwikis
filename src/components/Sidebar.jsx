@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/sidebar.css";
-import { FaLinkedinIn, FaInstagram } from "react-icons/fa6";
+import { FaLinkedinIn, FaInstagram, FaYoutube } from "react-icons/fa6";
 import logo from "../assets/ze-netzero-badge.png";
 import CarbonPopup from "./CarbonPopup";
 
@@ -59,6 +59,14 @@ const Sidebar = () => {
           rel="noopener noreferrer"
         >
           <FaInstagram />
+        </a>
+        <a
+          href="https://youtube.com/@successwikis?si=w3eUKzQ4cQBqLpz0"
+          aria-label="youtube"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaYoutube />
         </a>
       </div>
 

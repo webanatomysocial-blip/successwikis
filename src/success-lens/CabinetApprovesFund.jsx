@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "../assets/success-wire/Cabine.png";
 
-const CabinetApprovesFund = ({ dynamicRecentPosts }) => {
+const CabinetApprovesFund = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -83,6 +83,8 @@ const CabinetApprovesFund = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Cabinet Approves ₹10,000 Crore Fund to Strengthen Deep-Tech and Innovative Manufacturing Startups"
       image={heroImage}

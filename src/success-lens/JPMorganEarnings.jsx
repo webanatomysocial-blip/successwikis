@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import jpmorganImg from "../assets/success-wire/jp-morgon.jpeg";
 
-const JPMorganEarnings = ({ dynamicRecentPosts }) => {
+const JPMorganEarnings = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p>
@@ -54,6 +54,8 @@ const JPMorganEarnings = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="JPMorgan Chase & Co.: Q4 Earnings and Leadership Transition"
       image={jpmorganImg}

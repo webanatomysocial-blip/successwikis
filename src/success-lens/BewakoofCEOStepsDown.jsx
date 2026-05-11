@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/bew.webp";
 
-const BewakoofCEOStepsDown = ({ dynamicRecentPosts }) => {
+const BewakoofCEOStepsDown = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -66,6 +66,8 @@ const BewakoofCEOStepsDown = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Prabhkiran Singh Steps Down as CEO of Bewakoof After Fourteen Years"
       image={heroImage}

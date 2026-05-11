@@ -11,12 +11,13 @@ const CategoryTabs = () => {
   const [activeTab, setActiveTab] = useState("All");
   const [topLikedIds, setTopLikedIds] = useState([]);
   const [loadedImages, setLoadedImages] = useState({});
+  const [dynamicPods, setDynamicPods] = useState([]);
   const location = useLocation();
 
   // Dynamically generate tabs from metadata
   const categories = useMemo(
     () => ["All", ...new Set(podMetadata.map((post) => post.category))],
-    []
+    [],
   );
 
   // Effect to handle URL query param for tab switching
@@ -64,13 +65,73 @@ const CategoryTabs = () => {
     };
   }, []);
 
+  // Fetch dynamic pods
+  useEffect(() => {
+    const fetchDynamicPods = async () => {
+      try {
+        const apiBaseURL =
+          import.meta.env.VITE_API_URL ||
+          (import.meta.env.PROD ? "" : "http://localhost:8000");
+        const res = await fetch(`${apiBaseURL}/api/posts.php`);
+        const data = await res.json();
+        if (data.status === "success") {
+          const mapped = data.data
+            .filter((dbPost) =>
+              [
+                "pod",
+                "driven_by_purpose",
+                "founders_unfiltered",
+                "stage_behind_story",
+              ].includes(dbPost.post_type),
+            )
+            .map((dbPost) => {
+              // Map post_type to category for UI
+              let category = dbPost.category || "Pod";
+              let categorySlug = "pod";
+
+              if (dbPost.post_type === "driven_by_purpose") {
+                category = "Driven by Purpose";
+                categorySlug = "driven-by-purpose";
+              } else if (dbPost.post_type === "founders_unfiltered") {
+                category = "Founder's Unfiltered";
+                categorySlug = "founders-unfiltered";
+              } else if (dbPost.post_type === "stage_behind_story") {
+                category = "The Stage Behind the Story";
+                categorySlug = "stage-behind-the-story";
+              }
+
+              return {
+                id: `dynamic-${dbPost.id}`,
+                title: dbPost.title,
+                slug: dbPost.slug,
+                image: dbPost.image_url,
+                category: category,
+                categorySlug: categorySlug,
+                date: dbPost.published_date,
+                isDynamic: true,
+              };
+            });
+          setDynamicPods(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to fetch dynamic pods", err);
+      }
+    };
+    fetchDynamicPods();
+  }, []);
+
+  // Combine static and dynamic pods
+  const allPods = useMemo(() => {
+    return [...podMetadata, ...dynamicPods];
+  }, [dynamicPods]);
+
   // Convert topLikedIds array to a map for easy lookup
   const allPostLikes = useMemo(() => {
     const likesMap = {};
     topLikedIds.forEach((item) => {
-      likesMap[item.post_id] = parseInt(item.like_count) || 0;
+      const safeKey = item.post_id.toLowerCase().trim();
+      likesMap[safeKey] = (likesMap[safeKey] || 0) + (parseInt(item.like_count) || 0);
     });
-    console.log("📊 Likes map created:", likesMap);
     return likesMap;
   }, [topLikedIds]);
 
@@ -79,24 +140,35 @@ const CategoryTabs = () => {
   const filteredPosts = useMemo(() => {
     const posts =
       activeTab === "All"
-        ? podMetadata
-        : podMetadata.filter((post) => post.category === activeTab);
+        ? allPods
+        : allPods.filter((post) => post.category === activeTab);
 
     // Sort by date descending (Newest to Oldest)
     return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-  }, [activeTab]);
+  }, [activeTab, allPods]);
 
   const topThreePosts = useMemo(() => {
     // Match liked IDs with actual post metadata
-    const postsWithLikes = topLikedIds
-      .map((liked) => {
-        const post = podMetadata.find(
-          (p) =>
-            p.title.toLowerCase().trim() === liked.post_id.toLowerCase().trim()
-        );
-        return post ? { ...post, likeCount: parseInt(liked.like_count) } : null;
-      })
-      .filter((p) => p !== null);
+    const postMap = new Map();
+
+    topLikedIds.forEach((liked) => {
+      const post = allPods.find(
+        (p) =>
+          p.slug.toLowerCase().trim() === liked.post_id.toLowerCase().trim() ||
+          p.title.toLowerCase().trim() === liked.post_id.toLowerCase().trim()
+      );
+      if (post) {
+        const existing = postMap.get(post.id);
+        if (existing) {
+          // Combine likes if they exist under both title and slug
+          existing.likeCount += parseInt(liked.like_count) || 0;
+        } else {
+          postMap.set(post.id, { ...post, likeCount: parseInt(liked.like_count) || 0 });
+        }
+      }
+    });
+
+    const postsWithLikes = Array.from(postMap.values());
 
     // Sort by likeCount descending explicitly
     const sortedPosts = postsWithLikes.sort(
@@ -110,7 +182,7 @@ const CategoryTabs = () => {
         : sortedPosts.filter((p) => p.category === activeTab);
 
     return categoryPosts.slice(0, 3);
-  }, [topLikedIds, activeTab]);
+  }, [topLikedIds, activeTab, allPods]);
 
   return (
     <section className="category-tabs-section">
@@ -190,7 +262,11 @@ const CategoryTabs = () => {
         {/* Left Column: Pod Grid */}
         <div className="pods-grid">
           {filteredPosts.map((post, index) => {
-            const likeCount = allPostLikes[post.title];
+            const safeSlug = post.slug.toLowerCase().trim();
+            const safeTitle = post.title.toLowerCase().trim();
+            const likeCount =
+              (allPostLikes[safeSlug] || 0) +
+              (safeSlug !== safeTitle ? (allPostLikes[safeTitle] || 0) : 0);
 
             // Debug logging for first post only
             if (index === 0 && Object.keys(allPostLikes).length > 0) {

@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/samsung-privacy.png";
 
-const SamsungPrivacyDisplay = ({ dynamicRecentPosts }) => {
+const SamsungPrivacyDisplay = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -93,6 +93,8 @@ const SamsungPrivacyDisplay = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Samsung Unveils Privacy Display in Galaxy S26 Ultra"
       image={heroImage}

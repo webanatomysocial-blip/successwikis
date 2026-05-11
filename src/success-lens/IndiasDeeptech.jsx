@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/India’s-Deeptech.png';
 
-const IndiasDeeptech = ({ dynamicRecentPosts }) => {
+const IndiasDeeptech = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -55,7 +55,9 @@ const IndiasDeeptech = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="India's Deeptech : How Talent and Patience Can Drive Growth"
             image={heroImage}

@@ -3,7 +3,7 @@ import PodLayout from "../../components/PodLayout";
 import sampleImage from "../../assets/The-stage-behind-the-story/wf.webp";
 import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 
-const WestfieldInternationalPost = ({ dynamicRecentPosts }) => {
+const WestfieldInternationalPost = ({ dynamicRecentPosts, postId }) => {
   const content = (
     <>
       <div
@@ -110,8 +110,9 @@ const WestfieldInternationalPost = ({ dynamicRecentPosts }) => {
 
   return (
     <PodLayout
+      postId={postId}
       category="The stage behind the story"
-      title="Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futuress"
+      title="Kasturi Manjula: Guiding Parents, Building Schools, Shaping Futures"
       image={sampleImage}
       content={content}
       recentPosts={recentPosts}

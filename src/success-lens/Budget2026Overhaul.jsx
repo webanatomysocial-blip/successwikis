@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/Nirmala.jpg";
 
-const Budget2026Overhaul = ({ dynamicRecentPosts }) => {
+const Budget2026Overhaul = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -52,6 +52,8 @@ const Budget2026Overhaul = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Budget 2026 Brings Customs Duty Overhaul and Record Infrastructure Push"
       image={heroImage}

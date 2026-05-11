@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "../assets/success-wire/neemans-tn.webp";
 
-const NeemansFunding = ({ dynamicRecentPosts }) => {
+const NeemansFunding = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -55,6 +55,8 @@ const NeemansFunding = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Sustainable Footwear Startup Neeman’s Secures ₹35.5 Crore to Scale Direct-to-Consumer Growth"
       image={heroImage}

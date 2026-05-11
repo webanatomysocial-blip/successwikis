@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampathImg from '../../assets/The-stage-behind-the-story/sampath.jpeg';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const SampathKumarCharandasPost = ({ dynamicRecentPosts }) => {
+const SampathKumarCharandasPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -60,6 +60,7 @@ const SampathKumarCharandasPost = ({ dynamicRecentPosts }) => {
 
     return (
         <PodLayout
+      postId={postId}
             category="The stage behind the story"
             title="Sampath Kumar Charandas: Navigating Real Estate with Precision"
             image={sampathImg}

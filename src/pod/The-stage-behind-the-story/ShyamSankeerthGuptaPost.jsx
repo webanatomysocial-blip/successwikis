@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import shyamImg from '../../assets/The-stage-behind-the-story/Shyam.jpeg';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const ShyamSankeerthGuptaPost = ({ dynamicRecentPosts }) => {
+const ShyamSankeerthGuptaPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -65,6 +65,7 @@ const ShyamSankeerthGuptaPost = ({ dynamicRecentPosts }) => {
 
     return (
         <PodLayout
+      postId={postId}
             category="The stage behind the story"
             title="Shyam Sankeerth Gupta: Rejected Twice, Accepted Everywhere"
             image={shyamImg}

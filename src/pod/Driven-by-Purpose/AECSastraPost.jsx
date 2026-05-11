@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampleImage from '../../assets/Driven-by-Purpose/AEC-1.png'; 
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const AECSastraPost = ({ dynamicRecentPosts }) => {
+const AECSastraPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -48,7 +48,8 @@ const AECSastraPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
+      postId={postId} 
             category="Driven by Purpose"
             title="AEC Sastra: Shaping Global AEC Leaders"
             image={sampleImage}

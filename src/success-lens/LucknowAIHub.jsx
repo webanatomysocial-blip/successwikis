@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "../assets/success-wire/Lucknow.webp";
 
-const LucknowAIHub = ({ dynamicRecentPosts }) => {
+const LucknowAIHub = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -56,6 +56,8 @@ const LucknowAIHub = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Lucknow Emerges as India’s Next AI Hub With Regional Impact Conference"
       image={heroImage}

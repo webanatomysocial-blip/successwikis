@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../blogs/blogs-images/3.jpeg';
 
-const FiguredOutPost = ({ dynamicRecentPosts }) => {
+const FiguredOutPost = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -89,7 +89,9 @@ const FiguredOutPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Blogs"
             title="You Don't Need to Have It All Figured Out"
             image={heroImage}

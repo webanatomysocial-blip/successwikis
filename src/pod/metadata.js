@@ -25,6 +25,7 @@ import venkatImg from '../assets/The-stage-behind-the-story/venkat.webp';
 import wfImg from '../assets/The-stage-behind-the-story/wf.webp';
 import manojImg from '../assets/The-stage-behind-the-story/Manoj.webp';
 import jogImg from '../assets/The-stage-behind-the-story/JOG.webp';
+import singaraImg from '../assets/The-stage-behind-the-story/Sinagara-Mohan.jpeg';
 
 export const podMetadata = [
     // Driven by Purpose
@@ -67,6 +68,15 @@ export const podMetadata = [
 
 
     // The Stage Behind the Story
+    {
+        id: "SingaraMohanPost",
+        title: "Singara Mohan on Crafting Memories Into Cinema",
+        slug: "singara-mohan-kaalamega-karigindhi",
+        image: singaraImg,
+        category: "The Stage Behind the Story",
+        categorySlug: "stage-behind-the-story",
+        date: "2026-04-21"
+    },
     {
         id: "JogeeswaraPost",
         title: "When Trial and Error Turns Into Direction",

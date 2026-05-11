@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/hype-to-habit.png';
 
-const HypeToHabit = ({ dynamicRecentPosts }) => {
+const HypeToHabit = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -54,7 +54,9 @@ const HypeToHabit = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="From Hype to Habit: The New Normal of AI Investments"
             image={heroImage}

@@ -3,7 +3,7 @@ import PodLayout from "../../components/PodLayout";
 import sampleImage from "../../assets/founders-unfiltered/raghu.jpeg";
 import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 
-const RaghuBodduPost = ({ dynamicRecentPosts }) => {
+const RaghuBodduPost = ({ dynamicRecentPosts, postId }) => {
   const content = (
     <>
       <p>
@@ -237,6 +237,7 @@ const RaghuBodduPost = ({ dynamicRecentPosts }) => {
 
   return (
     <PodLayout
+      postId={postId}
       category="Founder's Unfiltered"
       title="Exclusive Interview: Raghu Boddu on ToggleNow, Innovation, and the AI-Powered Future"
       image={sampleImage}

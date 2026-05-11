@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/google.png';
 
-const GoogleAIHub = ({ dynamicRecentPosts }) => {
+const GoogleAIHub = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -75,7 +75,9 @@ const GoogleAIHub = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="Google to invest $15 billion in AI hub at Visakhapatnam"
             image={heroImage}

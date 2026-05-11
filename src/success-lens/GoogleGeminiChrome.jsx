@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/GeminiAI.webp";
 
-const GoogleGeminiChrome = ({ dynamicRecentPosts }) => {
+const GoogleGeminiChrome = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -70,6 +70,8 @@ const GoogleGeminiChrome = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Google Brings Gemini AI Into Chrome, Reimagining the Browser Experience"
       image={heroImage}

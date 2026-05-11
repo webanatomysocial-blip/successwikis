@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import yagnaImg from '../../assets/The-stage-behind-the-story/Yagna.jpeg';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const YagnakumarMallavarapuPost = ({ dynamicRecentPosts }) => {
+const YagnakumarMallavarapuPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -65,6 +65,7 @@ const YagnakumarMallavarapuPost = ({ dynamicRecentPosts }) => {
 
     return (
         <PodLayout
+      postId={postId}
             category="The stage behind the story"
             title="Yagnakumar Mallavarapu: Building Order Out of Chaos"
             image={yagnaImg}

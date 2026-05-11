@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import gopalImg from '../../assets/The-stage-behind-the-story/Gopal.jpeg';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const GopalaKrishnaPost = ({ dynamicRecentPosts }) => {
+const GopalaKrishnaPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -60,6 +60,7 @@ const GopalaKrishnaPost = ({ dynamicRecentPosts }) => {
 
     return (
         <PodLayout
+      postId={postId}
             category="The stage behind the story"
             title="Gopala Krishna: Hiring Without the Waiting Room"
             image={gopalImg}

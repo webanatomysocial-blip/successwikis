@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampleImage from '../../assets/The-stage-behind-the-story/Tarini-Sai-Padmanabhan.jpeg'; 
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const TariniSaiPost = ({ dynamicRecentPosts }) => {
+const TariniSaiPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -59,7 +59,8 @@ const TariniSaiPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
+      postId={postId} 
             category="The stage behind the story"
             title="Tarini Sai Padmanabhan: Building the Trust Layer of the Internet with Axory AI"
             image={sampleImage}

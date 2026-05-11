@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/jqi.webp";
 
-const PhotonicChipNewColors = ({ dynamicRecentPosts }) => {
+const PhotonicChipNewColors = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -82,6 +82,8 @@ const PhotonicChipNewColors = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Scientists Develop Photonic Chip That Generates Entirely New Colors of Light"
       image={heroImage}

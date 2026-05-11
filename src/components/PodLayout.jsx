@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { podMetadata } from "../pod/metadata.js";
+import { blogMetadata } from "../blogs/metadata.js";
 import "../css/blog-post.css";
-
 
 // Import specific icons from react-icons
 import { FiFacebook, FiLinkedin, FiInstagram } from "react-icons/fi";
@@ -27,11 +28,42 @@ const PodLayout = ({
   image,
   recentPosts,
   sponsoredImage,
+  date,
+  postId,
 }) => {
   const progressBarRef = useRef(null);
   const headerRef = useRef(null);
   const location = useLocation();
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
+
+  // Helper to format date safely
+  const formatDate = (dateVal) => {
+    if (!dateVal) return null;
+    try {
+      const d = new Date(dateVal);
+      if (isNaN(d.getTime())) return null;
+      return d.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const formattedDate =
+    formatDate(date) ||
+    (() => {
+      // If date is missing (e.g. from static components), try to find it in metadata
+      const meta = [...podMetadata, ...blogMetadata].find(
+        (m) =>
+          m.title === title ||
+          (postId && (m.slug === postId || m.id === postId)) ||
+          window.location.pathname.endsWith(m.slug),
+      );
+      return meta ? formatDate(meta.date) : null;
+    })();
 
   useEffect(() => {
     // Update currentUrl whenever location changes
@@ -60,6 +92,18 @@ const PodLayout = ({
           <div className="pod-split-header">
             <div className="pod-title-section">
               <h1 className="head-text">{title}</h1>
+              {formattedDate && (
+                <p
+                  style={{
+                    marginTop: "15px",
+                    color: "#666",
+                    fontSize: "1.1rem",
+                    fontWeight: "500",
+                  }}
+                >
+                  {formattedDate}
+                </p>
+              )}
             </div>
             <div className="pod-hero-img-container">
               <img src={image} alt={title} />
@@ -75,12 +119,18 @@ const PodLayout = ({
                 {category}{" "}
                 <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
                 {title}
+                {formattedDate && (
+                  <>
+                    <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
+                    {formattedDate}
+                  </>
+                )}
               </div>
               <div className="pod-header-actions">
                 <div className="social-icons-header">
                   <a
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                      currentUrl
+                      currentUrl,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -91,7 +141,7 @@ const PodLayout = ({
                   </a>
                   <a
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                      currentUrl
+                      currentUrl,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -101,7 +151,7 @@ const PodLayout = ({
                     <FiLinkedin size={24} />
                   </a>
                 </div>
-                <LikeButton postId={title} />
+                <LikeButton postId={postId || title} legacyId={title} />
                 <ShareButton url={currentUrl} title={title} />
               </div>
             </div>
@@ -113,7 +163,7 @@ const PodLayout = ({
         <div className="pod-container three-column-layout">
           <aside className="pod-sidebar-left">
             <div className="recent-posts">
-              <h3>Recent posts</h3>
+              <h3>Recent Stories</h3>
               {recentPosts &&
                 recentPosts.map((post, index) => (
                   <a key={index} href={post.link} className="recent-post-item">

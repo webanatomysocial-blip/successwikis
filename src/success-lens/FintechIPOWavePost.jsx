@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import sampleImage from "../assets/Driven-by-Purpose/Fintech.jpeg";
 
-const FintechIPOWavePost = ({ dynamicRecentPosts }) => {
+const FintechIPOWavePost = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p>
@@ -108,6 +108,8 @@ const FintechIPOWavePost = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="India’s Fintech IPO Wave: KreditBee, Fibe, and MoneyView Gear Up for 2026"
       image={sampleImage}

@@ -26,6 +26,10 @@ import Events from "./pages/Events";
 import DynamicEvent from "./components/DynamicEvent";
 import NotFound from "./pages/NotFound";
 
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminEditor from "./pages/admin/AdminEditor";
+
 import Lenis from "lenis";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -85,6 +89,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
             <Route path="/events" element={<Events />} />
             <Route path="/events/:eventSlug" element={<DynamicEvent />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/editor" element={<AdminEditor />} />
+            <Route path="/admin/editor/:id" element={<AdminEditor />} />
 
             {/* 404 Not Found - Must be last */}
             <Route path="*" element={<NotFound />} />

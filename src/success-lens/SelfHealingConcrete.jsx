@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/concrete.png";
 
-const SelfHealingConcrete = ({ dynamicRecentPosts }) => {
+const SelfHealingConcrete = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -86,6 +86,8 @@ const SelfHealingConcrete = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Scientists Develop Self-Healing Concrete That Could Transform Urban Infrastructure"
       image={heroImage}

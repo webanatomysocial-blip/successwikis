@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/alz.webp";
 
-const AlzheimersPollutionLink = ({ dynamicRecentPosts }) => {
+const AlzheimersPollutionLink = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -66,6 +66,8 @@ const AlzheimersPollutionLink = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="New Study Links Long-Term Air Pollution Exposure to Higher Alzheimer’s Risk"
       image={heroImage}

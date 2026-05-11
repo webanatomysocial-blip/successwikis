@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/D2C.png';
 
-const D2CBrands = ({ dynamicRecentPosts }) => {
+const D2CBrands = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -45,7 +45,9 @@ const D2CBrands = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="What D2C Brands Can Learn from Blinkit's Speed"
             image={heroImage}

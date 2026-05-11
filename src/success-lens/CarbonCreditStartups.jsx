@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/Varaha.webp";
 
-const CarbonCreditStartups = ({ dynamicRecentPosts }) => {
+const CarbonCreditStartups = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -85,6 +85,8 @@ const CarbonCreditStartups = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="India’s Carbon Credit Startups Push Global Boundaries With Verified Climate Solutions"
       image={heroImage}

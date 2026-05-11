@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampleImage from '../../assets/Driven-by-Purpose/Raghav.png'; 
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const RaghavFoundationPost = ({ dynamicRecentPosts }) => {
+const RaghavFoundationPost = ({ dynamicRecentPosts, postId, date }) => {
     const content = (
         <>
             <p>
@@ -63,7 +63,9 @@ const RaghavFoundationPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
+            postId={postId} 
+            date={date}
             category="Driven by Purpose"
             title="Raghav Foundation: Building Schools, Shaping Futures"
             image={sampleImage}

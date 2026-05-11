@@ -3,7 +3,7 @@ import PodLayout from '../../components/PodLayout';
 import sampleImage from '../../assets/Driven-by-Purpose/Desi-Dips.png'; 
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 
-const DesiDipsPost = ({ dynamicRecentPosts }) => {
+const DesiDipsPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -44,7 +44,8 @@ const DesiDipsPost = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <PodLayout 
+        <PodLayout
+      postId={postId} 
             category="Driven by Purpose"
             title="Desi Dips: Authentic Chutneys That Do More Than Just Taste Good"
             image={sampleImage}

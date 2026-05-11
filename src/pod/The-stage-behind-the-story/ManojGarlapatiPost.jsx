@@ -4,7 +4,7 @@ import sampleImage from '../../assets/The-stage-behind-the-story/Manoj.webp';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 import { FaLinkedin, FaGlobe, FaNewspaper } from 'react-icons/fa';
 
-const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
+const ManojGarlapatiPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -61,6 +61,7 @@ const ManojGarlapatiPost = ({ dynamicRecentPosts }) => {
 
     return (
         <PodLayout
+      postId={postId}
             category="The stage behind the story"
             title="Manoj Garlapati Wasn’t Planning to Build a Startup. He Was Just Paying Attention"
             image={sampleImage}

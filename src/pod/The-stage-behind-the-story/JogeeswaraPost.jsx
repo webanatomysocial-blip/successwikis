@@ -4,7 +4,7 @@ import sampleImage from '../../assets/The-stage-behind-the-story/JOG.webp';
 import sponsoredImage from '../../assets/Sponsored/sponsored-image.jpg';
 import { FaLinkedin, FaInstagram, FaEnvelope, FaGlobe, FaBookOpen } from 'react-icons/fa';
 
-const JogeeswaraPost = ({ dynamicRecentPosts }) => {
+const JogeeswaraPost = ({ dynamicRecentPosts, postId }) => {
     const content = (
         <>
             <p>
@@ -66,6 +66,7 @@ const JogeeswaraPost = ({ dynamicRecentPosts }) => {
 
     return (
         <PodLayout
+      postId={postId}
             category="The stage behind the story"
             title="When Trial and Error Turns Into Direction"
             image={sampleImage}

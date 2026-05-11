@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
-const LikeButton = ({ postId }) => {
+const LikeButton = ({ postId, legacyId }) => {
     const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const [loading, setLoading] = useState(false); // Start as false to show UI immediately
@@ -13,7 +13,11 @@ const LikeButton = ({ postId }) => {
         const fetchLikes = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${API_URL}?post_id=${postId}`);
+                let url = `${API_URL}?post_id=${encodeURIComponent(postId)}`;
+                if (legacyId && legacyId !== postId) {
+                    url += `&legacy_id=${encodeURIComponent(legacyId)}`;
+                }
+                const response = await fetch(url);
                 if (response.ok) {
                     const data = await response.json();
                     setLikes(data.total_likes);
@@ -42,6 +46,9 @@ const LikeButton = ({ postId }) => {
         try {
             const formData = new URLSearchParams();
             formData.append('post_id', postId);
+            if (legacyId && legacyId !== postId) {
+                formData.append('legacy_id', legacyId);
+            }
 
             const response = await fetch(API_URL, {
                 method: 'POST',

@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/CES.webp";
 
-const GlobalInnovationForumCES = ({ dynamicRecentPosts }) => {
+const GlobalInnovationForumCES = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -56,6 +56,8 @@ const GlobalInnovationForumCES = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="Global Innovation Forum at CES 2026 Redefines Startup Networking Through Country‑Led Collaboration"
       image={heroImage}

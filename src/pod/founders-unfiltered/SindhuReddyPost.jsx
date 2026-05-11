@@ -3,7 +3,7 @@ import PodLayout from "../../components/PodLayout";
 import sampleImage from "../../assets/founders-unfiltered/sindu.png";
 import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 
-const SindhuReddyPost = ({ dynamicRecentPosts }) => {
+const SindhuReddyPost = ({ dynamicRecentPosts, postId }) => {
   const content = (
     <>
       <h2>
@@ -293,6 +293,7 @@ const SindhuReddyPost = ({ dynamicRecentPosts }) => {
 
   return (
     <PodLayout
+      postId={postId}
       category="Founder's Unfiltered"
       title="Sindhu Reddy on Powering a Greener Future: Zenith Energy and the Road to Net Zero"
       image={sampleImage}

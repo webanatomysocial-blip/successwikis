@@ -2,7 +2,7 @@ import React from "react";
 import BlogLayout from "../components/BlogLayout";
 import heroImage from "/assets/success-wire/RBI.webp";
 
-const RBIBorrowingCosts = ({ dynamicRecentPosts }) => {
+const RBIBorrowingCosts = ({ dynamicRecentPosts, date, postId }) => {
   const content = (
     <>
       <p className="lead-text">
@@ -41,6 +41,8 @@ const RBIBorrowingCosts = ({ dynamicRecentPosts }) => {
 
   return (
     <BlogLayout
+      date={date}
+      postId={postId}
       category="Success Wire"
       title="RBI Keeps Borrowing Costs Steady, Signals Stronger Growth Ahead"
       image={heroImage}

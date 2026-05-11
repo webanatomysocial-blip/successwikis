@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/When-the-World-Tightens.jpeg';
 
-const WorldTightens = ({ dynamicRecentPosts }) => {
+const WorldTightens = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -45,7 +45,9 @@ const WorldTightens = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="When the World Tightens, India's Tech Founders Step Up"
             image={heroImage}

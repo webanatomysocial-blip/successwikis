@@ -3,7 +3,7 @@ import PodLayout from "../../components/PodLayout";
 import sampleImage from "../../assets/The-stage-behind-the-story/venkat.webp";
 import sponsoredImage from "../../assets/Sponsored/sponsored-image.jpg";
 
-const NexGenSoftwarePost = ({ dynamicRecentPosts }) => {
+const NexGenSoftwarePost = ({ dynamicRecentPosts, postId }) => {
   const content = (
     <>
       <div 
@@ -132,6 +132,7 @@ const NexGenSoftwarePost = ({ dynamicRecentPosts }) => {
 
   return (
     <PodLayout
+      postId={postId}
       category="The stage behind the story"
       title="Venkat’s Journey: Building NexGen Software Solutions on Transparency and Trust"
       image={sampleImage}

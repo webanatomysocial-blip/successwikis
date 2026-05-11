@@ -2,7 +2,7 @@ import React from 'react';
 import BlogLayout from '../components/BlogLayout';
 import heroImage from '../assets/success-wire/Zoho.jpeg';
 
-const ZohoArattai = ({ dynamicRecentPosts }) => {
+const ZohoArattai = ({ dynamicRecentPosts, date, postId }) => {
     const content = (
         <>
             <p className="lead-text">
@@ -43,7 +43,9 @@ const ZohoArattai = ({ dynamicRecentPosts }) => {
     ];
 
     return (
-        <BlogLayout 
+        <BlogLayout
+      date={date}
+      postId={postId} 
             category="Success Wire"
             title="Zoho's Arattai Surge: Messaging Moment or Mirage?"
             image={heroImage}
