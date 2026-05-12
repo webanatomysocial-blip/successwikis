@@ -17,7 +17,7 @@ import sponsoredDefault from '../assets/Sponsored/sponsored-image.jpg';
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-const EventLayout = ({ category, title, content, image, sponsoredImage }) => {
+const EventLayout = ({ category, title, content, image, sponsoredImage, date }) => {
     const progressBarRef = useRef(null);
     const headerRef = useRef(null);
     const location = useLocation();
@@ -50,6 +50,11 @@ const EventLayout = ({ category, title, content, image, sponsoredImage }) => {
                     <div className="pod-split-header">
                         <div className="pod-title-section">
                             <h1 className='head-text'>{title}</h1>
+                            {date && (
+                                <p style={{ marginTop: '15px', color: '#666', fontSize: '1.1rem', fontWeight: '500' }}>
+                                    SW Editorial Team • {date}
+                                </p>
+                            )}
                         </div>
                         <div className="pod-hero-img-container">
                             <img src={image} alt={title} />
@@ -63,6 +68,11 @@ const EventLayout = ({ category, title, content, image, sponsoredImage }) => {
                         <div className="pod-header-content">
                             <div className="pod-header-title">
                                 {category} <span style={{ margin: '0 10px', color: '#ccc' }}>|</span> {title}
+                                {date && (
+                                    <>
+                                        <span style={{ margin: '0 10px', color: '#ccc' }}>|</span> SW Editorial Team • {date}
+                                    </>
+                                )}
                             </div>
                             <div className="pod-header-actions">
                                 <div className="social-icons-header">

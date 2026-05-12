@@ -152,6 +152,7 @@ export default function DynamicEvent() {
           category="Event"
           title={dbPost.title}
           image={dbPost.image_url}
+          date={dbPost.published_date ? new Date(dbPost.published_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : undefined}
           content={
             <>
               {renderYouTube(dbPost.youtube_link)}

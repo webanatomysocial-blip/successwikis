@@ -93,7 +93,7 @@ export const podMetadata = [
         image: shyamImg,
         category: "The Stage Behind the Story",
         categorySlug: "stage-behind-the-story",
-        date: "2026-04-16"
+        date: "2026-04-15"
     },
     {
         id: "KrithikaRoyPost",

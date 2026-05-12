@@ -60,7 +60,7 @@ const BlogLayout = ({
               <h1 className="head-text">{title}</h1>
               {date && (
                 <p style={{ marginTop: '15px', color: '#666', fontSize: '1.1rem', fontWeight: '500' }}>
-                  {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  SW Editorial Team • {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </p>
               )}
             </div>
@@ -81,7 +81,7 @@ const BlogLayout = ({
                 {date && (
                   <>
                     <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
-                    {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    SW Editorial Team • {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                   </>
                 )}
               </div>

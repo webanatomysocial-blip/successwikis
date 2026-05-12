@@ -101,7 +101,7 @@ const PodLayout = ({
                     fontWeight: "500",
                   }}
                 >
-                  {formattedDate}
+                  SW Editorial Team • {formattedDate}
                 </p>
               )}
             </div>
@@ -122,7 +122,7 @@ const PodLayout = ({
                 {formattedDate && (
                   <>
                     <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
-                    {formattedDate}
+                    SW Editorial Team • {formattedDate}
                   </>
                 )}
               </div>

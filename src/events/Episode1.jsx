@@ -89,6 +89,7 @@ const Episode1 = () => {
       category="Founder Meet"
       title="Episode-1"
       image={posterImg}
+      date="September 6, 2025"
       content={content}
     />
   );

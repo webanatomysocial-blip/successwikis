@@ -206,6 +206,15 @@ $podMetadata = [
         "category" => "The stage behind the story",
     ],
     [
+        "id" => "SampathKumarCharandasPost",
+        "title" => "Sampath Kumar Charandas: Navigating Real Estate with Precision",
+        "slug" => "sampath-kumar-charandas-nandaka-asset-advisory",
+        "categorySlug" => "stage-behind-the-story",
+        "metaDescription" => "Sampath Kumar Charandas shares how his hospitality and legal background shaped Nandaka Asset Advisory, focusing on transparency and long-term value in real estate.",
+        "image" => "/assets/The-stage-behind-the-story/sampath.jpeg",
+        "category" => "The stage behind the story",
+    ],
+    [
         "id" => "YagnakumarMallavarapuPost",
         "title" => "Yagnakumar Mallavarapu: Building Order Out of Chaos",
         "slug" => "yagnakumar-mallavarapu-yagnexor",
