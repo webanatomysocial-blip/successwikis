@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FiLinkedin, FiInstagram, FiArrowLeft } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../css/blog-post.css";
-
-import { FiFacebook, FiLinkedin } from "react-icons/fi";
 import ShareButton from "./ShareButton";
+import AudioReader from "./AudioReader";
 
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -20,8 +20,23 @@ const PodLayout = ({
 }) => {
   const progressBarRef = useRef(null);
   const headerRef = useRef(null);
+  const contentBodyRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
+
+  const handleShare = () => {
+    const shareData = {
+      title: title,
+      url: currentUrl,
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch((err) => console.log("Error sharing", err));
+    } else {
+      navigator.clipboard.writeText(currentUrl);
+      alert("Link copied to clipboard!");
+    }
+  };
 
   useEffect(() => {
     // Update currentUrl whenever location changes
@@ -58,17 +73,14 @@ const PodLayout = ({
           <div className="pod-header-actions">
             {/* Social Icons Placeholders */}
             <div className="social-icons-header">
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                  currentUrl
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Share on Facebook"
+              <button
+                onClick={handleShare}
+                aria-label="Share"
                 className="social-link-header"
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
               >
-                <FiFacebook size={24} />
-              </a>
+                <FiInstagram size={24} />
+              </button>
               <a
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
                   currentUrl
@@ -81,6 +93,7 @@ const PodLayout = ({
                 <FiLinkedin size={24} />
               </a>
             </div>
+            <AudioReader contentRef={contentBodyRef} title={title} />
             <ShareButton url={currentUrl} title={title} />
           </div>
         </div>
@@ -91,6 +104,10 @@ const PodLayout = ({
       <div className="pod-container">
         {/* Main Content */}
         <div className="pod-main-content">
+          <button onClick={() => navigate(-1)} className="go-back-btn">
+            <FiArrowLeft size={20} />
+            Go Back
+          </button>
           {/* Split Header: Title Left, Image Right */}
           <div className="pod-split-header">
             <div className="pod-title-section">
@@ -101,7 +118,7 @@ const PodLayout = ({
             </div>
           </div>
 
-          <div className="pod-body">{content}</div>
+          <div className="pod-body" ref={contentBodyRef}>{content}</div>
         </div>
 
         {/* Sticky Sidebar */}

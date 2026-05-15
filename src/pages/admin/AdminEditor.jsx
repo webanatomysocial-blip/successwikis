@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import "../../css/admin.css";
 
 export default function AdminEditor() {
   const { id } = useParams();
@@ -13,11 +14,13 @@ export default function AdminEditor() {
     slug: "",
     category: "",
     excerpt: "",
+    meta_description: "",
     content: "",
     youtube_link: "",
     image_url: "",
     published_date: new Date().toISOString().split("T")[0],
-    is_published: 0, // Default to Draft
+    is_published: 0,
+    initial_likes: 0,
   });
 
   const [uploading, setUploading] = useState(false);
@@ -37,12 +40,13 @@ export default function AdminEditor() {
           const apiBaseURL =
             import.meta.env.VITE_API_URL ||
             (import.meta.env.PROD ? "" : "http://localhost:8000");
-          const res = await fetch(`${apiBaseURL}/api/posts.php`, {
-            credentials: "include",
-          });
+          const res = await fetch(
+            `${apiBaseURL}/api/posts.php?post_id=${id}&include_drafts=true`,
+            { credentials: "include" }
+          );
           const data = await res.json();
           if (data.status === "success") {
-            const post = data.data.find((p) => p.id === parseInt(id));
+            const post = data.data;
             if (post) {
               setFormData({
                 post_type: post.post_type,
@@ -57,7 +61,8 @@ export default function AdminEditor() {
                 published_date: post.published_date
                   ? post.published_date.split(" ")[0]
                   : "",
-                is_published: post.is_published,
+                is_published: parseInt(post.is_published),
+                initial_likes: post.initial_likes || 0,
               });
             }
           }
@@ -119,17 +124,16 @@ export default function AdminEditor() {
       const data = await res.json();
       if (data.status === "success") {
         alert("Post saved successfully!");
-        // If it's a new post, we might want to refresh to get the ID or stay on page
         if (!id && data.id) {
           navigate(`/admin/editor/${data.id}`);
         } else {
-          // Just refresh data
           const loadPost = async () => {
             const apiBaseURL =
               import.meta.env.VITE_API_URL ||
               (import.meta.env.PROD ? "" : "http://localhost:8000");
             const res = await fetch(
-              `${apiBaseURL}/api/posts.php?slug=${formData.slug}`,
+              `${apiBaseURL}/api/posts.php?post_id=${id}&include_drafts=true`,
+              { credentials: "include" }
             );
             const data = await res.json();
             if (data.status === "success") {
@@ -153,16 +157,10 @@ export default function AdminEditor() {
   if (!authorized) return null;
 
   return (
-    <div style={{ padding: "100px 20px", maxWidth: "800px", margin: "0 auto" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+    <div className="admin-page">
+      <div className="admin-header">
         <h1>{id ? "Edit Post" : "Create New Post"}</h1>
-        <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+        <div className="admin-header-actions">
           {id && (
             <a
               href={(() => {
@@ -186,42 +184,30 @@ export default function AdminEditor() {
               })()}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#28a745", fontWeight: "bold" }}
+              className="admin-preview-link"
             >
               View Preview Link
             </a>
           )}
-          <Link
-            to="/admin/dashboard"
-            style={{ textDecoration: "none", color: "blue" }}
-          >
+          <Link to="/admin/dashboard" className="admin-btn-link">
             Back to Dashboard
           </Link>
         </div>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
-          marginTop: "20px",
-        }}
-      >
-        <div style={{ display: "flex", gap: "10px" }}>
-          <div style={{ flex: 1 }}>
-            <label>Post Type</label>
+      <form onSubmit={handleSubmit} className="admin-form">
+        <div className="admin-input-group">
+          <div>
+            <label className="admin-label">Post Type</label>
             <select
               value={formData.post_type}
               onChange={(e) =>
-                setFormData({ ...formData, post_type: e.target.value })
+                setFormData((prev) => ({ ...prev, post_type: e.target.value }))
               }
-              style={{ width: "100%", padding: "10px" }}
+              className="admin-select"
             >
               <option value="blog">Blog</option>
               <option value="event">Event</option>
-              <option value="pod">Pod</option>
               <option value="success_lens">Success Lens</option>
               <option value="driven_by_purpose">Driven By Purpose</option>
               <option value="founders_unfiltered">Founders-Unfiltered</option>
@@ -230,30 +216,29 @@ export default function AdminEditor() {
               </option>
             </select>
           </div>
-          <div style={{ flex: 1 }}>
-            <label>Category (Optional)</label>
+          <div>
+            <label className="admin-label">Category (Optional)</label>
             <input
               type="text"
               value={formData.category}
               onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
+                setFormData((prev) => ({ ...prev, category: e.target.value }))
               }
-              style={{ width: "100%", padding: "10px" }}
+              className="admin-input"
             />
           </div>
-          <div style={{ flex: 1 }}>
-            <label>Publication Status</label>
+          <div>
+            <label className="admin-label">Publication Status</label>
             <select
               value={formData.is_published}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
+                setFormData((prev) => ({
+                  ...prev,
                   is_published: parseInt(e.target.value),
-                })
+                }))
               }
+              className="admin-select"
               style={{
-                width: "100%",
-                padding: "10px",
                 background: formData.is_published === 1 ? "#e6fffa" : "#fff5f5",
                 color: formData.is_published === 1 ? "#2c7a7b" : "#c53030",
                 fontWeight: "bold",
@@ -263,84 +248,105 @@ export default function AdminEditor() {
               <option value={1}>LIVE (Public on site)</option>
             </select>
           </div>
+          <div>
+            <label className="admin-label">Initial Likes Count</label>
+            <input
+              type="number"
+              value={formData.initial_likes}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  initial_likes: parseInt(e.target.value) || 0,
+                }))
+              }
+              className="admin-input"
+              min="0"
+            />
+          </div>
         </div>
 
-        <label>Title</label>
+        <label className="admin-label">Title</label>
         <input
           type="text"
           value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, title: e.target.value }))
+          }
           required
-          style={{ padding: "10px" }}
+          className="admin-input"
         />
 
-        <label>Slug (URL) - auto-generated if empty</label>
+        <label className="admin-label">Slug (URL) - auto-generated if empty</label>
         <input
           type="text"
           value={formData.slug}
-          onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-          style={{ padding: "10px" }}
+          onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
+          className="admin-input"
         />
 
-        <label>Excerpt / Short Description</label>
+        <label className="admin-label">Excerpt / Short Description</label>
         <textarea
           value={formData.excerpt}
           onChange={(e) =>
-            setFormData({ ...formData, excerpt: e.target.value })
+            setFormData((prev) => ({ ...prev, excerpt: e.target.value }))
           }
-          style={{ padding: "10px", height: "60px" }}
+          className="admin-textarea"
         />
 
-        <label>SEO Meta Description</label>
+        <label className="admin-label">SEO Meta Description</label>
         <textarea
           value={formData.meta_description}
           onChange={(e) =>
-            setFormData({ ...formData, meta_description: e.target.value })
+            setFormData((prev) => ({ ...prev, meta_description: e.target.value }))
           }
-          style={{ padding: "10px", height: "60px" }}
+          className="admin-textarea"
           placeholder="Brief description for search engines..."
         />
 
-        <label>Featured Image Upload</label>
+        <label className="admin-label">Featured Image Upload</label>
         {formData.image_url && (
-          <div style={{ marginBottom: "10px" }}>
+          <div className="admin-image-preview">
             <p>Current Image:</p>
             <img
               src={formData.image_url}
               alt="Preview"
-              style={{ maxHeight: "150px", objectFit: "contain" }}
+              className="admin-image-preview-img"
             />
           </div>
         )}
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         {uploading && <span>Uploading...</span>}
 
-        <label>YouTube Link (Optional)</label>
+        <label className="admin-label">YouTube Link (Optional)</label>
         <input
           type="url"
           value={formData.youtube_link}
           onChange={(e) =>
-            setFormData({ ...formData, youtube_link: e.target.value })
+            setFormData((prev) => ({ ...prev, youtube_link: e.target.value }))
           }
           placeholder="https://www.youtube.com/watch?v=..."
-          style={{ padding: "10px" }}
+          className="admin-input"
         />
 
-        <label>Content</label>
-        <div style={{ background: "#fff", color: "#000" }}>
+        <label className="admin-label">Content</label>
+        <div className="admin-quill-wrapper">
           <ReactQuill
             value={formData.content}
-            onChange={(val) => setFormData({ ...formData, content: val || "" })}
+            onChange={(val) =>
+              setFormData((prev) => ({ ...prev, content: val || "" }))
+            }
             theme="snow"
-            style={{ height: "350px", marginBottom: "50px" }}
+            className="admin-quill-editor"
           />
         </div>
 
-        <label style={{ marginTop: "10px" }}>Insert Image Into Content</label>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <span style={{ fontSize: "13px", color: "#666" }}>
-            Upload an image here and it will seamlessly insert into your
-            markdown content above.
+        <label className="admin-label">
+          Insert Image Into Content
+        </label>
+        <div className="admin-content-image-upload">
+          <span className="admin-help-text">
+            Upload an image here and it will seamlessly insert into your content
+            above.
           </span>
           <input
             type="file"
@@ -362,7 +368,7 @@ export default function AdminEditor() {
                     method: "POST",
                     credentials: "include",
                     body: imgData,
-                  },
+                  }
                 );
                 const data = await res.json();
                 if (data.status === "success") {
@@ -378,23 +384,13 @@ export default function AdminEditor() {
                 console.error(err);
                 alert("Upload error");
               } finally {
-                e.target.value = null; // reset input
+                e.target.value = null;
               }
             }}
           />
         </div>
 
-        <button
-          type="submit"
-          style={{
-            padding: "15px",
-            background: "#28a745",
-            color: "#fff",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
-        >
+        <button type="submit" className="admin-btn admin-btn-primary">
           {id ? "Update Post" : "Submit Post"}
         </button>
       </form>

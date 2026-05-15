@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FiLinkedin, FiInstagram, FiArrowLeft } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../css/blog-post.css";
 import carbonBadge from "../assets/carbon-footer.png";
 import whiteLogo from "../assets/logo-white.png";
 
-// Import specific icons from react-icons
-import { FiFacebook, FiLinkedin } from "react-icons/fi";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import GetFeaturedWidget from "./GetFeaturedWidget";
 import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
 import Footer from "./Footer";
+import AudioReader from "./AudioReader";
 
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -28,8 +28,23 @@ const BlogLayout = ({
 }) => {
   const progressBarRef = useRef(null);
   const headerRef = useRef(null);
+  const contentBodyRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
+
+  const handleShare = () => {
+    const shareData = {
+      title: title,
+      url: currentUrl,
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch((err) => console.log("Error sharing", err));
+    } else {
+      navigator.clipboard.writeText(currentUrl);
+      alert("Link copied to clipboard!");
+    }
+  };
 
   useEffect(() => {
     // Update currentUrl whenever location changes
@@ -55,6 +70,10 @@ const BlogLayout = ({
       <div className="pod-post-page">
         {/* Hero Section */}
         <div className="pod-hero-section">
+          <button onClick={() => navigate(-1)} className="go-back-btn">
+            <FiArrowLeft size={20} />
+            Go Back
+          </button>
           <div className="pod-split-header">
             <div className="pod-title-section">
               <h1 className="head-text">{title}</h1>
@@ -78,24 +97,18 @@ const BlogLayout = ({
                 {category}{" "}
                 <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
                 {title}
-                {date && (
-                  <>
-                    <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
-                    SW Editorial Team • {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </>
-                )}
+
               </div>
               <div className="pod-header-actions">
                 <div className="social-icons-header">
-                  <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Share on Facebook"
+                  <button
+                    onClick={handleShare}
+                    aria-label="Share"
                     className="social-link-header"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                   >
-                    <FiFacebook size={24} />
-                  </a>
+                    <FiInstagram size={24} />
+                  </button>
                   <a
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
                     target="_blank"
@@ -106,6 +119,7 @@ const BlogLayout = ({
                     <FiLinkedin size={24} />
                   </a>
                 </div>
+                <AudioReader contentRef={contentBodyRef} title={title} />
                 <LikeButton postId={postId || title} legacyId={title} />
                 <ShareButton url={currentUrl} title={title} />
               </div>
@@ -130,7 +144,7 @@ const BlogLayout = ({
           </aside>
 
           <div className="pod-main-content">
-            <div className="pod-body">{content}</div>
+            <div className="pod-body" ref={contentBodyRef}>{content}</div>
           </div>
 
           <aside className="pod-sidebar-right">

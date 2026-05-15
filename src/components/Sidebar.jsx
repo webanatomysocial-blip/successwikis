@@ -13,6 +13,10 @@ const Sidebar = () => {
     <aside className="sidebar-container">
       <nav className="sidebar-nav">
         <ul className="sidebar-menu">
+      
+          <li>
+            <Link to="/blogs">Blogs</Link>
+          </li>
           <li>
             <Link to="/about">About Us</Link>
           </li>

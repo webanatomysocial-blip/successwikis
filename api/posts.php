@@ -22,12 +22,31 @@ function check_admin_auth() {
     }
 }
 
+function boost_likes($pdo, $post_id, $target) {
+    if (!$post_id) return;
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM likes WHERE post_id = ?");
+    $stmt->execute([$post_id]);
+    $current = (int)$stmt->fetchColumn();
+    
+    if ($current < $target) {
+        $needed = $target - $current;
+        for ($i = 0; $i < $needed; $i++) {
+            $ip = rand(10, 250) . '.' . rand(10, 250) . '.' . rand(10, 250) . '.' . rand(10, 250);
+            try {
+                $stmt = $pdo->prepare("INSERT INTO likes (post_id, ip_address) VALUES (?, ?)");
+                $stmt->execute([$post_id, $ip]);
+            } catch (PDOException $e) {}
+        }
+    }
+}
+
 switch ($method) {
     case 'GET':
         // Get posts
         // Example: /api/posts.php?type=blog
         $type = $_GET['type'] ?? null;
         $slug = $_GET['slug'] ?? null;
+        $post_id = $_GET['post_id'] ?? null;
         $include_drafts = isset($_GET['include_drafts']) && $_GET['include_drafts'] === 'true';
         
         // Helper to check admin status without exiting
@@ -42,7 +61,7 @@ switch ($method) {
         try {
             if ($slug) {
                 // Get single post by slug (Allow viewing drafts for preview links)
-                $stmt = $pdo->prepare("SELECT * FROM posts WHERE slug = ?");
+                $stmt = $pdo->prepare("SELECT p.*, (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.slug OR l.post_id = p.title) as likes_count FROM posts p WHERE p.slug = ?");
                 $stmt->execute([$slug]);
                 $post = $stmt->fetch(PDO::FETCH_ASSOC);
                 
@@ -52,8 +71,20 @@ switch ($method) {
                     http_response_code(404);
                     echo json_encode(['status' => 'error', 'message' => 'Post not found']);
                 }
+            } elseif ($post_id) {
+                // Get single post by numeric ID — used by admin editor (drafts always returned)
+                $stmt = $pdo->prepare("SELECT p.*, (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.slug OR l.post_id = p.title) as likes_count FROM posts p WHERE p.id = ?");
+                $stmt->execute([(int)$post_id]);
+                $post = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($post) {
+                    echo json_encode(['status' => 'success', 'data' => $post]);
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['status' => 'error', 'message' => 'Post not found']);
+                }
             } else {
-                $query = "SELECT * FROM posts WHERE 1=1";
+                $query = "SELECT p.*, (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.slug OR l.post_id = p.title) as likes_count FROM posts p WHERE 1=1";
                 $params = [];
 
                 if ($type) {
@@ -94,6 +125,7 @@ switch ($method) {
         $category = $input['category'] ?? '';
         $published_date = $input['published_date'] ?? date('Y-m-d H:i:s');
         $is_published = $input['is_published'] ?? 1;
+        $initial_likes = (int)($input['initial_likes'] ?? 0);
 
         if (empty($title) || empty($post_type)) {
             http_response_code(400);
@@ -108,10 +140,16 @@ switch ($method) {
         }
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO posts (post_type, title, slug, meta_description, excerpt, content, youtube_link, image_url, category, published_date, is_published) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published]);
+            $stmt = $pdo->prepare("INSERT INTO posts (post_type, title, slug, meta_description, excerpt, content, youtube_link, image_url, category, published_date, is_published, initial_likes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $initial_likes]);
             
             $post_id = $pdo->lastInsertId();
+
+            if ($initial_likes > 0) {
+                // Seed likes using the slug since frontend uses slug for likes
+                boost_likes($pdo, $slug, $initial_likes);
+            }
+
             echo json_encode(['status' => 'success', 'message' => 'Post created successfully', 'id' => $post_id]);
         } catch (PDOException $e) {
             http_response_code(500);
@@ -141,11 +179,16 @@ switch ($method) {
         $category = $input['category'] ?? '';
         $published_date = $input['published_date'] ?? null;
         $is_published = $input['is_published'] ?? 1;
+        $initial_likes = isset($input['initial_likes']) ? (int)$input['initial_likes'] : null;
 
         try {
-            $stmt = $pdo->prepare("UPDATE posts SET post_type=?, title=?, slug=?, meta_description=?, excerpt=?, content=?, youtube_link=?, image_url=?, category=?, published_date=COALESCE(?, published_date), is_published=?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
-            $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $id]);
+            $stmt = $pdo->prepare("UPDATE posts SET post_type=?, title=?, slug=?, meta_description=?, excerpt=?, content=?, youtube_link=?, image_url=?, category=?, published_date=COALESCE(?, published_date), is_published=?, initial_likes=COALESCE(?, initial_likes), updated_at=CURRENT_TIMESTAMP WHERE id=?");
+            $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $initial_likes, $id]);
             
+            if ($initial_likes !== null && $initial_likes > 0) {
+                boost_likes($pdo, $slug, $initial_likes);
+            }
+
             echo json_encode(['status' => 'success', 'message' => 'Post updated successfully']);
         } catch (PDOException $e) {
             http_response_code(500);

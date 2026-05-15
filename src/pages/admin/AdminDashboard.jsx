@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../../css/admin.css';
 
 export default function AdminDashboard() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState('all');
     const navigate = useNavigate();
     const token = localStorage.getItem('admin_token');
 
-    if (!token) {
-        navigate('/admin');
-    }
+    const tabs = [
+        { id: 'all', label: 'All Posts' },
+        { id: 'blog', label: 'Blogs' },
+        { id: 'event', label: 'Events' },
+        { id: 'success_lens', label: 'Success Lens' },
+        { id: 'driven_by_purpose', label: 'Driven By Purpose' },
+        { id: 'founders_unfiltered', label: 'Founders Unfiltered' },
+        { id: 'stage_behind_story', label: 'Stage Behind Story' },
+    ];
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/admin');
+        }
+    }, [token, navigate]);
 
     const handleLogout = () => {
         localStorage.removeItem('admin_token');
@@ -53,59 +67,92 @@ export default function AdminDashboard() {
         }
     };
 
+    const filteredPosts = activeTab === 'all' 
+        ? posts 
+        : posts.filter(post => post.post_type === activeTab);
+
     return (
-        <div style={{ padding: '100px 20px', maxWidth: '1000px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="admin-page">
+            <div className="admin-header">
                 <h1>Admin Dashboard</h1>
-                <div>
-                    <Link to="/admin/editor" style={{ padding: '10px 20px', background: '#007BFF', color: '#fff', textDecoration: 'none', borderRadius: '5px', marginRight: '10px' }}>Create New Post</Link>
-                    <button onClick={handleLogout} style={{ padding: '10px 20px', background: '#dc3545', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Logout</button>
+                <div className="admin-header-actions">
+                    <Link to="/admin/editor" className="admin-btn admin-btn-primary">+ Create New Post</Link>
+                    <button onClick={handleLogout} className="admin-btn admin-btn-danger">Logout</button>
                 </div>
+            </div>
+
+            {/* Tabs Navigation */}
+            <div className="admin-tabs">
+                {tabs.map(tab => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`admin-tab ${activeTab === tab.id ? 'admin-tab-active' : ''}`}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
             </div>
             
             {loading ? <p>Loading posts...</p> : (
-                <table style={{ width: '100%', marginTop: '20px', borderCollapse: 'collapse' }}>
-                    <thead>
-                        <tr style={{ background: '#f4f4f4', textAlign: 'left' }}>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Title</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Type</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Status</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Date</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {posts.map(post => (
-                            <tr key={post.id}>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{post.title}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd', textTransform: 'capitalize' }}>{post.post_type.replace(/_/g, ' ')}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>
-                                    <span style={{ 
-                                        padding: '4px 8px', 
-                                        borderRadius: '4px', 
-                                        fontSize: '12px', 
-                                        fontWeight: 'bold',
-                                        background: parseInt(post.is_published) === 1 ? '#e6fffa' : '#fff5f5',
-                                        color: parseInt(post.is_published) === 1 ? '#2c7a7b' : '#c53030',
-                                        border: `1px solid ${parseInt(post.is_published) === 1 ? '#81e6d9' : '#feb2b2'}`
-                                    }}>
-                                        {parseInt(post.is_published) === 1 ? 'LIVE' : 'DRAFT'}
-                                    </span>
-                                </td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{post.published_date}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>
-                                    <Link to={`/admin/editor/${post.id}`} style={{ marginRight: '10px', color: 'blue' }}>Edit</Link>
-                                    <button onClick={() => handleDelete(post.id)} style={{ color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                        {posts.length === 0 && (
+                <div className="admin-card">
+                    <table className="admin-table">
+                        <thead>
                             <tr>
-                                <td colSpan="5" style={{ padding: '10px', textAlign: 'center', border: '1px solid #ddd' }}>No posts found.</td>
+                                <th>Image</th>
+                                <th>Title</th>
+                                {activeTab === 'all' && <th>Type</th>}
+                                <th style={{ textAlign: 'center' }}>Likes</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th style={{ textAlign: 'right' }}>Actions</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredPosts.map(post => (
+                                <tr key={post.id}>
+                                    <td>
+                                        {post.image_url ? (
+                                            <img src={post.image_url} alt="Preview" className="admin-img-preview" />
+                                        ) : (
+                                            <div className="admin-img-placeholder">No Img</div>
+                                        )}
+                                    </td>
+                                    <td style={{ fontWeight: '500' }}>{post.title}</td>
+                                    {activeTab === 'all' && (
+                                        <td>
+                                            <span style={{ fontSize: '12px', background: '#f0f0f0', padding: '4px 8px', borderRadius: '4px', textTransform: 'capitalize' }}>
+                                                {post.post_type.replace(/_/g, ' ')}
+                                            </span>
+                                        </td>
+                                    )}
+                                    <td className="admin-likes-count">
+                                        {post.likes_count || 0}
+                                    </td>
+                                    <td>
+                                        <span className={`admin-status-badge ${parseInt(post.is_published) === 1 ? 'admin-status-live' : 'admin-status-draft'}`}>
+                                            {parseInt(post.is_published) === 1 ? '• LIVE' : '• DRAFT'}
+                                        </span>
+                                    </td>
+                                    <td style={{ color: '#666', fontSize: '13px' }}>
+                                        {new Date(post.published_date).toLocaleDateString()}
+                                    </td>
+                                    <td style={{ textAlign: 'right' }}>
+                                        <Link to={`/admin/editor/${post.id}`} className="admin-btn-link" style={{ marginRight: '15px' }}>Edit</Link>
+                                        <button onClick={() => handleDelete(post.id)} className="admin-btn-link admin-btn-link-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                            {filteredPosts.length === 0 && (
+                                <tr>
+                                    <td colSpan={activeTab === 'all' ? "7" : "6"} style={{ padding: '40px', textAlign: 'center', color: '#999' }}>
+                                        No posts found in this category.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FiLinkedin, FiInstagram, FiArrowLeft } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { podMetadata } from "../pod/metadata.js";
@@ -7,7 +8,6 @@ import { blogMetadata } from "../blogs/metadata.js";
 import "../css/blog-post.css";
 
 // Import specific icons from react-icons
-import { FiFacebook, FiLinkedin, FiInstagram } from "react-icons/fi";
 import { RiLinkedinFill, RiInstagramFill } from "react-icons/ri"; // Filled versions (optional)
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa"; // Alternative popular ones
 
@@ -19,6 +19,7 @@ import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
 import CommentSection from "./CommentSection";
 import Footer from "./Footer";
+import AudioReader from "./AudioReader";
 import "../css/interactive.css";
 
 const PodLayout = ({
@@ -33,7 +34,9 @@ const PodLayout = ({
 }) => {
   const progressBarRef = useRef(null);
   const headerRef = useRef(null);
+  const contentBodyRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
 
   // Helper to format date safely
@@ -65,6 +68,19 @@ const PodLayout = ({
       return meta ? formatDate(meta.date) : null;
     })();
 
+  const handleShare = () => {
+    const shareData = {
+      title: title,
+      url: currentUrl,
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch((err) => console.log("Error sharing", err));
+    } else {
+      navigator.clipboard.writeText(currentUrl);
+      alert("Link copied to clipboard!");
+    }
+  };
+
   useEffect(() => {
     // Update currentUrl whenever location changes
     setCurrentUrl(window.location.href);
@@ -89,6 +105,10 @@ const PodLayout = ({
       <div className="pod-post-page">
         {/* Hero Section */}
         <div className="pod-hero-section">
+          <button onClick={() => navigate(-1)} className="go-back-btn">
+            <FiArrowLeft size={20} />
+            Go Back
+          </button>
           <div className="pod-split-header">
             <div className="pod-title-section">
               <h1 className="head-text">{title}</h1>
@@ -119,26 +139,18 @@ const PodLayout = ({
                 {category}{" "}
                 <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
                 {title}
-                {formattedDate && (
-                  <>
-                    <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>{" "}
-                    SW Editorial Team • {formattedDate}
-                  </>
-                )}
+
               </div>
               <div className="pod-header-actions">
                 <div className="social-icons-header">
-                  <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                      currentUrl,
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Share on Facebook"
+                  <button
+                    onClick={handleShare}
+                    aria-label="Share"
                     className="social-link-header"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                   >
-                    <FiFacebook size={24} />
-                  </a>
+                    <FiInstagram size={24} />
+                  </button>
                   <a
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
                       currentUrl,
@@ -151,6 +163,7 @@ const PodLayout = ({
                     <FiLinkedin size={24} />
                   </a>
                 </div>
+                <AudioReader contentRef={contentBodyRef} title={title} />
                 <LikeButton postId={postId || title} legacyId={title} />
                 <ShareButton url={currentUrl} title={title} />
               </div>
@@ -175,7 +188,7 @@ const PodLayout = ({
           </aside>
 
           <div className="pod-main-content">
-            <div className="pod-body">{content}</div>
+            <div className="pod-body" ref={contentBodyRef}>{content}</div>
           </div>
 
           <aside className="pod-sidebar-right">

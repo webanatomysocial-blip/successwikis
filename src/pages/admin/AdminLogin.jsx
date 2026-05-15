@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../css/admin.css';
 
 export default function AdminLogin() {
     const [username, setUsername] = useState('');
@@ -35,17 +36,17 @@ export default function AdminLogin() {
     };
 
     return (
-        <div style={{ padding: '100px 20px', maxWidth: '400px', margin: '0 auto', textAlign: 'center' }}>
+        <div className="admin-page admin-login-page">
             <h1>Admin Login</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            {error && <p className="admin-error-msg">{error}</p>}
+            <form onSubmit={handleLogin} className="admin-form">
                 <input 
                     type="text" 
                     placeholder="Username" 
                     value={username} 
                     onChange={e => setUsername(e.target.value)} 
                     required 
-                    style={{ padding: '10px', fontSize: '16px' }}
+                    className="admin-input"
                 />
                 <input 
                     type="password" 
@@ -53,9 +54,9 @@ export default function AdminLogin() {
                     value={password} 
                     onChange={e => setPassword(e.target.value)} 
                     required 
-                    style={{ padding: '10px', fontSize: '16px' }}
+                    className="admin-input"
                 />
-                <button type="submit" style={{ padding: '10px', fontSize: '16px', cursor: 'pointer', background: '#333', color: '#fff', border: 'none' }}>
+                <button type="submit" className="admin-btn admin-btn-secondary">
                     Login
                 </button>
             </form>

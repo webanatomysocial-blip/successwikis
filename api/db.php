@@ -126,4 +126,10 @@ try {
 } catch (PDOException $e) {
     // Ignore column already exists error
 }
+
+try {
+    $pdo->exec("ALTER TABLE posts ADD COLUMN initial_likes INTEGER DEFAULT 0");
+} catch (PDOException $e) {
+    // Ignore column already exists error
+}
 ?>

@@ -70,6 +70,8 @@
   font-weight: 600;
   color: #000;
   text-transform: uppercase;
+  text-align: center;
+  line-height: 1.4;
 }
 
 .pod-header-actions {
@@ -550,12 +552,9 @@
     flex-direction: column;
   }
   .pod-header-title {
-    font-size: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 11px;
+    text-align: center;
+    max-width: 90vw;
   }
   .pod-hero-section {
     padding: 100px 20px 40px 20px;
@@ -606,4 +605,32 @@
 
 .pod-external-link:hover {
   opacity: 0.8;
+}
+
+/* Go Back Button */
+.go-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0;
+  margin-bottom: 30px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.go-back-btn:hover {
+  color: #000;
+  transform: translateX(-4px);
+}
+
+@media (max-width: 900px) {
+  .go-back-btn {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
 }

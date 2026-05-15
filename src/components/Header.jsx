@@ -38,11 +38,8 @@ const Header = ({ onSearch }) => {
         </div>
 
         <nav className="header-nav only-windows">
-          <Link to="/ads" className="nav-link">
-            Ads
-          </Link>
-          <Link to="/blogs" className="nav-link">
-            Blogs
+          <Link to="/" className="nav-link">
+            Stories
           </Link>
           <Link to="/success-wire" className="nav-link">
             Success Wire

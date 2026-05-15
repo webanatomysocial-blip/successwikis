@@ -75,12 +75,14 @@ const Layout = ({ children }) => {
     !isValidRoute() ||
     searchQuery.trim() !== "";
 
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
     <div className="app-layout">
 
-      <Header onSearch={setSearchQuery} />
+      {!isAdminRoute && <Header onSearch={setSearchQuery} />}
       <div className="layout-body">
-        {!isExcludedPage && (
+        {!isExcludedPage && !isAdminRoute && (
           <div className="only-windows">
             <Sidebar />
           </div>
@@ -103,8 +105,12 @@ const Layout = ({ children }) => {
           <Footer />
         </div>
       )}
-      <MobileNav onSearch={setSearchQuery} searchQuery={searchQuery} />
-      <SurpriseMeModal />
+      {!isAdminRoute && (
+        <>
+          <MobileNav onSearch={setSearchQuery} searchQuery={searchQuery} />
+          <SurpriseMeModal />
+        </>
+      )}
     </div>
   );
 };
