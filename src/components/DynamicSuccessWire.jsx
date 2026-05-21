@@ -54,6 +54,7 @@ function renderYouTube(url) {
 export default function DynamicSuccessWire() {
   const { lensId } = useParams(); // Expecting slug or id
   const [dbPost, setDbPost] = useState(null);
+  const [allDynamicLens, setAllDynamicLens] = useState([]);
   const [loadingDb, setLoadingDb] = useState(true);
 
   const metadata = useMemo(() => {
@@ -75,14 +76,22 @@ export default function DynamicSuccessWire() {
         const apiBaseURL =
           import.meta.env.VITE_API_URL ||
           (import.meta.env.PROD ? "" : "http://localhost:8000");
+        
+        // Fetch current post
         const res = await fetch(`${apiBaseURL}/api/posts.php?slug=${lensId}`);
         const data = await res.json();
-        // Allow success_lens post type
         if (
           data.status === "success" &&
           data.data.post_type === "success_lens"
         ) {
           setDbPost(data.data);
+        }
+
+        // Fetch all dynamic lens for sidebar
+        const allRes = await fetch(`${apiBaseURL}/api/posts.php?type=success_lens`);
+        const allData = await allRes.json();
+        if (allData.status === "success") {
+          setAllDynamicLens(allData.data);
         }
       } catch (err) {
         console.error(err);
@@ -118,15 +127,25 @@ export default function DynamicSuccessWire() {
 
   // 4. Compute 4 recent posts for sidebar
   const recentPosts = useMemo(() => {
-    return successLensMetadata
-      .filter((l) => l.slug !== lensId && l.id !== lensId) // Exclude current
-      .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date descending
-      .slice(0, 4) // Take top 4
+    const combined = [
+      ...successLensMetadata,
+      ...allDynamicLens.map(l => ({
+        id: l.id,
+        title: l.title,
+        slug: l.slug,
+        date: l.published_date
+      }))
+    ];
+
+    return combined
+      .filter((l) => l.slug !== lensId && l.id !== lensId && String(l.id) !== lensId)
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 4)
       .map((l) => ({
         title: l.title,
         link: `/success-wire/${l.slug}`,
       }));
-  }, [lensId]);
+  }, [lensId, allDynamicLens]);
 
   if (loadingDb)
     return (

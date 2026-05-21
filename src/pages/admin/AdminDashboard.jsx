@@ -17,6 +17,7 @@ export default function AdminDashboard() {
         { id: 'driven_by_purpose', label: 'Driven By Purpose' },
         { id: 'founders_unfiltered', label: 'Founders Unfiltered' },
         { id: 'stage_behind_story', label: 'Stage Behind Story' },
+        { id: 'trash', label: 'Trash 🗑️' },
     ];
 
     useEffect(() => {
@@ -31,9 +32,13 @@ export default function AdminDashboard() {
     };
 
     const fetchPosts = async () => {
+        setLoading(true);
         try {
             const apiBaseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
-            const res = await fetch(`${apiBaseURL}/api/posts.php?include_drafts=true`);
+            const url = activeTab === 'trash' 
+                ? `${apiBaseURL}/api/posts.php?include_trash=true&include_drafts=true`
+                : `${apiBaseURL}/api/posts.php?include_drafts=true`;
+            const res = await fetch(url);
             const data = await res.json();
             if (data.status === 'success') {
                 setPosts(data.data);
@@ -47,13 +52,16 @@ export default function AdminDashboard() {
 
     useEffect(() => {
         fetchPosts();
-    }, []);
+    }, [activeTab]);
 
-    const handleDelete = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this post?")) return;
+    const handleDelete = async (id, permanent = false) => {
+        const msg = permanent 
+            ? "Are you sure you want to PERMANENTLY delete this post? This cannot be undone."
+            : "Are you sure you want to move this post to trash?";
+        if (!window.confirm(msg)) return;
         try {
             const apiBaseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
-            const res = await fetch(`${apiBaseURL}/api/posts.php?id=${id}`, {
+            const res = await fetch(`${apiBaseURL}/api/posts.php?id=${id}${permanent ? '&permanent=true' : ''}`, {
                 method: 'DELETE',
             });
             const data = await res.json();
@@ -67,7 +75,26 @@ export default function AdminDashboard() {
         }
     };
 
-    const filteredPosts = activeTab === 'all' 
+    const handleRestore = async (id) => {
+        try {
+            const apiBaseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
+            const res = await fetch(`${apiBaseURL}/api/posts.php`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, restore: true })
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                fetchPosts();
+            } else {
+                alert(data.message || 'Failed to restore');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const filteredPosts = activeTab === 'all' || activeTab === 'trash'
         ? posts 
         : posts.filter(post => post.post_type === activeTab);
 
@@ -138,8 +165,17 @@ export default function AdminDashboard() {
                                         {new Date(post.published_date).toLocaleDateString()}
                                     </td>
                                     <td style={{ textAlign: 'right' }}>
-                                        <Link to={`/admin/editor/${post.id}`} className="admin-btn-link" style={{ marginRight: '15px' }}>Edit</Link>
-                                        <button onClick={() => handleDelete(post.id)} className="admin-btn-link admin-btn-link-danger">Delete</button>
+                                        {activeTab === 'trash' ? (
+                                            <>
+                                                <button onClick={() => handleRestore(post.id)} className="admin-btn-link" style={{ marginRight: '15px', color: '#2c7a7b' }}>Restore</button>
+                                                <button onClick={() => handleDelete(post.id, true)} className="admin-btn-link admin-btn-link-danger">Delete Perm</button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Link to={`/admin/editor/${post.id}`} className="admin-btn-link" style={{ marginRight: '15px' }}>Edit</Link>
+                                                <button onClick={() => handleDelete(post.id)} className="admin-btn-link admin-btn-link-danger">Trash</button>
+                                            </>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

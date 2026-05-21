@@ -102,7 +102,7 @@ const CategoryTabs = () => {
 
               return {
                 id: `dynamic-${dbPost.id}`,
-                title: dbPost.title,
+                title: dbPost.outer_heading || dbPost.title,
                 slug: dbPost.slug,
                 image: dbPost.image_url,
                 category: category,

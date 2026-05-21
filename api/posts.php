@@ -40,6 +40,8 @@ function boost_likes($pdo, $post_id, $target) {
     }
 }
 
+// Auto-cleanup will be handled inside admin fetch to prevent overhead and ensure cross-db compatibility
+
 switch ($method) {
     case 'GET':
         // Get posts
@@ -48,6 +50,7 @@ switch ($method) {
         $slug = $_GET['slug'] ?? null;
         $post_id = $_GET['post_id'] ?? null;
         $include_drafts = isset($_GET['include_drafts']) && $_GET['include_drafts'] === 'true';
+        $include_trash = isset($_GET['include_trash']) && $_GET['include_trash'] === 'true';
         
         // Helper to check admin status without exiting
         $is_admin = false;
@@ -61,7 +64,7 @@ switch ($method) {
         try {
             if ($slug) {
                 // Get single post by slug (Allow viewing drafts for preview links)
-                $stmt = $pdo->prepare("SELECT p.*, (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.slug OR l.post_id = p.title) as likes_count FROM posts p WHERE p.slug = ?");
+                $stmt = $pdo->prepare("SELECT p.*, (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.slug OR l.post_id = p.title) as likes_count FROM posts p WHERE p.slug = ? AND p.deleted_at IS NULL");
                 $stmt->execute([$slug]);
                 $post = $stmt->fetch(PDO::FETCH_ASSOC);
                 
@@ -84,7 +87,26 @@ switch ($method) {
                     echo json_encode(['status' => 'error', 'message' => 'Post not found']);
                 }
             } else {
+                // Auto-cleanup: Delete posts older than 30 days in trash (Admin only)
+                if ($is_admin) {
+                    try {
+                        $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+                        if ($driver === 'mysql') {
+                            $pdo->exec("DELETE FROM posts WHERE deleted_at IS NOT NULL AND deleted_at < DATE_SUB(NOW(), INTERVAL 30 DAY)");
+                        } else {
+                            $pdo->exec("DELETE FROM posts WHERE deleted_at IS NOT NULL AND deleted_at < datetime('now', '-30 days')");
+                        }
+                    } catch (PDOException $e) {}
+                }
+
                 $query = "SELECT p.*, (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.slug OR l.post_id = p.title) as likes_count FROM posts p WHERE 1=1";
+                
+                if ($include_trash && $is_admin) {
+                    $query .= " AND deleted_at IS NOT NULL";
+                } else {
+                    $query .= " AND deleted_at IS NULL";
+                }
+
                 $params = [];
 
                 if ($type) {
@@ -126,6 +148,8 @@ switch ($method) {
         $published_date = $input['published_date'] ?? date('Y-m-d H:i:s');
         $is_published = $input['is_published'] ?? 1;
         $initial_likes = (int)($input['initial_likes'] ?? 0);
+        $outer_heading = $input['outer_heading'] ?? '';
+        $inner_heading = $input['inner_heading'] ?? '';
 
         if (empty($title) || empty($post_type)) {
             http_response_code(400);
@@ -140,8 +164,8 @@ switch ($method) {
         }
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO posts (post_type, title, slug, meta_description, excerpt, content, youtube_link, image_url, category, published_date, is_published, initial_likes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $initial_likes]);
+            $stmt = $pdo->prepare("INSERT INTO posts (post_type, title, slug, meta_description, excerpt, content, youtube_link, image_url, category, published_date, is_published, initial_likes, outer_heading, inner_heading) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $initial_likes, $outer_heading, $inner_heading]);
             
             $post_id = $pdo->lastInsertId();
 
@@ -180,10 +204,18 @@ switch ($method) {
         $published_date = $input['published_date'] ?? null;
         $is_published = $input['is_published'] ?? 1;
         $initial_likes = isset($input['initial_likes']) ? (int)$input['initial_likes'] : null;
+        $outer_heading = $input['outer_heading'] ?? null;
+        $inner_heading = $input['inner_heading'] ?? null;
+        $restore = isset($input['restore']) && $input['restore'] === true;
 
         try {
-            $stmt = $pdo->prepare("UPDATE posts SET post_type=?, title=?, slug=?, meta_description=?, excerpt=?, content=?, youtube_link=?, image_url=?, category=?, published_date=COALESCE(?, published_date), is_published=?, initial_likes=COALESCE(?, initial_likes), updated_at=CURRENT_TIMESTAMP WHERE id=?");
-            $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $initial_likes, $id]);
+            if ($restore) {
+                $stmt = $pdo->prepare("UPDATE posts SET deleted_at = NULL WHERE id = ?");
+                $stmt->execute([$id]);
+            } else {
+                $stmt = $pdo->prepare("UPDATE posts SET post_type=?, title=?, slug=?, meta_description=?, excerpt=?, content=?, youtube_link=?, image_url=?, category=?, published_date=COALESCE(?, published_date), is_published=?, initial_likes=COALESCE(?, initial_likes), outer_heading=COALESCE(?, outer_heading), inner_heading=COALESCE(?, inner_heading), updated_at=CURRENT_TIMESTAMP WHERE id=?");
+                $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $initial_likes, $outer_heading, $inner_heading, $id]);
+            }
             
             if ($initial_likes !== null && $initial_likes > 0) {
                 boost_likes($pdo, $slug, $initial_likes);
@@ -199,6 +231,7 @@ switch ($method) {
     case 'DELETE':
         check_admin_auth();
         $id = $_GET['id'] ?? '';
+        $permanent = isset($_GET['permanent']) && $_GET['permanent'] === 'true';
         
         if (empty($id)) {
             http_response_code(400);
@@ -207,10 +240,15 @@ switch ($method) {
         }
 
         try {
-            $stmt = $pdo->prepare("DELETE FROM posts WHERE id = ?");
-            $stmt->execute([$id]);
-            
-            echo json_encode(['status' => 'success', 'message' => 'Post deleted successfully']);
+            if ($permanent) {
+                $stmt = $pdo->prepare("DELETE FROM posts WHERE id = ?");
+                $stmt->execute([$id]);
+                echo json_encode(['status' => 'success', 'message' => 'Post permanently deleted']);
+            } else {
+                $stmt = $pdo->prepare("UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?");
+                $stmt->execute([$id]);
+                echo json_encode(['status' => 'success', 'message' => 'Post moved to trash']);
+            }
         } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);

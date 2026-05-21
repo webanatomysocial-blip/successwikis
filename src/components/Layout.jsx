@@ -15,14 +15,71 @@ import { useLocation } from "react-router-dom";
 const Layout = ({ children }) => {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [dynamicPosts, setDynamicPosts] = React.useState([]);
+
+  // Fetch dynamic posts from the database for global search
+  React.useEffect(() => {
+    const fetchDynamicPosts = async () => {
+      try {
+        const apiBaseURL =
+          import.meta.env.VITE_API_URL ||
+          (import.meta.env.PROD ? "" : "http://localhost:8000");
+        const res = await fetch(`${apiBaseURL}/api/posts.php`);
+        const data = await res.json();
+        if (data.status === "success") {
+          const mapped = data.data.map((dbPost) => {
+            let category = "Pod";
+            let categorySlug = "pod";
+
+            if (dbPost.post_type === "driven_by_purpose") {
+              category = "Driven by Purpose";
+              categorySlug = "driven-by-purpose";
+            } else if (dbPost.post_type === "founders_unfiltered") {
+              category = "Founder's Unfiltered";
+              categorySlug = "founders-unfiltered";
+            } else if (dbPost.post_type === "stage_behind_story") {
+              category = "The Stage Behind the Story";
+              categorySlug = "stage-behind-the-story";
+            } else if (dbPost.post_type === "blog") {
+              category = "Blogs";
+              categorySlug = "blogs";
+            } else if (dbPost.post_type === "success_lens") {
+              category = "Success Wire";
+              categorySlug = "success-wire";
+            } else if (dbPost.post_type === "event") {
+              category = "Events";
+              categorySlug = "events";
+            }
+
+            return {
+              id: `dynamic-${dbPost.id}`,
+              title: dbPost.outer_heading || dbPost.title,
+              slug: dbPost.slug,
+              image: dbPost.image_url,
+              category: category,
+              categorySlug: categorySlug,
+              isDynamic: true,
+            };
+          });
+          setDynamicPosts(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to fetch dynamic posts in Layout search", err);
+      }
+    };
+    fetchDynamicPosts();
+  }, []);
 
   // Aggregate all metadata for search
-  const allPosts = [
-    ...podMetadata,
-    ...blogMetadata,
-    ...successLensMetadata,
-    ...eventMetadata,
-  ];
+  const allPosts = React.useMemo(() => {
+    return [
+      ...podMetadata,
+      ...blogMetadata,
+      ...successLensMetadata,
+      ...eventMetadata,
+      ...dynamicPosts,
+    ];
+  }, [dynamicPosts]);
 
   // Filter posts based on search query
   const filteredResults = searchQuery.trim()

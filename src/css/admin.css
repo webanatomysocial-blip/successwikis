@@ -1,8 +1,8 @@
 /* src/css/admin.css */
 
 .admin-page {
-    padding: 80px 20px;
-    max-width: 1200px;
+    padding: 80px 100px;
+
     margin: 0 auto;
 }
 
@@ -65,6 +65,38 @@
     color: #dc3545;
 }
 
+.admin-image-preview {
+    margin: 10px 0;
+    padding: 10px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    border: 1px dashed #ddd;
+    max-width: 400px;
+}
+
+.admin-image-preview p {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: #666;
+    font-weight: 600;
+}
+
+.admin-image-preview-img {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 6px;
+    display: block;
+    object-fit: contain;
+    background: white;
+}
+
+.admin-help-text {
+    display: block;
+    font-size: 13px;
+    color: #718096;
+    margin-bottom: 8px;
+}
+
 .admin-form {
     display: flex;
     flex-direction: column;
@@ -121,6 +153,9 @@
     font-weight: 600;
     white-space: nowrap;
     transition: all 0.2s;
+}
+.admin-tab:last-child:hover{
+    color: red !important;
 }
 
 .admin-tab-active {
@@ -208,3 +243,21 @@
     color: red;
     margin-bottom: 10px;
 }
+
+.admin-content-image-upload {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 16px;
+    border-radius: 10px;
+    margin: 10px 0 25px 0;
+}
+
+.admin-image-size-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #edf2f7;
+}
+

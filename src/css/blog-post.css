@@ -8,21 +8,25 @@
 
 /* 1. Hero Section */
 .pod-hero-section {
-  max-width: 1400px; /* Wider for hero */
+  max-width: 1400px;
+  /* Wider for hero */
   margin: 0 auto;
-  padding: 120px 40px 60px 40px; /* Top padding clears the Fixed Main Navbar */
+  padding: 120px 40px 60px 40px;
+  /* Top padding clears the Fixed Main Navbar */
 }
 
 .pod-split-header {
   display: flex;
   gap: 60px;
-  align-items: center; /* Center vertically align title and image */
+  align-items: center;
+  /* Center vertically align title and image */
   justify-content: space-between;
 }
 
 .pod-title-section {
   flex: 1;
 }
+
 .social-link-header {
   color: #000;
   margin: 0 10px;
@@ -37,16 +41,19 @@
 
 .pod-hero-img-container img {
   width: 60%;
-  border-radius: 0; /* Sharp edges typically looked better in screenshot, user wants 'just like image' */
+  border-radius: 0;
+  /* Sharp edges typically looked better in screenshot, user wants 'just like image' */
   display: block;
 }
 
 /* 2. Sticky Header Bar */
 .pod-sticky-header-container {
   position: sticky;
-  top: 100px; /* Stick below the main fixed navbar */
+  top: 100px;
+  /* Stick below the main fixed navbar */
   z-index: 800;
-  background-color: #fff; /* Ensure it covers content */
+  background-color: #fff;
+  /* Ensure it covers content */
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
@@ -86,16 +93,17 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
 .social-icon.facebook {
-  background: #0077b5
-    url("https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png")
-    center/cover;
-} /* Placeholder LinkedIn */
+  background: #0077b5 url("https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png") center/cover;
+}
+
+/* Placeholder LinkedIn */
 .social-icon.linkedin {
-  background: #ff4500
-    url("https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg")
-    center/cover;
-} /* Placeholder FB */
+  background: #ff4500 url("https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg") center/cover;
+}
+
+/* Placeholder FB */
 
 .detail-share-btn {
   background: #000;
@@ -140,6 +148,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -175,7 +184,8 @@
 .scroll-progress-bar {
   height: 3px;
   background-color: #000;
-  width: 0%; /* Updates via GSAP */
+  width: 0%;
+  /* Updates via GSAP */
   position: absolute;
   bottom: 0;
   left: 0;
@@ -187,16 +197,19 @@
   margin: 0 auto;
   padding: 60px 40px;
   display: grid;
-  grid-template-columns: 280px 1fr 340px; /* Left: 280px, Mid: Flex, Right: 340px */
+  grid-template-columns: 280px 1fr 340px;
+  /* Left: 280px, Mid: Flex, Right: 340px */
   gap: 60px;
   position: relative;
-  align-items: start; /* Ensure sticky columns work */
+  align-items: start;
+  /* Ensure sticky columns work */
 }
 
 /* Left Sidebar (Recent Posts) */
 .pod-sidebar-left {
   position: sticky;
-  top: 200px; /* 80px Nav + ~60px Sticky Bar + padding */
+  top: 200px;
+  /* 80px Nav + ~60px Sticky Bar + padding */
 }
 
 .recent-posts {
@@ -236,7 +249,8 @@
 
 /* Middle Column (Main Content) */
 .pod-main-content {
-  min-width: 0; /* Prevents overflow */
+  min-width: 0;
+  /* Prevents overflow */
 }
 
 .pod-body {
@@ -273,7 +287,8 @@
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
   word-break: normal !important;
-  line-break: after-white-space; /* Helpful for certain browsers */
+  line-break: after-white-space;
+  /* Helpful for certain browsers */
 }
 
 .quill-content p,
@@ -301,7 +316,8 @@
   margin: 0 auto;
   padding: 60px 40px;
   display: grid;
-  grid-template-columns: 1fr 340px; /* Main content + Right Sidebar */
+  grid-template-columns: 1fr 340px;
+  /* Main content + Right Sidebar */
   gap: 60px;
   align-items: start;
 }
@@ -321,9 +337,11 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
 .sponsored-card {
   background-color: transparent;
 }
+
 .sponsored-card img {
   width: 100%;
   height: 100%;
@@ -515,13 +533,16 @@
 
 @media (max-width: 900px) {
   .pod-container.three-column-layout {
-    grid-template-columns: 1fr; /* Stack everything on mobile */
+    grid-template-columns: 1fr;
+    /* Stack everything on mobile */
     padding: 40px 20px;
   }
+
   .pod-container.two-column-layout {
     grid-template-columns: 1fr;
     padding: 40px 20px;
   }
+
   .pod-body h2 {
     font-size: 24px;
     font-weight: 700;
@@ -529,6 +550,7 @@
     margin-bottom: 25px;
     color: #000;
   }
+
   .pod-body {
     font-size: 16px;
     line-height: 1.8;
@@ -537,36 +559,47 @@
 
   .pod-sidebar-left,
   .pod-sidebar-right {
-    display: none; /* User said 'remove the side bar for mobile' */
+    display: none;
+    /* User said 'remove the side bar for mobile' */
   }
+
   .pod-main-content {
     order: 1;
   }
+
   .pod-sticky-header-container {
-    top: 80px; /* Match mobile header height */
+    top: 80px;
+    /* Match mobile header height */
   }
+
   .pod-header-content {
     padding: 10px 20px;
     gap: 20px;
     justify-content: space-between;
     flex-direction: column;
+    align-items: flex-start;
   }
+
   .pod-header-title {
     font-size: 11px;
-    text-align: center;
+    text-align: left;
     max-width: 90vw;
   }
+
   .pod-hero-section {
     padding: 100px 20px 40px 20px;
   }
+
   .pod-split-header {
     flex-direction: column;
     gap: 30px;
     text-align: center;
   }
+
   .pod-hero-img-container img {
     width: 100%;
   }
+
   .pod-title-section .head-text {
     font-size: 24px;
   }
@@ -574,7 +607,8 @@
 
 /* Custom Quote Style */
 .pod-quote {
-  border-left: 4px solid #ccc; /* Thick gray border as per screenshot */
+  border-left: 4px solid #ccc;
+  /* Thick gray border as per screenshot */
   padding-left: 24px;
   margin: 30px 0;
   font-size: 18px;

@@ -54,6 +54,7 @@ function renderYouTube(url) {
 export default function DynamicPod() {
   const { podSlug } = useParams();
   const [dbPost, setDbPost] = useState(null);
+  const [allDynamicPosts, setAllDynamicPosts] = useState([]);
   const [loadingDb, setLoadingDb] = useState(true);
 
   // 1. Find metadata based on the URL param (slug or id)
@@ -74,9 +75,11 @@ export default function DynamicPod() {
         const apiBaseURL =
           import.meta.env.VITE_API_URL ||
           (import.meta.env.PROD ? "" : "http://localhost:8000");
+        
+        // Fetch current post
         const res = await fetch(`${apiBaseURL}/api/posts.php?slug=${podSlug}`);
         const data = await res.json();
-        // Since different pods use the same layout, we accept any post type here, or specifically allow multiple pod-ish types
+        
         if (
           data.status === "success" &&
           (data.data.post_type === "pod" ||
@@ -85,6 +88,15 @@ export default function DynamicPod() {
             data.data.post_type === "stage_behind_story")
         ) {
           setDbPost(data.data);
+        }
+
+        // Also fetch all dynamic posts for the sidebar
+        const allRes = await fetch(`${apiBaseURL}/api/posts.php`);
+        const allData = await allRes.json();
+        if (allData.status === "success") {
+          setAllDynamicPosts(allData.data.filter(p => 
+            ["pod", "driven_by_purpose", "founders_unfiltered", "stage_behind_story"].includes(p.post_type)
+          ));
         }
       } catch (err) {
         console.error(err);
@@ -120,15 +132,33 @@ export default function DynamicPod() {
 
   // 4. Compute 4 recent posts for sidebar
   const recentPosts = useMemo(() => {
-    return podMetadata
-      .filter((p) => p.slug !== podSlug && p.id !== podSlug) // Exclude current
-      .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date descending
-      .slice(0, 4) // Take top 4
+    const combined = [
+      ...podMetadata,
+      ...allDynamicPosts.map(p => {
+        let catSlug = "pod";
+        if (p.post_type === "driven_by_purpose") catSlug = "driven-by-purpose";
+        else if (p.post_type === "founders_unfiltered") catSlug = "founders-unfiltered";
+        else if (p.post_type === "stage_behind_story") catSlug = "stage-behind-the-story";
+        
+        return {
+          id: p.id,
+          title: p.outer_heading || p.title,
+          slug: p.slug,
+          date: p.published_date,
+          categorySlug: catSlug
+        };
+      })
+    ];
+
+    return combined
+      .filter((p) => p.slug !== podSlug && p.id !== podSlug && String(p.id) !== podSlug)
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 4)
       .map((p) => ({
         title: p.title,
         link: `/${p.categorySlug}/${p.slug}`,
       }));
-  }, [podSlug]);
+  }, [podSlug, allDynamicPosts]);
 
   if (loadingDb)
     return (
@@ -191,7 +221,7 @@ export default function DynamicPod() {
                   ? "The Stage Behind the Story"
                   : dbPost.category || "Pod"
           }
-          title={dbPost.title}
+          title={dbPost.inner_heading || dbPost.title}
           postId={dbPost.slug}
           image={dbPost.image_url}
           date={dbPost.published_date ? new Date(dbPost.published_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : undefined}

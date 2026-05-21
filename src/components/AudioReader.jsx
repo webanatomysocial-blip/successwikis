@@ -11,9 +11,20 @@ const AudioReader = ({ contentRef, title }) => {
   // To keep track of the text nodes and their positions
   const textMap = useRef([]);
 
+  const [voices, setVoices] = useState([]);
+
   useEffect(() => {
     if (window.speechSynthesis) {
       setSynth(window.speechSynthesis);
+      
+      const loadVoices = () => {
+        setVoices(window.speechSynthesis.getVoices());
+      };
+      
+      loadVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      }
     }
     return () => {
       if (window.speechSynthesis) {
@@ -53,6 +64,26 @@ const AudioReader = ({ contentRef, title }) => {
     textMap.current = map;
     return fullText;
   }, [contentRef, title]);
+
+  const getIndianVoice = useCallback(() => {
+    if (!synth) return null;
+    const availableVoices = synth.getVoices();
+    
+    // 1. Look for English (India) voices: en-IN or en_IN
+    const enInVoices = availableVoices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.toLowerCase().replace('_', '-') === 'en-in');
+    if (enInVoices.length > 0) {
+      const preferred = enInVoices.find(v => v.name.toLowerCase().includes('google') || v.name.toLowerCase().includes('microsoft') || v.name.toLowerCase().includes('natural') || v.name.toLowerCase().includes('rishi') || v.name.toLowerCase().includes('heera'));
+      return preferred || enInVoices[0];
+    }
+    
+    // 2. Look for any voice with lang containing "IN" or "in"
+    const inVoices = availableVoices.filter(v => v.lang.toLowerCase().includes('in'));
+    if (inVoices.length > 0) {
+      return inVoices[0];
+    }
+
+    return null;
+  }, [synth]);
 
   const highlightWord = (charIndex, charLength) => {
     // Remove previous highlights
@@ -105,6 +136,12 @@ const AudioReader = ({ contentRef, title }) => {
 
     const fullText = buildTextMap();
     const u = new SpeechSynthesisUtterance(fullText);
+    
+    // Select Indian English voice if available
+    const indianVoice = getIndianVoice();
+    if (indianVoice) {
+      u.voice = indianVoice;
+    }
     
     u.onboundary = (event) => {
       if (event.name === 'word') {

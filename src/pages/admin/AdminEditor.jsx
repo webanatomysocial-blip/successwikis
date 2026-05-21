@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
@@ -7,6 +7,7 @@ import "../../css/admin.css";
 export default function AdminEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     post_type: "blog",
@@ -103,6 +104,13 @@ export default function AdminEditor() {
       alert("Upload error");
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setFormData((prev) => ({ ...prev, image_url: "" }));
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -307,14 +315,29 @@ export default function AdminEditor() {
         {formData.image_url && (
           <div className="admin-image-preview">
             <p>Current Image:</p>
-            <img
-              src={formData.image_url}
-              alt="Preview"
-              className="admin-image-preview-img"
-            />
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "flex-start" }}>
+              <img
+                src={formData.image_url}
+                alt="Preview"
+                className="admin-image-preview-img"
+              />
+              <button
+                type="button"
+                className="admin-btn admin-btn-danger"
+                onClick={handleRemoveImage}
+                style={{ padding: "6px 12px", fontSize: "13px" }}
+              >
+                Remove Featured Image
+              </button>
+            </div>
           </div>
         )}
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          ref={fileInputRef}
+        />
         {uploading && <span>Uploading...</span>}
 
         <label className="admin-label">YouTube Link (Optional)</label>

@@ -1,9 +1,19 @@
 <?php
 // api/db.php
 // Setup headers for CORS if needed during local dev (if React and PHP are on different ports)
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Max-Age: 86400");
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    exit(0);
+}
 
 // Simple .env parser function
 function loadEnv($path) {
@@ -104,6 +114,9 @@ try {
         category VARCHAR(100),
         published_date DATETIME DEFAULT CURRENT_TIMESTAMP,
         is_published INTEGER DEFAULT 1,
+        outer_heading VARCHAR(255),
+        inner_heading VARCHAR(255),
+        deleted_at DATETIME DEFAULT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )");
@@ -129,7 +142,17 @@ try {
 
 try {
     $pdo->exec("ALTER TABLE posts ADD COLUMN initial_likes INTEGER DEFAULT 0");
-} catch (PDOException $e) {
-    // Ignore column already exists error
-}
+} catch (PDOException $e) {}
+
+try {
+    $pdo->exec("ALTER TABLE posts ADD COLUMN outer_heading VARCHAR(255)");
+} catch (PDOException $e) {}
+
+try {
+    $pdo->exec("ALTER TABLE posts ADD COLUMN inner_heading VARCHAR(255)");
+} catch (PDOException $e) {}
+
+try {
+    $pdo->exec("ALTER TABLE posts ADD COLUMN deleted_at DATETIME DEFAULT NULL");
+} catch (PDOException $e) {}
 ?>

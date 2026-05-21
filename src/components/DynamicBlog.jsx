@@ -38,6 +38,7 @@ function renderYouTube(url) {
 export default function DynamicBlog() {
   const { blogId } = useParams(); // Expecting slug or id
   const [dbPost, setDbPost] = useState(null);
+  const [allDynamicBlogs, setAllDynamicBlogs] = useState([]);
   const [loadingDb, setLoadingDb] = useState(true);
 
   // 1. Find metadata based on the URL param (slug or id)
@@ -57,10 +58,19 @@ export default function DynamicBlog() {
     const fetchDbPost = async () => {
       try {
         const apiBaseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
+        
+        // Fetch current post
         const res = await fetch(`${apiBaseURL}/api/posts.php?slug=${blogId}`);
         const data = await res.json();
         if (data.status === 'success' && data.data.post_type === 'blog') {
              setDbPost(data.data);
+        }
+
+        // Fetch all dynamic blogs for sidebar
+        const allRes = await fetch(`${apiBaseURL}/api/posts.php?type=blog`);
+        const allData = await allRes.json();
+        if (allData.status === 'success') {
+          setAllDynamicBlogs(allData.data);
         }
       } catch (err) {
         console.error(err);
@@ -90,17 +100,27 @@ export default function DynamicBlog() {
     return React.lazy(blogModules[moduleKey]);
   }, [moduleKey]);
 
-  // 4. Compute recent posts for sidebar (we only use static here for simplicity, or we could fetch db ones too)
+  // 4. Compute recent posts for sidebar
   const recentPosts = useMemo(() => {
-    return blogMetadata
-      .filter(b => b.slug !== blogId && b.id !== blogId)
+    const combined = [
+      ...blogMetadata,
+      ...allDynamicBlogs.map(b => ({
+        id: b.id,
+        title: b.title,
+        slug: b.slug,
+        date: b.published_date
+      }))
+    ];
+
+    return combined
+      .filter(b => b.slug !== blogId && b.id !== blogId && String(b.id) !== blogId)
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 4)
       .map(b => ({
         title: b.title,
         link: `/blogs/${b.slug}`
       }));
-  }, [blogId]);
+  }, [blogId, allDynamicBlogs]);
 
   if (loadingDb) return <div style={{ padding: '100px', textAlign: 'center' }}>Loading...</div>;
 

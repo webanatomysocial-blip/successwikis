@@ -38,6 +38,22 @@ const PodLayout = ({
     }
   };
 
+  const handleGoBack = () => {
+    if (window.history.state && typeof window.history.state.idx === 'number' && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      if (category === "Success Wire" || window.location.pathname.includes("/success-wire")) {
+        navigate("/success-wire");
+      } else if (category === "Blog" || window.location.pathname.includes("/blogs")) {
+        navigate("/blogs");
+      } else if (category) {
+        navigate(`/?tab=${encodeURIComponent(category)}`);
+      } else {
+        navigate("/");
+      }
+    }
+  };
+
   useEffect(() => {
     // Update currentUrl whenever location changes
     setCurrentUrl(window.location.href);
@@ -104,7 +120,7 @@ const PodLayout = ({
       <div className="pod-container">
         {/* Main Content */}
         <div className="pod-main-content">
-          <button onClick={() => navigate(-1)} className="go-back-btn">
+          <button onClick={handleGoBack} className="go-back-btn">
             <FiArrowLeft size={20} />
             Go Back
           </button>

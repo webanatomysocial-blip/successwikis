@@ -12,10 +12,62 @@ const SurpriseMeModal = () => {
     const overlayRef = useRef(null);
 
     useEffect(() => {
-        const handleOpen = () => {
-            const randomIndex = Math.floor(Math.random() * podMetadata.length);
-            setRandomPost(podMetadata[randomIndex]);
-            setIsOpen(true);
+        const handleOpen = async () => {
+            let combinedPosts = [...podMetadata];
+
+            try {
+                const apiBaseURL =
+                    import.meta.env.VITE_API_URL ||
+                    (import.meta.env.PROD ? "" : "http://localhost:8000");
+                const res = await fetch(`${apiBaseURL}/api/posts.php`);
+                const data = await res.json();
+                if (data.status === "success") {
+                    const mapped = data.data
+                        .filter(dbPost =>
+                            [
+                                "pod",
+                                "driven_by_purpose",
+                                "founders_unfiltered",
+                                "stage_behind_story",
+                            ].includes(dbPost.post_type)
+                        )
+                        .map(dbPost => {
+                            let category = dbPost.category || "Pod";
+                            let categorySlug = "pod";
+
+                            if (dbPost.post_type === "driven_by_purpose") {
+                                category = "Driven by Purpose";
+                                categorySlug = "driven-by-purpose";
+                            } else if (dbPost.post_type === "founders_unfiltered") {
+                                category = "Founder's Unfiltered";
+                                categorySlug = "founders-unfiltered";
+                            } else if (dbPost.post_type === "stage_behind_story") {
+                                category = "The Stage Behind the Story";
+                                categorySlug = "stage-behind-the-story";
+                            }
+
+                            return {
+                                id: `dynamic-${dbPost.id}`,
+                                title: dbPost.outer_heading || dbPost.title,
+                                slug: dbPost.slug,
+                                image: dbPost.image_url,
+                                category: category,
+                                categorySlug: categorySlug,
+                                description: dbPost.meta_description || dbPost.excerpt,
+                                isDynamic: true
+                            };
+                        });
+                    combinedPosts = [...combinedPosts, ...mapped];
+                }
+            } catch (err) {
+                console.error("Failed to fetch dynamic pods in SurpriseMeModal", err);
+            }
+
+            if (combinedPosts.length > 0) {
+                const randomIndex = Math.floor(Math.random() * combinedPosts.length);
+                setRandomPost(combinedPosts[randomIndex]);
+                setIsOpen(true);
+            }
         };
 
         window.addEventListener('openSurpriseMe', handleOpen);

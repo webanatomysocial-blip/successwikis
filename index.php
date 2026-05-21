@@ -12,20 +12,8 @@ function getAbsoluteUrl($path, $baseUrl)
 // Solves: 1. WhatsApp 300KB limit (compression) 2. LinkedIn cropping (fit=contain)
 function getOptimizedOgImage($url)
 {
-    // Check if URL is localhost or development URL
-    // images.weserv.nl cannot access localhost, so return URL as-is for dev
-    if (strpos($url, 'localhost') !== false || strpos($url, '127.0.0.1') !== false || strpos($url, '.local') !== false) {
-        return $url;
-    }
-    
-    // Encode the source URL
-    $encodedUrl = urlencode($url);
-    // w=1200&h=630 (Standard OG Size)
-    // fit=contain (Adds padding instead of cropping/cutting)
-    // output=jpg (Broad compatibility)
-    // q=80 (Quality compression to ensure <300KB)
-    // bg=ffffff (White background for padding)
-    return "https://images.weserv.nl/?url=" . $encodedUrl . "&w=1200&h=630&fit=contain&output=jpg&q=80&bg=ffffff";
+    // Return original raw URL directly to bypass third-party proxy blocks (SSRF prevention) on social crawlers
+    return $url;
 }
 
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -35,6 +23,35 @@ $path = parse_url($request_uri, PHP_URL_PATH);
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $host = $_SERVER['HTTP_HOST'];
 $baseUrl = $protocol . $host;
+
+// Database Connection for Dynamic Metadata
+$db_connected = false;
+$db_err = null;
+$debugInfo = [];
+
+try {
+    if (file_exists(__DIR__ . '/api/db.php')) {
+        require_once __DIR__ . '/api/db.php';
+        if (isset($pdo)) {
+            $db_connected = true;
+        } else {
+            $db_err = "pdo variable not set in db.php";
+        }
+    } else {
+        $db_err = "db.php file not found at " . __DIR__ . '/api/db.php';
+    }
+} catch (Exception $e) {
+    $db_connected = false;
+    $db_err = "Exception: " . $e->getMessage();
+} catch (Throwable $t) {
+    $db_connected = false;
+    $db_err = "Throwable: " . $t->getMessage();
+}
+$debugInfo[] = "DB Connected: " . ($db_connected ? "YES" : "NO");
+if ($db_err) {
+    $debugInfo[] = "DB Error: " . $db_err;
+}
+
 
 // Default Meta Tags
 $defaultTitle = "Startup Success & Entrepreneur Stories Hub | SuccessWikis";
@@ -154,7 +171,7 @@ $podMetadata = [
     [
         "id" => "SoldierRewiredPost",
         "title" => "The Soldier Who Rewired the Future One STEM Lab at a Time",
-        "slug" => "soldier-rewired",
+        "slug" => "soldier-rewired",    
         "categorySlug" => "stage-behind-the-story",
         "metaDescription" => "The story of Col. Merugu Solomon Saneev and how STEMClub brings affordable STEM labs to schools, helping children learn robotics, science and innovation hands-on.",
         "image" => "/assets/The-stage-behind-the-story/The-Soldier.jpeg",
@@ -560,67 +577,228 @@ if (array_key_exists($path, $staticPages)) {
 // ROUTING LOGIC
 
 $cleanPath = trim($path, '/');
+$found = false;
+
+$debugInfo[] = "Request URL: " . (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'N/A');
+$debugInfo[] = "Parsed Path: " . $path;
+$debugInfo[] = "Clean Path: " . $cleanPath;
 
 // 1. Blogs: /blogs/:slug
 if (stripos($cleanPath, 'blogs/') === 0) {
     $parts = explode('/', $cleanPath);
     $blogId = end($parts); // Get last part
-    foreach ($blogMetadata as $item) {
-        if ($item['id'] === $blogId || $item['slug'] === $blogId) {
-            $title = $item['title'];
-            $description = $item['metaDescription'];
-            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
-            $image = getOptimizedOgImage($absImage);
-            $url = $baseUrl . "/blogs/" . $item['slug'];
-            break;
+
+    // DB Query First
+    $query_err = null;
+    if ($db_connected) {
+        try {
+            $stmt = $pdo->prepare("SELECT title, meta_description, image_url, slug FROM posts WHERE slug = ? AND post_type = 'blog' AND deleted_at IS NULL LIMIT 1");
+            $stmt->execute([$blogId]);
+            $dbItem = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($dbItem) {
+                $title = $dbItem['title'] . " | Success Wikis";
+                $description = $dbItem['meta_description'];
+                $absImage = getAbsoluteUrl($dbItem['image_url'], $baseUrl);
+                $image = getOptimizedOgImage($absImage);
+                $url = $baseUrl . "/blogs/" . $dbItem['slug'];
+                $found = true;
+                $debugInfo[] = "Blog DB Match: YES, Slug: " . $dbItem['slug'];
+            } else {
+                $query_err = "No post found in DB for slug: " . $blogId;
+            }
+        } catch (Exception $e) {
+            $query_err = "Exception: " . $e->getMessage();
+        } catch (Throwable $t) {
+            $query_err = "Throwable: " . $t->getMessage();
         }
+    }
+
+    // Static Fallback if not found in DB
+    if (!$found) {
+        foreach ($blogMetadata as $item) {
+            if ($item['id'] === $blogId || $item['slug'] === $blogId) {
+                $title = $item['title'];
+                $description = $item['metaDescription'];
+                $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+                $image = getOptimizedOgImage($absImage);
+                $url = $baseUrl . "/blogs/" . $item['slug'];
+                $found = true;
+                $debugInfo[] = "Blog Static Fallback Match: YES, Slug: " . $item['slug'];
+                break;
+            }
+        }
+    }
+
+    if ($query_err) {
+        $debugInfo[] = "Blog DB Info/Error: " . $query_err;
     }
 }
 // 3. Success Wire: /success-wire/:slug
 elseif (stripos($cleanPath, 'success-wire/') === 0) {
     $parts = explode('/', $cleanPath);
     $lensSlug = end($parts);
-    foreach ($successLensMetadata as $item) {
-        if ($item['slug'] === $lensSlug) {
-            $title = $item['title'];
-            $description = $item['metaDescription'];
-            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
-            $image = getOptimizedOgImage($absImage);
-            $url = $baseUrl . "/success-wire/" . $item['slug'];
-            break;
+
+    // DB Query First
+    $query_err = null;
+    if ($db_connected) {
+        try {
+            $stmt = $pdo->prepare("SELECT title, meta_description, image_url, slug FROM posts WHERE slug = ? AND post_type = 'success_lens' AND deleted_at IS NULL LIMIT 1");
+            $stmt->execute([$lensSlug]);
+            $dbItem = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($dbItem) {
+                $title = $dbItem['title'] . " | Success Wikis";
+                $description = $dbItem['meta_description'];
+                $absImage = getAbsoluteUrl($dbItem['image_url'], $baseUrl);
+                $image = getOptimizedOgImage($absImage);
+                $url = $baseUrl . "/success-wire/" . $dbItem['slug'];
+                $found = true;
+                $debugInfo[] = "Success Wire DB Match: YES, Slug: " . $dbItem['slug'];
+            } else {
+                $query_err = "No post found in DB for slug: " . $lensSlug;
+            }
+        } catch (Exception $e) {
+            $query_err = "Exception: " . $e->getMessage();
+        } catch (Throwable $t) {
+            $query_err = "Throwable: " . $t->getMessage();
         }
+    }
+
+    // Static Fallback if not found in DB
+    if (!$found) {
+        foreach ($successLensMetadata as $item) {
+            if ($item['slug'] === $lensSlug) {
+                $title = $item['title'];
+                $description = $item['metaDescription'];
+                $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+                $image = getOptimizedOgImage($absImage);
+                $url = $baseUrl . "/success-wire/" . $item['slug'];
+                $found = true;
+                $debugInfo[] = "Success Wire Static Fallback Match: YES, Slug: " . $item['slug'];
+                break;
+            }
+        }
+    }
+
+    if ($query_err) {
+        $debugInfo[] = "Success Wire DB Info/Error: " . $query_err;
     }
 }
 // 4. Events: /events/:slug
 elseif (stripos($cleanPath, 'events/') === 0) {
     $parts = explode('/', $cleanPath);
     $eventSlug = end($parts);
-    foreach ($eventMetadata as $item) {
-        if ($item['slug'] === $eventSlug) {
-            $title = $item['title'];
-            $description = $item['metaDescription'];
-            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
-            $image = getOptimizedOgImage($absImage);
-            $url = $baseUrl . "/events/" . $item['slug'];
-            break;
+
+    // DB Query First
+    $query_err = null;
+    if ($db_connected) {
+        try {
+            $stmt = $pdo->prepare("SELECT title, meta_description, image_url, slug FROM posts WHERE slug = ? AND post_type = 'event' AND deleted_at IS NULL LIMIT 1");
+            $stmt->execute([$eventSlug]);
+            $dbItem = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($dbItem) {
+                $title = $dbItem['title'] . " | Success Wikis";
+                $description = $dbItem['meta_description'];
+                $absImage = getAbsoluteUrl($dbItem['image_url'], $baseUrl);
+                $image = getOptimizedOgImage($absImage);
+                $url = $baseUrl . "/events/" . $dbItem['slug'];
+                $found = true;
+                $debugInfo[] = "Event DB Match: YES, Slug: " . $dbItem['slug'];
+            } else {
+                $query_err = "No post found in DB for slug: " . $eventSlug;
+            }
+        } catch (Exception $e) {
+            $query_err = "Exception: " . $e->getMessage();
+        } catch (Throwable $t) {
+            $query_err = "Throwable: " . $t->getMessage();
         }
+    }
+
+    // Static Fallback if not found in DB
+    if (!$found) {
+        foreach ($eventMetadata as $item) {
+            if ($item['slug'] === $eventSlug) {
+                $title = $item['title'];
+                $description = $item['metaDescription'];
+                $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+                $image = getOptimizedOgImage($absImage);
+                $url = $baseUrl . "/events/" . $item['slug'];
+                $found = true;
+                $debugInfo[] = "Event Static Fallback Match: YES, Slug: " . $item['slug'];
+                break;
+            }
+        }
+    }
+
+    if ($query_err) {
+        $debugInfo[] = "Event DB Info/Error: " . $query_err;
     }
 }
 // 2. Pod: /:categorySlug/:slug
 else {
-    foreach ($podMetadata as $item) {
-        // Construct expected path without slashes for comparison
-        $expectedPath = $item['categorySlug'] . "/" . $item['slug'];
+    $parts = explode('/', $cleanPath);
+    $query_err = null;
+    
+    if (count($parts) === 2) {
+        $catSlug = $parts[0];
+        $podSlug = $parts[1];
 
-        // Case-insensitive comparison
-        if (strcasecmp($cleanPath, $expectedPath) === 0) {
-            $title = $item['title'];
-            $description = isset($item['metaDescription']) ? $item['metaDescription'] : "Listen to " . $item['title'] . ". " . $item['category'];
-            $absImage = getAbsoluteUrl($item['image'], $baseUrl);
-            $image = getOptimizedOgImage($absImage);
-            $url = $baseUrl . "/" . $expectedPath;
-            break;
+        // Map category slug to db post_type
+        $dbType = 'pod';
+        if ($catSlug === 'driven-by-purpose') {
+            $dbType = 'driven_by_purpose';
+        } elseif ($catSlug === 'founders-unfiltered') {
+            $dbType = 'founders_unfiltered';
+        } elseif ($catSlug === 'stage-behind-the-story') {
+            $dbType = 'stage_behind_story';
         }
+
+        // DB Query First
+        if ($db_connected) {
+            try {
+                $stmt = $pdo->prepare("SELECT title, meta_description, image_url, slug, post_type FROM posts WHERE slug = ? AND post_type = ? AND deleted_at IS NULL LIMIT 1");
+                $stmt->execute([$podSlug, $dbType]);
+                $dbItem = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($dbItem) {
+                    $title = $dbItem['title'] . " | Success Wikis";
+                    $description = $dbItem['meta_description'];
+                    $absImage = getAbsoluteUrl($dbItem['image_url'], $baseUrl);
+                    $image = getOptimizedOgImage($absImage);
+                    $url = $baseUrl . "/" . $catSlug . "/" . $dbItem['slug'];
+                    $found = true;
+                    $debugInfo[] = "Pod DB Match: YES, Slug: " . $dbItem['slug'] . ", Type: " . $dbItem['post_type'];
+                } else {
+                    $query_err = "No post found in DB for slug: " . $podSlug . " and type: " . $dbType;
+                }
+            } catch (Exception $e) {
+                $query_err = "Exception: " . $e->getMessage();
+            } catch (Throwable $t) {
+                $query_err = "Throwable: " . $t->getMessage();
+            }
+        }
+    }
+
+    // Static Fallback if not found in DB
+    if (!$found) {
+        foreach ($podMetadata as $item) {
+            // Construct expected path without slashes for comparison
+            $expectedPath = $item['categorySlug'] . "/" . $item['slug'];
+
+            // Case-insensitive comparison
+            if (strcasecmp($cleanPath, $expectedPath) === 0) {
+                $title = $item['title'];
+                $description = isset($item['metaDescription']) ? $item['metaDescription'] : "Listen to " . $item['title'] . ". " . $item['category'];
+                $absImage = getAbsoluteUrl($item['image'], $baseUrl);
+                $image = getOptimizedOgImage($absImage);
+                $url = $baseUrl . "/" . $expectedPath;
+                $found = true;
+                $debugInfo[] = "Pod Static Fallback Match: YES, Slug: " . $item['slug'];
+                break;
+            }
+        }
+    }
+
+    if ($query_err) {
+        $debugInfo[] = "Pod DB Info/Error: " . $query_err;
     }
 }
 
@@ -709,7 +887,8 @@ $jsonLd = [
 $jsonLdScript = "\n    <script type=\"application/ld+json\">\n    " . json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . "\n    </script>\n";
 
 // Inject before </head>
-$html = str_replace($headEnd, $ogTags . $jsonLdScript . $headEnd, $html);
+$debugHtml = "\n<!--\nSUCCESSWIKIS DEBUG INFO:\n" . implode("\n", $debugInfo) . "\n-->\n";
+$html = str_replace($headEnd, $ogTags . $jsonLdScript . $debugHtml . $headEnd, $html);
 
 echo $html;
 ?>

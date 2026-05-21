@@ -8,7 +8,6 @@ import carbonBadge from '../assets/carbon-footer.png';
 import whiteLogo from '../assets/logo-white.png';
 import { FaLinkedinIn, FaInstagram } from 'react-icons/fa';
 import ShareButton from './ShareButton';
-import LikeButton from './LikeButton';
 import CommentSection from './CommentSection';
 import Footer from './Footer';
 import AudioReader from './AudioReader';
@@ -39,6 +38,24 @@ const EventLayout = ({ category, title, content, image, sponsoredImage, date }) 
         }
     };
 
+    const handleGoBack = () => {
+        if (window.history.state && typeof window.history.state.idx === 'number' && window.history.state.idx > 0) {
+            navigate(-1);
+        } else {
+            if (category === "Success Wire" || window.location.pathname.includes("/success-wire")) {
+                navigate("/success-wire");
+            } else if (category === "Blog" || window.location.pathname.includes("/blogs")) {
+                navigate("/blogs");
+            } else if (category === "Events" || window.location.pathname.includes("/events")) {
+                navigate("/events");
+            } else if (category) {
+                navigate(`/?tab=${encodeURIComponent(category)}`);
+            } else {
+                navigate("/");
+            }
+        }
+    };
+
     useEffect(() => {
         // Update currentUrl whenever location changes
         setCurrentUrl(window.location.href);
@@ -63,7 +80,7 @@ const EventLayout = ({ category, title, content, image, sponsoredImage, date }) 
             <div className="pod-post-page">
                 {/* Hero Section */}
                 <div className="pod-hero-section">
-                    <button onClick={() => navigate(-1)} className="go-back-btn">
+                    <button onClick={handleGoBack} className="go-back-btn">
                         <FiArrowLeft size={20} />
                         Go Back
                     </button>
@@ -111,7 +128,6 @@ const EventLayout = ({ category, title, content, image, sponsoredImage, date }) 
                                     </a>
                                 </div>
                                 <AudioReader contentRef={contentBodyRef} title={title} />
-                                <LikeButton postId={title} />
                                 <ShareButton url={currentUrl} title={title} />
                             </div>
                         </div>
