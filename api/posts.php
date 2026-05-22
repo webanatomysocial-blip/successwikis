@@ -157,10 +157,27 @@ switch ($method) {
             exit;
         }
 
-        // Generate slug if empty
+        // Generate slug if empty or format it
         if (empty($slug)) {
-            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
-            // Quick check for unique slug is handled by UNIQUE constraint, but we should handle it better in prod
+            $slug = strtolower($title);
+        } else {
+            $slug = strtolower($slug);
+        }
+        $slug = preg_replace('/[^a-z0-9-]+/', '-', $slug);
+        $slug = preg_replace('/-+/', '-', $slug);
+        $slug = trim($slug, '-');
+
+        // Ensure the slug is unique
+        $base_slug = $slug;
+        $counter = 1;
+        while (true) {
+            $check_stmt = $pdo->prepare("SELECT COUNT(*) FROM posts WHERE slug = ?");
+            $check_stmt->execute([$slug]);
+            if ($check_stmt->fetchColumn() == 0) {
+                break;
+            }
+            $slug = $base_slug . '-' . $counter;
+            $counter++;
         }
 
         try {
@@ -213,6 +230,29 @@ switch ($method) {
                 $stmt = $pdo->prepare("UPDATE posts SET deleted_at = NULL WHERE id = ?");
                 $stmt->execute([$id]);
             } else {
+                // Generate slug if empty or format it
+                if (empty($slug)) {
+                    $slug = strtolower($title);
+                } else {
+                    $slug = strtolower($slug);
+                }
+                $slug = preg_replace('/[^a-z0-9-]+/', '-', $slug);
+                $slug = preg_replace('/-+/', '-', $slug);
+                $slug = trim($slug, '-');
+
+                // Ensure the slug is unique (excluding this current post)
+                $base_slug = $slug;
+                $counter = 1;
+                while (true) {
+                    $check_stmt = $pdo->prepare("SELECT COUNT(*) FROM posts WHERE slug = ? AND id != ?");
+                    $check_stmt->execute([$slug, $id]);
+                    if ($check_stmt->fetchColumn() == 0) {
+                        break;
+                    }
+                    $slug = $base_slug . '-' . $counter;
+                    $counter++;
+                }
+
                 $stmt = $pdo->prepare("UPDATE posts SET post_type=?, title=?, slug=?, meta_description=?, excerpt=?, content=?, youtube_link=?, image_url=?, category=?, published_date=COALESCE(?, published_date), is_published=?, initial_likes=COALESCE(?, initial_likes), outer_heading=COALESCE(?, outer_heading), inner_heading=COALESCE(?, inner_heading), updated_at=CURRENT_TIMESTAMP WHERE id=?");
                 $stmt->execute([$post_type, $title, $slug, $meta_description, $excerpt, $content, $youtube_link, $image_url, $category, $published_date, $is_published, $initial_likes, $outer_heading, $inner_heading, $id]);
             }
@@ -241,9 +281,14 @@ switch ($method) {
 
         try {
             if ($permanent) {
+                // Delete associated featured submission first
+                $stmtSub = $pdo->prepare("DELETE FROM featured_submissions WHERE post_id = ?");
+                $stmtSub->execute([$id]);
+
+                // Delete the post itself
                 $stmt = $pdo->prepare("DELETE FROM posts WHERE id = ?");
                 $stmt->execute([$id]);
-                echo json_encode(['status' => 'success', 'message' => 'Post permanently deleted']);
+                echo json_encode(['status' => 'success', 'message' => 'Post and associated submission permanently deleted']);
             } else {
                 $stmt = $pdo->prepare("UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?");
                 $stmt->execute([$id]);

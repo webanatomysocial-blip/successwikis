@@ -57,14 +57,12 @@ const Header = ({ onSearch }) => {
             />
           </div>
 
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSec1u08PCoUHCZOZOprFHmBZpJ0ExADdcdbXvlZlq-JDCgGVg/viewform?pli=1&authuser=0"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/get-featured"
             className="get-featured-btn"
           >
             Get Featured
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Actions */}

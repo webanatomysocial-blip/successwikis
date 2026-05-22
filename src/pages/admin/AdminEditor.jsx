@@ -9,6 +9,17 @@ export default function AdminEditor() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
+  const slugify = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
+  };
+
   const [formData, setFormData] = useState({
     post_type: "blog",
     title: "",
@@ -22,6 +33,8 @@ export default function AdminEditor() {
     published_date: new Date().toISOString().split("T")[0],
     is_published: 0,
     initial_likes: 0,
+    outer_heading: "",
+    inner_heading: "",
   });
 
   const [uploading, setUploading] = useState(false);
@@ -50,7 +63,7 @@ export default function AdminEditor() {
             const post = data.data;
             if (post) {
               setFormData({
-                post_type: post.post_type,
+                post_type: post.post_type === 'stage_behind_the_story' ? 'stage_behind_story' : post.post_type,
                 title: post.title,
                 slug: post.slug,
                 category: post.category || "",
@@ -64,6 +77,8 @@ export default function AdminEditor() {
                   : "",
                 is_published: parseInt(post.is_published),
                 initial_likes: post.initial_likes || 0,
+                outer_heading: post.outer_heading || "",
+                inner_heading: post.inner_heading || "",
               });
             }
           }
@@ -148,7 +163,10 @@ export default function AdminEditor() {
               const post = data.data;
               setFormData({
                 ...post,
+                post_type: post.post_type === 'stage_behind_the_story' ? 'stage_behind_story' : post.post_type,
                 is_published: parseInt(post.is_published),
+                outer_heading: post.outer_heading || "",
+                inner_heading: post.inner_heading || "",
               });
             }
           };
@@ -277,9 +295,15 @@ export default function AdminEditor() {
         <input
           type="text"
           value={formData.title}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, title: e.target.value }))
-          }
+          onChange={(e) => {
+            const titleVal = e.target.value;
+            const generatedSlug = slugify(titleVal);
+            setFormData((prev) => ({ 
+              ...prev, 
+              title: titleVal,
+              slug: !prev.slug || prev.slug === slugify(prev.title) ? generatedSlug : prev.slug
+            }));
+          }}
           required
           className="admin-input"
         />
@@ -288,9 +312,44 @@ export default function AdminEditor() {
         <input
           type="text"
           value={formData.slug}
-          onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
+          onChange={(e) => {
+            const val = e.target.value;
+            const formattedSlug = val
+              .toLowerCase()
+              .replace(/\s+/g, '-')
+              .replace(/[^a-z0-9\-]/g, '');
+            setFormData((prev) => ({ ...prev, slug: formattedSlug }));
+          }}
           className="admin-input"
         />
+
+        {(formData.post_type === "driven_by_purpose" ||
+          formData.post_type === "stage_behind_story" ||
+          formData.post_type === "founders_unfiltered") && (
+          <>
+            <label className="admin-label">Outer Post Title (Outer Heading)</label>
+            <input
+              type="text"
+              value={formData.outer_heading}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, outer_heading: e.target.value }))
+              }
+              className="admin-input"
+              placeholder="Enter outer post title..."
+            />
+
+            <label className="admin-label">Inner Title (Inner Heading)</label>
+            <input
+              type="text"
+              value={formData.inner_heading}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, inner_heading: e.target.value }))
+              }
+              className="admin-input"
+              placeholder="Enter inner title..."
+            />
+          </>
+        )}
 
         <label className="admin-label">Excerpt / Short Description</label>
         <textarea

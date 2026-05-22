@@ -25,6 +25,7 @@ import DynamicPod from "./components/DynamicPod";
 import Events from "./pages/Events";
 import DynamicEvent from "./components/DynamicEvent";
 import NotFound from "./pages/NotFound";
+import GetFeatured from "./pages/GetFeatured";
 
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -66,6 +67,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/about" element={<About />} />
             <Route path="/works" element={<Works />} />
             <Route path="/ads" element={<Ads />} />
+            <Route path="/get-featured" element={<GetFeatured />} />
 
             {/* Legal Pages */}
             <Route path="/terms-of-use" element={<TermsOfUse />} />

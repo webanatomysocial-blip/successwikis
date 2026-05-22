@@ -75,5 +75,8 @@
 @media (max-width: 900px) {
   .audio-reader-container {
     display: block;
-  }
+}
+.audio-reader-btn span {
+    display: none;
+}
 }

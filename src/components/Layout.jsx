@@ -94,7 +94,7 @@ const Layout = ({ children }) => {
     const cleanPath = path.split("/").filter(Boolean); // Remove empty strings
 
     // Check static routes
-    const staticRoutes = ["/", "/about", "/contact", "/careers", "/works", "/ads", "/blogs", "/success-wire", "/events", "/terms-of-use", "/cookies-policy", "/privacy-policy", "/accessibility-statement"];
+    const staticRoutes = ["/", "/about", "/contact", "/careers", "/works", "/ads", "/blogs", "/success-wire", "/events", "/terms-of-use", "/cookies-policy", "/privacy-policy", "/accessibility-statement", "/get-featured"];
     if (staticRoutes.includes(path)) return true;
 
     // Check blog routes: /blogs/:slug
@@ -128,6 +128,7 @@ const Layout = ({ children }) => {
     location.pathname.startsWith("/success-wire/") ||
     location.pathname.startsWith("/events/") ||
     location.pathname === "/about" ||
+    location.pathname === "/get-featured" ||
     location.pathname.startsWith("/blogs/") ||
     !isValidRoute() ||
     searchQuery.trim() !== "";
