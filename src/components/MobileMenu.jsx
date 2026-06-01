@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../css/mobile-menu.css";
 import { IoClose } from "react-icons/io5";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa"; // Icons for arrows
+import { FiInfo } from "react-icons/fi";
 import { podMetadata } from "../pod/metadata";
 import sponsoredImg from "../assets/Sponsored/sponsored-image.jpg";
 
@@ -144,20 +145,11 @@ const MobileMenu = ({ isOpen, onClose }) => {
           className="mobile-menu-sponsored"
           style={{ paddingTop: "20px", height: "200px" }}
         >
-          <span
-            style={{
-              display: "block",
-              fontSize: "12px",
-              color: "#999",
-              marginBottom: "5px",
-              textAlign: "right",
-              textTransform: "uppercase",
-            }}
-          >
-            Sponsored
+          <span className="sponsored-label" title="This content is promoted by a sponsor.">
+            <FiInfo size={14} /> Sponsored
           </span>
           <a
-            href="https://togglenow.com/services/mca-audit-trail/"
+            href="https://webanatomy.in/"
             target="_blank"
             rel="noopener noreferrer"
           >

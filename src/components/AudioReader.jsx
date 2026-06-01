@@ -69,19 +69,37 @@ const AudioReader = ({ contentRef, title }) => {
     if (!synth) return null;
     const availableVoices = synth.getVoices();
     
-    // 1. Look for English (India) voices: en-IN or en_IN
-    const enInVoices = availableVoices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.toLowerCase().replace('_', '-') === 'en-in');
-    if (enInVoices.length > 0) {
-      const preferred = enInVoices.find(v => v.name.toLowerCase().includes('google') || v.name.toLowerCase().includes('microsoft') || v.name.toLowerCase().includes('natural') || v.name.toLowerCase().includes('rishi') || v.name.toLowerCase().includes('heera'));
-      return preferred || enInVoices[0];
-    }
-    
-    // 2. Look for any voice with lang containing "IN" or "in"
-    const inVoices = availableVoices.filter(v => v.lang.toLowerCase().includes('in'));
-    if (inVoices.length > 0) {
-      return inVoices[0];
+    // 1. Look specifically for the "Aarti" voice the user requested
+    const aartiVoice = availableVoices.find(v => v.name.toLowerCase().includes('aarti') || v.name.toLowerCase().includes('dragon'));
+    if (aartiVoice) {
+      return aartiVoice;
     }
 
+    // 2. Look for ANY Indian Female voice (Veena, Heera, or explicitly labeled female)
+    const indianFemale = availableVoices.find(v => 
+      (v.lang.toLowerCase().includes('in')) && 
+      (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('veena') || v.name.toLowerCase().includes('heera'))
+    );
+    if (indianFemale) {
+      return indianFemale;
+    }
+    
+    // 3. Look for ANY Female English voice
+    const englishFemale = availableVoices.find(v => 
+      (v.lang.toLowerCase().includes('en')) && 
+      (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('victoria') || v.name.toLowerCase().includes('zira'))
+    );
+    if (englishFemale) {
+      return englishFemale;
+    }
+    
+    // 4. Fallback to any Indian voice
+    const enInVoices = availableVoices.filter(v => v.lang.toLowerCase().includes('in'));
+    if (enInVoices.length > 0) {
+      return enInVoices[0];
+    }
+
+    // 5. Absolute fallback
     return null;
   }, [synth]);
 
@@ -133,14 +151,21 @@ const AudioReader = ({ contentRef, title }) => {
       setIsPlaying(true);
       return;
     }
+    
+  const voices = speechSynthesis.getVoices();
+  console.log('voices', voices);
 
     const fullText = buildTextMap();
     const u = new SpeechSynthesisUtterance(fullText);
     
-    // Select Indian English voice if available
-    const indianVoice = getIndianVoice();
-    if (indianVoice) {
-      u.voice = indianVoice;
+    // Apply user-requested settings
+    u.pitch = 0.5;  // -50%
+    u.rate = 1.0;   // +50%
+    
+    // Select best voice if available
+    const selectedVoice = getIndianVoice();
+    if (selectedVoice) {
+      u.voice = selectedVoice;
     }
     
     u.onboundary = (event) => {
@@ -167,7 +192,9 @@ const AudioReader = ({ contentRef, title }) => {
   };
 
   const handleStop = () => {
-    synth.cancel();
+    if (synth) {
+      synth.cancel();
+    }
     setIsPlaying(false);
     setIsPaused(false);
     window.getSelection().removeAllRanges();

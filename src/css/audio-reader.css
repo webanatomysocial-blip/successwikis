@@ -61,6 +61,20 @@
   100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.icon-spin {
+  animation: spin 1s linear infinite;
+}
+
+.audio-reader-btn.loading {
+  opacity: 0.7;
+  cursor: wait;
+}
+
 /* Text Selection Highlight Style */
 ::selection {
   background: #ffeb3b; /* Bright yellow highlight */
@@ -75,8 +89,11 @@
 @media (max-width: 900px) {
   .audio-reader-container {
     display: block;
-}
-.audio-reader-btn span {
+  }
+  .audio-reader-btn span {
     display: none;
-}
+  }
+  .audio-reader-stop-btn {
+    display: none !important;
+  }
 }

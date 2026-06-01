@@ -120,6 +120,19 @@ const Layout = ({ children }) => {
     return false;
   };
 
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  React.useEffect(() => {
+    if (isAdminRoute) {
+      document.body.classList.add("admin-body");
+    } else {
+      document.body.classList.remove("admin-body");
+    }
+    return () => {
+      document.body.classList.remove("admin-body");
+    };
+  }, [isAdminRoute]);
+
   // Conditionally hide the global sidebar for pod and success lens pages
   const isExcludedPage =
     location.pathname.startsWith("/driven-by-purpose/") ||
@@ -130,10 +143,9 @@ const Layout = ({ children }) => {
     location.pathname === "/about" ||
     location.pathname === "/get-featured" ||
     location.pathname.startsWith("/blogs/") ||
+    isAdminRoute ||
     !isValidRoute() ||
     searchQuery.trim() !== "";
-
-  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <div className="app-layout">

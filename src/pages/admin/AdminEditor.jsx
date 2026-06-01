@@ -1,8 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import ReactQuill from "react-quill-new";
+import ReactQuill, { Quill } from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "../../css/admin.css";
+
+const LinkFormat = Quill.import("formats/link");
+class CustomLink extends LinkFormat {
+  static create(value) {
+    let url = value;
+    if (url && !/^(https?:\/\/|mailto:|tel:|\/|#)/i.test(url)) {
+      url = "https://" + url;
+    }
+    return super.create(url);
+  }
+}
+Quill.register(CustomLink, true);
 
 export default function AdminEditor() {
   const { id } = useParams();
@@ -135,7 +147,20 @@ export default function AdminEditor() {
       const apiBaseURL =
         import.meta.env.VITE_API_URL ||
         (import.meta.env.PROD ? "" : "http://localhost:8000");
-      const payload = { ...formData };
+
+      // Fix links that are missing http:// or https://
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(formData.content, "text/html");
+      const links = doc.querySelectorAll("a");
+      links.forEach((link) => {
+        let href = link.getAttribute("href");
+        if (href && !/^(https?:\/\/|mailto:|tel:|\/|#)/i.test(href)) {
+          link.setAttribute("href", "https://" + href);
+        }
+      });
+      const processedContent = doc.body.innerHTML;
+
+      const payload = { ...formData, content: processedContent };
       if (id) payload.id = id;
 
       const res = await fetch(`${apiBaseURL}/api/posts.php`, {

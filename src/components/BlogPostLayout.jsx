@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FiLinkedin, FiInstagram, FiArrowLeft } from "react-icons/fi";
+import { FiLinkedin, FiInstagram, FiArrowLeft, FiInfo } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../css/blog-post.css";
@@ -95,7 +95,7 @@ const PodLayout = ({
                 className="social-link-header"
                 style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
               >
-                <FiInstagram size={24} />
+                <FiInstagram size={20} />
               </button>
               <a
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
@@ -106,7 +106,7 @@ const PodLayout = ({
                 aria-label="Share on LinkedIn"
                 className="social-link-header"
               >
-                <FiLinkedin size={24} />
+                <FiLinkedin size={20} />
               </a>
             </div>
             <AudioReader contentRef={contentBodyRef} title={title} />
@@ -151,10 +151,10 @@ const PodLayout = ({
           </div>
 
           <div className="sponsored-card">
-            <span className="sponsored-label">Sponsored</span>
+            <span className="sponsored-label"><FiInfo size={14} /> Sponsored</span>
             {sponsoredImage && (
               <a
-                href="https://togglenow.com/services/mca-audit-trail/"
+                href="https://webanatomy.in/"
                 target="_blank"
                 rel="noopener noreferrer"
               >

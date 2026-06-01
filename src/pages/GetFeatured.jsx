@@ -80,37 +80,72 @@ export default function GetFeatured() {
 
   // Check contact form validation
   const validateContactStep = () => {
-    if (!contactInfo.full_name.trim()) return "Full Name is required.";
-    if (!contactInfo.role.trim()) return "Role / Designation is required.";
-    if (!contactInfo.email.trim()) return "Business Email Address is required.";
-    
-    // Check email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(contactInfo.email.trim())) {
-      return "Please enter a valid email address.";
+    const nameVal = contactInfo.full_name.trim();
+    if (!nameVal) return "Full Name is required.";
+    if (nameVal.length < 2) {
+      return "Full Name must be at least 2 characters long.";
+    }
+    const nameRegex = /^[a-zA-Z\s\.\-\']+$/;
+    if (!nameRegex.test(nameVal)) {
+      return "Full Name can only contain letters, spaces, dots, hyphens, and apostrophes.";
     }
 
-    if (!contactInfo.phone.trim()) return "Phone Number is required.";
-    if (!contactInfo.company_name.trim()) return "Company Name is required.";
+    const roleVal = contactInfo.role.trim();
+    if (!roleVal) return "Role / Designation is required.";
+    if (roleVal.length < 2) {
+      return "Role / Designation must be at least 2 characters long.";
+    }
+
+    const emailVal = contactInfo.email.trim();
+    if (!emailVal) return "Business Email Address is required.";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailVal)) {
+      return "Please enter a valid Business Email Address.";
+    }
+
+    const phoneVal = contactInfo.phone.trim();
+    if (!phoneVal) return "Phone Number is required.";
+    
+    // Check digits count (must be at least 10 numbers/digits and at most 15 digits)
+    const digitsOnly = phoneVal.replace(/\D/g, "");
+    if (digitsOnly.length < 10) {
+      return "Phone Number must contain at least 10 digits.";
+    }
+    if (digitsOnly.length > 15) {
+      return "Phone Number cannot exceed 15 digits.";
+    }
+    // Accept standard international symbols: optional leading +, spaces, dashes, parentheses
+    const phoneRegex = /^\+?[0-9\s\-()]+$/;
+    if (!phoneRegex.test(phoneVal)) {
+      return "Phone Number contains invalid characters. Only digits, spaces, dashes, parentheses, and a leading '+' are allowed.";
+    }
+
+    const companyVal = contactInfo.company_name.trim();
+    if (!companyVal) return "Company Name is required.";
+    if (companyVal.length < 2) {
+      return "Company Name must be at least 2 characters long.";
+    }
 
     // Validate required website
-    if (!contactInfo.company_website.trim()) {
+    const websiteVal = contactInfo.company_website.trim();
+    if (!websiteVal) {
       return "Company Website is required.";
     } else {
       const urlRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]*)?$/;
-      if (!urlRegex.test(contactInfo.company_website.trim())) {
+      if (!urlRegex.test(websiteVal)) {
         return "Company Website must be a valid URL (e.g., https://example.com).";
       }
     }
 
     // Validate required LinkedIn (stricter validation)
-    if (!contactInfo.company_linkedin.trim()) {
+    const linkedinVal = contactInfo.company_linkedin.trim();
+    if (!linkedinVal) {
       return "Company LinkedIn is required.";
     } else {
       const urlRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]*)?$/;
-      const linkedinStr = contactInfo.company_linkedin.trim().toLowerCase();
-      // Ensure it contains linkedin.com/in/ or linkedin.com/company/ and something after it
-      const hasValidPath = /(linkedin\.com\/(in|company|school)\/[a-zA-Z0-9_-]+)/.test(linkedinStr);
+      const linkedinStr = linkedinVal.toLowerCase();
+      // Ensure it contains linkedin.com/in/, /company/, /school/, /showcase/, or /pub/ and something after it
+      const hasValidPath = /(linkedin\.com\/(in|company|school|showcase|pub)\/[a-zA-Z0-9_\-\.\%]+)/.test(linkedinStr);
       if (!urlRegex.test(linkedinStr) || !hasValidPath) {
         return "Company LinkedIn must be a valid profile or company URL (e.g., https://linkedin.com/company/example).";
       }
@@ -1027,13 +1062,7 @@ export default function GetFeatured() {
 
                       {/* FOUNDERS UNFILTERED DETAILS */}
                       {activeBox === "founders_unfiltered" && (
-                        <div
-                          style={{
-                            maxHeight: "500px",
-                            overflowY: "auto",
-                            paddingRight: "10px",
-                          }}
-                        >
+                        <div>
                           <div>
                             <h3 className="form-step-title">Founder Questions</h3>
                             <p className="form-step-subtitle">

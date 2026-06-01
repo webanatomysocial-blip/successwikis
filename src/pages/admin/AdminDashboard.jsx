@@ -27,6 +27,11 @@ export default function AdminDashboard() {
     const [subTypeFilter, setSubTypeFilter] = useState('all'); // 'all', 'driven_by_purpose', 'founders_unfiltered', 'stage_behind_the_story'
     const [approvedDraftPostId, setApprovedDraftPostId] = useState(null);
     
+    const [readSubmissions, setReadSubmissions] = useState(() => {
+        const stored = localStorage.getItem('read_submissions');
+        return stored ? JSON.parse(stored) : [];
+    });
+    
     // Modals state
     const [selectedSub, setSelectedSub] = useState(null);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -232,6 +237,15 @@ export default function AdminDashboard() {
         }
     };
 
+    const handleViewSub = (sub) => {
+        setSelectedSub(sub);
+        if (sub && sub.id && !readSubmissions.includes(sub.id)) {
+            const updated = [...readSubmissions, sub.id];
+            setReadSubmissions(updated);
+            localStorage.setItem('read_submissions', JSON.stringify(updated));
+        }
+    };
+
     const handleOpenEdit = (sub) => {
         setSelectedSub(sub);
         setIsEditMode(true);
@@ -362,12 +376,12 @@ export default function AdminDashboard() {
         );
     };
 
-    const pendingCount = submissions.filter(sub => sub.status === 'pending').length;
+    const pendingCount = submissions.filter(sub => sub.status === 'pending' && !readSubmissions.includes(sub.id)).length;
 
     return (
         <div className="admin-layout-container">
             {/* Sidebar Navigation */}
-            <div className="admin-sidebar">
+            <div className="admin-sidebar" data-lenis-prevent>
                 <div className="admin-sidebar-brand">SuccessWikis Admin</div>
                 <div className="admin-sidebar-nav">
                     <button 
@@ -400,7 +414,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Main Content Area */}
-            <div className="admin-main-content">
+            <div className="admin-main-content" data-lenis-prevent>
                 {currentNav === 'posts' ? (
                     /* POSTS DASHBOARD PAGE */
                     <div className="admin-page" style={{ padding: 0 }}>
@@ -429,26 +443,26 @@ export default function AdminDashboard() {
                                 <table className="admin-table">
                                     <thead>
                                         <tr>
-                                            <th>Image</th>
-                                            <th>Title</th>
+                                            <th style={{ width: '10%' }}>Image</th>
+                                            <th style={{ width: '20%' }}>Title</th>
                                             {activeTab === 'all' && <th>Type</th>}
                                             <th style={{ textAlign: 'center' }}>Likes</th>
                                             <th>Status</th>
-                                            <th>Date</th>
-                                            <th style={{ textAlign: 'right' }}>Actions</th>
+                                            <th style={{ width: '5%' }}>Date</th>
+                                            <th style={{ textAlign: 'right', width: '20%' }}>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {filteredPosts.map(post => (
                                             <tr key={post.id}>
-                                                <td>
+                                                <td className='image-td'>
                                                     {post.image_url ? (
                                                         <img src={post.image_url} alt="Preview" className="admin-img-preview" />
                                                     ) : (
                                                         <div className="admin-img-placeholder">No Img</div>
                                                     )}
                                                 </td>
-                                                <td style={{ fontWeight: '500' }}>{post.title}</td>
+                                                <td className='title-td' style={{ fontWeight: '500' }}>{post.title}</td>
                                                 {activeTab === 'all' && (
                                                     <td>
                                                         <span style={{ fontSize: '12px', background: '#f0f0f0', padding: '4px 8px', borderRadius: '4px', textTransform: 'capitalize' }}>
@@ -456,22 +470,29 @@ export default function AdminDashboard() {
                                                         </span>
                                                     </td>
                                                 )}
-                                                <td className="admin-likes-count">
-                                                    {post.likes_count || 0}
+                                                <td className="admin-likes-count" style={{ textAlign: 'center', lineHeight: '1.4' }}>
+                                                    <div style={{ fontSize: '11px', color: '#38a169', fontWeight: '600' }}>
+                                                        Genuine: {Math.max(0, (post.likes_count || 0) - (post.initial_likes || 0))}
+                                                    </div>
+                                                    <div style={{ fontSize: '11px', color: '#dd6b20', fontWeight: '600' }}>
+                                                        Default: {post.initial_likes || 0}
+                                                    </div>
+                                                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#e53e3e', marginTop: '2px' }}>
+                                                        Total: {post.likes_count || 0}
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <span className={`admin-status-badge ${parseInt(post.is_published) === 1 ? 'admin-status-live' : 'admin-status-draft'}`}>
                                                         {parseInt(post.is_published) === 1 ? '• LIVE' : '• DRAFT'}
                                                     </span>
                                                 </td>
-                                                <td style={{ color: '#666', fontSize: '13px' }}>
+                                                <td className="admin-date-cell" style={{ color: '#666', fontSize: '13px' }}>
                                                     {new Date(post.published_date).toLocaleDateString()}
                                                 </td>
-                                                <td style={{ textAlign: 'right' }}>
+                                                <td className="admin-actions-cell" style={{ textAlign: 'right' }}>
                                                     {activeTab === 'trash' ? (
                                                         <>
-                                                            <button onClick={() => handleRestore(post.id)} className="admin-btn-link" style={{ marginRight: '15px', color: '#2c7a7b' }}>Restore</button>
-                                                            <button onClick={() => handleDelete(post.id, true)} className="admin-btn-link admin-btn-link-danger">Delete Perm</button>
+                                                            <button onClick={() => handleRestore(post.id)} className="admin-btn-link" style={{ color: '#2c7a7b' }}>Restore</button>
                                                         </>
                                                     ) : (
                                                         <>
@@ -517,7 +538,7 @@ export default function AdminDashboard() {
                                 </thead>
                                 <tbody>
                                     {submissions
-                                        .filter(sub => isDrivenByPurpose(sub.type) && sub.status === 'approved')
+                                        .filter(sub => isFeaturedType(sub.type) && sub.status === 'approved')
                                         .map(sub => (
                                             <tr key={sub.id}>
                                                 <td>
@@ -566,7 +587,7 @@ export default function AdminDashboard() {
                                                 </td>
                                                 <td style={{ textAlign: 'right' }}>
                                                     <button 
-                                                        onClick={() => setSelectedSub(sub)} 
+                                                        onClick={() => handleViewSub(sub)} 
                                                         className="admin-btn-link" 
                                                         style={{ marginRight: '15px' }}
                                                     >
@@ -584,7 +605,7 @@ export default function AdminDashboard() {
                                                 </td>
                                             </tr>
                                         ))}
-                                    {submissions.filter(sub => isDrivenByPurpose(sub.type) && sub.status === 'approved').length === 0 && (
+                                    {submissions.filter(sub => isFeaturedType(sub.type) && sub.status === 'approved').length === 0 && (
                                         <tr>
                                             <td colSpan="5" style={{ padding: '40px', textAlign: 'center', color: '#a0aec0' }}>
                                                 No approved Driven By Purpose submissions found.
@@ -638,14 +659,12 @@ export default function AdminDashboard() {
                         </div>
 
                         {/* Submission Filter Badges */}
-                        {(subTypeFilter === 'all' || subTypeFilter === 'driven_by_purpose') && (
-                            <div className="admin-tabs">
-                                <button onClick={() => setSubFilter('all')} className={`admin-tab ${subFilter === 'all' ? 'admin-tab-active' : ''}`}>All Statuses</button>
-                                <button onClick={() => setSubFilter('pending')} className={`admin-tab ${subFilter === 'pending' ? 'admin-tab-active' : ''}`}>Pending ⏳</button>
-                                <button onClick={() => setSubFilter('approved')} className={`admin-tab ${subFilter === 'approved' ? 'admin-tab-active' : ''}`}>Approved ✓</button>
-                                <button onClick={() => setSubFilter('rejected')} className={`admin-tab ${subFilter === 'rejected' ? 'admin-tab-active' : ''}`}>Rejected ✗</button>
-                            </div>
-                        )}
+                        <div className="admin-tabs">
+                            <button onClick={() => setSubFilter('all')} className={`admin-tab ${subFilter === 'all' ? 'admin-tab-active' : ''}`}>All Statuses</button>
+                            <button onClick={() => setSubFilter('pending')} className={`admin-tab ${subFilter === 'pending' ? 'admin-tab-active' : ''}`}>Pending ⏳</button>
+                            <button onClick={() => setSubFilter('approved')} className={`admin-tab ${subFilter === 'approved' ? 'admin-tab-active' : ''}`}>Approved ✓</button>
+                            <button onClick={() => setSubFilter('rejected')} className={`admin-tab ${subFilter === 'rejected' ? 'admin-tab-active' : ''}`}>Rejected ✗</button>
+                        </div>
 
                         {subLoading ? <p>Loading submissions...</p> : (
                             <div className="admin-card">
@@ -673,7 +692,7 @@ export default function AdminDashboard() {
                                                 </td>
                                                 <td>{sub.email}</td>
                                                 <td>
-                                                    {isDrivenByPurpose(sub.type) ? (
+                                                    {isFeaturedType(sub.type) ? (
                                                         <span className={`admin-status-badge admin-badge-${sub.status}`}>
                                                             {sub.status.toUpperCase()}
                                                         </span>
@@ -685,8 +704,8 @@ export default function AdminDashboard() {
                                                     {new Date(sub.created_at).toLocaleDateString()} {new Date(sub.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </td>
                                                 <td style={{ textAlign: 'right' }}>
-                                                    <button onClick={() => setSelectedSub(sub)} className="admin-btn-link" style={{ marginRight: '15px' }}>View</button>
-                                                    {isDrivenByPurpose(sub.type) && (
+                                                    <button onClick={() => handleViewSub(sub)} className="admin-btn-link" style={{ marginRight: '15px' }}>View</button>
+                                                    {isFeaturedType(sub.type) && (
                                                         <button onClick={() => handleOpenEdit(sub)} className="admin-btn-link" style={{ marginRight: '15px', color: '#2b6cb0' }}>Edit</button>
                                                     )}
                                                     <button onClick={() => handleDeleteSubmission(sub.id)} className="admin-btn-link admin-btn-link-danger">Delete</button>
@@ -719,7 +738,7 @@ export default function AdminDashboard() {
                                 Submissions Review
                             </h2>
                             
-                            {isDrivenByPurpose(selectedSub.type) && (
+                            {isFeaturedType(selectedSub.type) && (
                                 <span className={`admin-status-badge admin-badge-${selectedSub.status}`} style={{ fontSize: '14px', padding: '6px 16px' }}>
                                     {selectedSub.status.toUpperCase()}
                                 </span>
@@ -858,7 +877,7 @@ export default function AdminDashboard() {
 
                         {/* Modal Action Footer */}
                         <div className="admin-form-actions" style={{ borderTop: '1px solid #edf2f7', paddingTop: '20px', marginTop: '30px' }}>
-                            {isDrivenByPurpose(selectedSub.type) && (
+                            {isFeaturedType(selectedSub.type) && (
                                 <>
                                     {selectedSub.status === 'pending' && (
                                         <>
@@ -1367,7 +1386,7 @@ export default function AdminDashboard() {
                                 </button>
                             </div>
 
-                             {isDrivenByPurpose(selectedSub.type) && (
+                             {isFeaturedType(selectedSub.type) && (
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div style={{ color: '#718096', fontSize: '13px' }}>
                                         Submission Status: <strong style={{ textTransform: 'uppercase', color: selectedSub.status === 'pending' ? '#dd6b20' : '#2b6cb0' }}>{selectedSub.status}</strong>

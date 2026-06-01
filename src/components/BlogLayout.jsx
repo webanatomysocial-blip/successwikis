@@ -122,7 +122,7 @@ const BlogLayout = ({
                     className="social-link-header"
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                   >
-                    <FiInstagram size={24} />
+                    <FiInstagram size={20} />
                   </button>
                   <a
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
@@ -131,7 +131,7 @@ const BlogLayout = ({
                     aria-label="Share on LinkedIn"
                     className="social-link-header"
                   >
-                    <FiLinkedin size={24} />
+                    <FiLinkedin size={20} />
                   </a>
                 </div>
                 <AudioReader contentRef={contentBodyRef} title={title} />

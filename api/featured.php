@@ -290,9 +290,10 @@ switch ($method) {
             }
 
             if ($action === 'approve' || $action === 'reject') {
-                if ($submission['type'] !== 'driven_by_purpose') {
+                $allowed_types = ['driven_by_purpose', 'stage_behind_story', 'stage_behind_the_story', 'founders_unfiltered'];
+                if (!in_array($submission['type'], $allowed_types)) {
                     http_response_code(400);
-                    echo json_encode(['status' => 'error', 'message' => 'Only Driven by Purpose submissions can be approved or rejected.']);
+                    echo json_encode(['status' => 'error', 'message' => 'Invalid submission type for approval.']);
                     exit;
                 }
             }
@@ -303,7 +304,7 @@ switch ($method) {
                 $post_type = $submission['type'];
                 $form_data = json_decode($submission['form_data'], true) ?: [];
 
-                $title = $form_data['feature_title'] ?? 'Driven by Purpose: ' . ($submission['company_name'] ?: $submission['full_name']);
+                $title = $form_data['feature_title'] ?? $form_data['outer_heading'] ?? $form_data['inner_heading'] ?? (ucwords(str_replace('_', ' ', $submission['type'])) . ': ' . ($submission['company_name'] ?: $submission['full_name']));
                 $slug = isset($form_data['slug']) && trim($form_data['slug']) !== '' ? trim($form_data['slug']) : '';
                 if (empty($slug)) {
                     $slug = strtolower($title);
@@ -326,7 +327,7 @@ switch ($method) {
                         $image_url = is_array($form_data['founder_images']) ? $form_data['founder_images'][0] : $form_data['founder_images'];
                     }
                 }
-                $category = 'Driven by Purpose';
+                $category = ucwords(str_replace('_', ' ', $submission['type']));
 
                 // Ensure the slug is unique
                 $base_slug = $slug;

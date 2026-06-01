@@ -1,5 +1,10 @@
 /* src/css/admin.css */
 
+body.admin-body {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 .admin-page {
     padding: 80px 100px;
 
@@ -267,7 +272,6 @@
     grid-template-columns: 260px 1fr;
     min-height: 100vh;
     background-color: #f7fafc;
-    margin-top: -100px;
 }
 
 .admin-sidebar {
