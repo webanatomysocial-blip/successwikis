@@ -1,0 +1,29 @@
+# .htaccess for Hostinger Node.js hosting
+# ─────────────────────────────────────────────────────────────────────────────
+# IMPORTANT: Replace PORT below with the exact port number shown in
+#            Hostinger hPanel → Advanced → Node.js for your application.
+# ─────────────────────────────────────────────────────────────────────────────
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Serve real static files directly (images, fonts, Next.js assets)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 2. PHP files — serve directly through Apache (not proxied to Node.js)
+  RewriteRule ^api/ - [L]
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+  RewriteRule ^llms\.txt$ llms.php [L]
+  RewriteRule ^llms-full\.txt$ llms.php?full=1 [L]
+
+  # 3. Everything else → Next.js SSR server
+  # Replace PORT with your actual Hostinger Node.js port (e.g. 54321)
+  RewriteRule ^(.*)$ http://127.0.0.1:PORT/$1 [P,L]
+</IfModule>
+
+# Allow mod_proxy to forward requests
+<IfModule mod_proxy.c>
+  ProxyPreserveHost On
+</IfModule>

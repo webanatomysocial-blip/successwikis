@@ -1,0 +1,347 @@
+.what-we-believe-section {
+  padding: 100px 60px;
+  background-color: #fff;
+}
+
+.what-we-believe-section .head-text {
+  margin-bottom: 60px;
+  font-size: 54px;
+}
+
+.beliefs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+}
+
+.belief-item {
+  padding: 50px 40px;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  min-height: 280px;
+}
+
+.belief-icon {
+  font-size: 32px;
+  color: #000;
+}
+
+.pill-icon {
+  transform: scaleX(1.4);
+  transform-origin: left center;
+}
+
+.diamond-icon {
+  font-size: 36px;
+}
+
+.sun-icon {
+  font-size: 38px;
+}
+
+.moon-icon {
+  font-size: 34px;
+}
+
+.star-icon {
+  font-size: 38px;
+}
+
+.belief-item .para-text {
+  font-weight: 500;
+  line-height: 1.5;
+  color: #111;
+}
+
+/* Responsive for Believe Section */
+@media (max-width: 992px) {
+  .beliefs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .beliefs-grid {
+    grid-template-columns: 1fr;
+  }
+  .what-we-believe-section {
+    padding: 60px 20px;
+  }
+}
+
+.about-page-hero {
+  background: url("../assets/about-images/banner.png") no-repeat;
+  height: 90vh;
+  background-size: cover;
+  width: 100%;
+  background-position-y: 100%;
+  padding: 60px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.our-story-about-page {
+  padding: 60px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  gap: 100px;
+}
+.our-story-about-page .para-text {
+  width: 60%;
+}
+
+.about-split-section {
+  display: flex;
+  min-height: 850px;
+  width: 100%;
+  position: relative;
+  flex-direction: row;
+  /* overflow: hidden; */
+}
+
+.split-left {
+  flex: 1;
+  background-color: #0077ff;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  /* overflow: hidden; */
+  width: 50%;
+}
+
+.split-right {
+  flex: 1;
+  background-color: #fff;
+  color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  width: 50%;
+}
+
+.split-content {
+  padding: 80px 60px;
+  z-index: 5;
+  position: relative;
+}
+
+/* Absolute Containers for Images */
+.split-abs-container {
+  position: absolute;
+  bottom: -50px; /* Slight overlap with bottom */
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.abs-group-img {
+  width: 65%;
+  max-width: 750px;
+  display: block;
+  margin-left: 20px;
+}
+
+.vector-abs-container {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 75%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2;
+}
+
+.abs-vector-img {
+  width: 100%;
+  height: auto;
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .about-split-section {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .split-left,
+  .split-right {
+    width: 100%;
+  }
+  .split-content {
+    padding: 60px 40px;
+    max-width: 100% !important;
+    margin-top: 0 !important;
+  }
+  .split-abs-container {
+    position: relative;
+    margin-top: -50px;
+    bottom: 0;
+  }
+  .abs-group-img {
+    width: 100%;
+    margin-left: 0;
+    max-width: 100%;
+  }
+  .vector-abs-container {
+    position: relative;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+.advertise-idea-section {
+  padding: 100px 60px 200px 60px; /* Added extra bottom padding for the split area */
+  background: linear-gradient(to bottom, #fff 65%, #c1ffff 44%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-idea-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 120px;
+  align-items: start;
+}
+
+.ad-right .ad-text-block {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.ad-cta-container {
+  position: absolute;
+  top: 65%; /* Align with the gradient transition */
+  left: 5%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+.contact-pill-btn {
+  background-color: #000;
+  color: #fff;
+  padding: 24px 70px;
+  border-radius: 80px;
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.contact-pill-btn:hover {
+  background-color: #222;
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Removed ad-cyan-bg as we are using gradient now */
+
+/* Responsive for Ad Section */
+@media (max-width: 1100px) {
+  .ad-idea-grid {
+    gap: 60px;
+  }
+  .ad-right .ad-text-block {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 900px) {
+  .ad-idea-grid {
+    grid-template-columns: 1fr;
+    gap: 80px;
+  }
+  .ad-right .ad-text-block {
+    grid-template-columns: 1fr;
+  }
+  .advertise-idea-section {
+    padding: 80px 40px 120px 40px;
+  }
+  .ad-cta-container {
+    top: 85%; /* Adjust for mobile stacked layout */
+  }
+  .advertise-idea-section {
+    background: linear-gradient(to bottom, #fff 85%, #c1ffff 15%);
+  }
+}
+
+/* Mobile Specific Adjustments < 600px */
+@media (max-width: 600px) {
+  /* Hero */
+  .about-page-hero {
+    padding: 120px 20px 60px; /* More top padding for navbar */
+    height: auto;
+    min-height: 500px;
+    background-position: 70% 100%; /* Show more of the image */
+  }
+  .about-page-hero .big-text-head {
+    font-size: 42px;
+    line-height: 1.2;
+    word-spacing: normal !important;
+  }
+
+  /* Our Story */
+  .our-story-about-page {
+    flex-direction: column;
+    padding: 60px 20px;
+    gap: 40px;
+  }
+  .our-story-about-page .head-text {
+    margin-bottom: 20px;
+    font-size: 42px;
+  }
+  .our-story-about-page .para-text {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  /* Split Section */
+  .split-content {
+    padding: 40px 20px !important;
+  }
+  .head-text,
+  .head-text-white {
+    font-size: 36px !important;
+  }
+
+  /* Advertise Section */
+  .advertise-idea-section {
+    padding: 60px 20px 140px;
+    background: linear-gradient(to bottom, #fff 90%, #c1ffff 10%);
+  }
+  .ad-cta-container {
+    top: auto;
+    bottom: 40px;
+    transform: none;
+    left: 0;
+    padding: 0 20px;
+  }
+  .contact-pill-btn {
+    padding: 18px 0; /* Full width comfortable touch target */
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+  }
+}

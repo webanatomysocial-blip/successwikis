@@ -1,0 +1,99 @@
+/* src/css/audio-reader.css */
+
+.audio-reader-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 15px;
+}
+
+.audio-reader-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border: 1px solid #eee;
+  padding: 8px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.audio-reader-btn:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.audio-reader-btn.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  animation: pulse-audio 2s infinite;
+}
+
+.audio-reader-stop-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  background: #fff;
+  cursor: pointer;
+  color: #dc3545;
+  transition: all 0.2s ease;
+}
+
+.audio-reader-stop-btn:hover {
+  background: #dc3545;
+  color: #fff;
+  border-color: #dc3545;
+}
+
+@keyframes pulse-audio {
+  0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.icon-spin {
+  animation: spin 1s linear infinite;
+}
+
+.audio-reader-btn.loading {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* Text Selection Highlight Style */
+::selection {
+  background: #ffeb3b; /* Bright yellow highlight */
+  color: #000;
+}
+
+/* Ensure the highlight is visible even when the element is not focused */
+.pod-body ::selection {
+  background: rgba(255, 235, 59, 0.6);
+}
+
+@media (max-width: 900px) {
+  .audio-reader-container {
+    display: block;
+  }
+  .audio-reader-btn span {
+    display: none;
+  }
+  .audio-reader-stop-btn {
+    display: none !important;
+  }
+}

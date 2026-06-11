@@ -1,0 +1,155 @@
+/* src/css/header.css */
+
+.header-container-new {
+    height: 100px;
+    background-color: #f9f9f9; /* White background */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    border-bottom: 1px solid #ccc;
+    font-family: var(--font-primary, "Poppins", sans-serif);
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100; /* Above sidebar */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    gap: 15px;
+}
+
+.logo-img {
+    height: 55px;
+    width: auto;
+}
+
+.logo-text {
+    font-weight: 700;
+    line-height: 1.1;
+    font-size: 20px;
+    color: #000;
+}
+
+.header-nav {
+    display: flex;
+    gap: 40px;
+    /* Center nav? Image shows it somewhat centered or left-ish next to logo? 
+       Actually image shows: Logo ... [Gap] ... Ads Blogs Lens ... [Search] [Btn]
+       So Nav is somewhere in middle-left. */
+     margin-left: 60px; /* spacing from logo */
+     flex: 1;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #555;
+    text-decoration: none;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 8px 15px;
+    border-radius: 25px;
+    border: 2px solid #000; /* Black border as per image */
+    width: 650px;
+}
+
+.search-icon {
+    color: #555;
+    margin-right: 10px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.get-featured-btn {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+
+.get-featured-btn:hover {
+    background-color: #333;
+}
+
+/* Mobile Header Styles */
+@media (max-width: 768px) {
+    .header-container-new {
+        padding: 0 20px;
+        height: 80px;
+    }
+    .header-left {
+        flex-shrink: 0;
+    }
+    .logo-img {
+        height: 40px;
+    }
+    .header-mobile-actions {
+        display: flex !important;
+        align-items: center !important;
+        flex-direction: row !important;
+        justify-content: flex-end !important;
+        gap: 15px !important;
+        width: 70% !important;
+    }
+
+    .surprise-me-mobile {
+        background-color: #000;
+        color: #fff;
+        padding: 6px 15px;
+        border-radius: 20px;
+        border: none;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .hamburger-btn {
+        background: none;
+        border: none;
+        color: #000;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+    }
+}

@@ -1,0 +1,35 @@
+/* src/css/layout.css */
+
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.layout-body {
+    display: flex;
+    flex: 1;
+}
+
+.page-content {
+    flex: 1;
+    background-color: #fff; /* White bg as per image */
+    margin-left: 340px; /* Sidebar width + gap? Sidebar is fixed. */
+    padding: 0; /* Let components handle padding */
+    min-height: calc(100vh - 80px);
+}
+.page-content.full-width {
+    margin-left: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .layout-body {
+        margin-top: 0px;
+    }
+    .page-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 0;
+    }
+}

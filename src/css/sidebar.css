@@ -1,0 +1,90 @@
+/* src/css/sidebar.css */
+
+.sidebar-container {
+  width: 340px;
+  height: calc(100vh - 80px);
+  background-color: var(--primary-color);
+  padding: 40px 30px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 40px;
+
+  position: fixed;
+  top: 100px;
+  left: 0;
+  font-family: "Inter", sans-serif;
+  border-right: 1px solid #ccc;
+  z-index: 1000;
+}
+
+.sidebar-nav .sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav .sidebar-menu li {
+  margin-bottom: 10px;
+}
+
+.sidebar-nav .sidebar-menu li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.sidebar-nav .sidebar-menu li a:hover {
+  color: #555;
+}
+
+.sidebar-badge img {
+  width: 200px;
+  height: auto;
+}
+
+.sidebar-legal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sidebar-legal a {
+  text-decoration: none;
+  color: #000;
+}
+
+.sidebar-socials {
+  display: flex;
+  gap: 15px;
+  /* margin-top: 20px; */
+}
+
+.sidebar-socials a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #ff7f50; /* Orange */
+  color: white;
+  text-decoration: none;
+  font-size: 22px;
+}
+
+.sidebar-socials a:first-child {
+  background-color: #0077b5; /* LinkedIn */
+}
+
+.sidebar-copyright {
+  font-size: 13px;
+  color: #000;
+  font-weight: 700;
+  line-height: 1.6;
+  /* margin-top: 20px; */
+}

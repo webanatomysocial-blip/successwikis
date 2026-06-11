@@ -1,0 +1,161 @@
+/* src/css/events.css */
+
+.events-page {
+  background-color: var(--primary-color);
+  /* min-height: 100vh; */
+  /* padding-bottom: 80px; */
+}
+
+.events-hero {
+  padding: 40px 40px;
+  text-align: center;
+  /* max-width: 1000px; */
+  margin: 0 auto;
+}
+
+.events-hero h1 {
+  margin-bottom: 20px;
+}
+
+.events-container {
+  /* max-width: 1400px; */
+  margin: 0 auto;
+  padding: 40px 60px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 40px;
+}
+
+.event-card {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+}
+
+.event-poster-wrapper {
+  width: 60%;
+  height: auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.event-poster-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-info {
+  padding-left: 5px;
+}
+
+.event-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.event-date {
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Event Detail Page Styles */
+.event-intro {
+  margin-bottom: 40px;
+}
+
+.event-intro h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #000;
+}
+
+.event-intro .event-date {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.event-story {
+  margin-bottom: 50px;
+}
+
+.event-story p {
+  margin-bottom: 20px;
+  line-height: 1.8;
+  font-size: 16px;
+  color: #333;
+}
+
+.event-story ul {
+  margin: 20px 0;
+  padding-left: 30px;
+}
+
+.event-story li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Event Gallery */
+.event-gallery {
+  margin: 60px 0;
+}
+
+.gallery-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.gallery-image {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.gallery-image img,
+.gallery-image video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .events-hero {
+    padding: 100px 20px 30px;
+  }
+  .events-container {
+    padding: 20px;
+  }
+  .events-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .event-title {
+    font-size: 18px;
+  }
+  .gallery-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
