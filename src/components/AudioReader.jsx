@@ -169,9 +169,14 @@ const AudioReader = ({ contentRef, title }) => {
     }
     
     u.onboundary = (event) => {
-      if (event.name === 'word') {
-        highlightWord(event.charIndex, event.charLength);
+      let length = event.charLength;
+      if (!length) {
+        // Calculate length to the next space if API didn't provide it
+        const textFromHere = fullText.substring(event.charIndex);
+        const match = textFromHere.match(/^\S+/);
+        length = match ? match[0].length : 1;
       }
+      highlightWord(event.charIndex, length);
     };
 
     u.onend = () => {

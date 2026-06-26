@@ -342,7 +342,8 @@ export default function AdminDashboard() {
 
     const filteredSubmissions = submissions.filter(sub => {
         const matchesStatus = subFilter === 'all' || sub.status === subFilter;
-        const matchesType = subTypeFilter === 'all' || sub.type === subTypeFilter;
+        const normalizedSubType = sub.type ? sub.type.toLowerCase().trim().replace(/[\s-]/g, '_') : '';
+        const matchesType = subTypeFilter === 'all' || normalizedSubType === subTypeFilter;
         return matchesStatus && matchesType;
     });
 

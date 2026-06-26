@@ -67,7 +67,7 @@
 .pod-header-content {
   padding: 15px 40px;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 100px;
   align-items: center;
 }
@@ -115,6 +115,9 @@
   cursor: pointer;
   border: none;
   transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .detail-share-btn:hover {
@@ -698,4 +701,28 @@
     margin-bottom: 20px;
     font-size: 14px;
   }
+
+  .detail-share-btn {
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .detail-share-btn span {
+    display: none;
+  }
+
+  .pod-header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.social-icons-header{
+  width: 70%;
+}
 }

@@ -77,15 +77,15 @@ export const podMetadata = [
         categorySlug: "stage-behind-the-story",
         date: "2026-04-21"
     },
-    {
-        id: "JogeeswaraPost",
-        title: "When Trial and Error Turns Into Direction",
-        slug: "when-trial-and-error-turns-into-direction",
-        image: jogImg,
-        category: "The Stage Behind the Story",
-        categorySlug: "stage-behind-the-story",
-        date: "2026-04-14"
-    },
+    // {
+    //     id: "JogeeswaraPost",
+    //     title: "When Trial and Error Turns Into Direction",
+    //     slug: "when-trial-and-error-turns-into-direction",
+    //     image: jogImg,
+    //     category: "The Stage Behind the Story",
+    //     categorySlug: "stage-behind-the-story",
+    //     date: "2026-04-14"
+    // },
     {
         id: "ShyamSankeerthGuptaPost",
         title: "Shyam Sankeerth Gupta: Rejected Twice, Accepted Everywhere",
@@ -131,15 +131,15 @@ export const podMetadata = [
         categorySlug: "stage-behind-the-story",
         date: "2026-04-16"
     },
-    {
-        id: "ManojGarlapatiPost",
-        title: "Manoj Garlapati Wasn’t Planning to Build a Startup. He Was Just Paying Attention",
-        slug: "manoj-garlapati",
-        image: manojImg,
-        category: "The Stage Behind the Story",
-        categorySlug: "stage-behind-the-story",
-        date: "2026-04-14"
-    },
+    // {
+    //     id: "ManojGarlapatiPost",
+    //     title: "Manoj Garlapati Wasn’t Planning to Build a Startup. He Was Just Paying Attention",
+    //     slug: "manoj-garlapati",
+    //     image: manojImg,
+    //     category: "The Stage Behind the Story",
+    //     categorySlug: "stage-behind-the-story",
+    //     date: "2026-04-14"
+    // },
     {
         id: "TariniSaiPost",
         title: "Tarini Sai Padmanabhan: Building the Trust Layer of the Internet with Axory AI",

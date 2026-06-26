@@ -104,7 +104,7 @@ const EventLayout = ({ category, title, content, image, sponsoredImage, date }) 
                     <div className="pod-sticky-header">
                         <div className="pod-header-content">
                             <div className="pod-header-title">
-                                {category} <span style={{ margin: '0 10px', color: '#ccc' }}>|</span> {title}
+                                {category}
 
                             </div>
                             <div className="pod-header-actions">

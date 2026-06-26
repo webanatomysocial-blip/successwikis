@@ -84,7 +84,7 @@ const PodLayout = ({
         <div className="pod-header-content">
           <div className="pod-header-title">
             {category}{" "}
-            <span style={{ margin: "0 10px", color: "#ccc" }}>|</span> {title}
+           
           </div>
           <div className="pod-header-actions">
             {/* Social Icons Placeholders */}

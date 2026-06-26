@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { LuCopy, LuCheck } from 'react-icons/lu';
 import { FaWhatsapp } from 'react-icons/fa';
-import { FiMail } from 'react-icons/fi';
+import { FiMail, FiShare2 } from 'react-icons/fi';
 
 const ShareButton = ({ url, title }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +45,8 @@ const ShareButton = ({ url, title }) => {
     return (
         <div className="share-menu-container" ref={menuRef}>
             <button className="detail-share-btn" onClick={toggleMenu}>
-                Share
+                <FiShare2 size={16} />
+                <span>Share</span>
             </button>
             
             {isOpen && (

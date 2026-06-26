@@ -70,9 +70,9 @@ $url = $defaultUrl;
 // Default: Allow large image previews (good for blogs/articles)
 $robotsContent = "index, follow, max-image-preview:large";
 
-// Homepage: Hide image in Google Search results (max-image-preview:none)
+// Homepage: Allow large image previews in Google Search results (max-image-preview:large)
 if ($path === '/' || $path === '/index.php') {
-    $robotsContent = "index, follow, max-image-preview:none";
+    $robotsContent = "index, follow, max-image-preview:large";
 }
 
 // 1. Blog Metadata
