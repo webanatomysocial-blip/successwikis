@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FiCode } from 'react-icons/fi';
 import '../../css/admin.css';
 
 export default function AdminDashboard() {
@@ -19,8 +20,12 @@ export default function AdminDashboard() {
     const navigate = useNavigate();
     const token = localStorage.getItem('admin_token');
 
+    // HTML Editor State
+    const [htmlCode, setHtmlCode] = useState('');
+    const [htmlSaveStatus, setHtmlSaveStatus] = useState(''); // '', 'saving', 'saved', 'error'
+
     // Navigation and Featured Submissions State
-    const [currentNav, setCurrentNav] = useState('posts'); // 'posts' or 'featured'
+    const [currentNav, setCurrentNav] = useState('posts'); // 'posts', 'featured', 'html-editor'
     const [submissions, setSubmissions] = useState([]);
     const [subLoading, setSubLoading] = useState(false);
     const [subFilter, setSubFilter] = useState('all'); // 'all', 'pending', 'approved', 'rejected'
@@ -136,8 +141,29 @@ export default function AdminDashboard() {
             fetchPosts();
         } else if (currentNav === 'featured' || currentNav === 'details') {
             fetchSubmissions();
+        } else if (currentNav === 'html-editor') {
+            fetch(`${apiBaseURL}/api/html-banner.php`)
+                .then(r => r.json())
+                .then(d => { if (d.status === 'success') setHtmlCode(d.html || ''); })
+                .catch(() => {});
         }
     }, [activeTab, currentNav]);
+
+    const saveHtmlBanner = async () => {
+        setHtmlSaveStatus('saving');
+        try {
+            const res = await fetch(`${apiBaseURL}/api/html-banner.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ html: htmlCode }),
+            });
+            const data = await res.json();
+            setHtmlSaveStatus(data.status === 'success' ? 'saved' : 'error');
+        } catch {
+            setHtmlSaveStatus('error');
+        }
+        setTimeout(() => setHtmlSaveStatus(''), 3000);
+    };
 
     const handleDelete = async (id, permanent = false) => {
         const msg = permanent 
@@ -402,11 +428,17 @@ export default function AdminDashboard() {
                              </span>
                          )}
                     </button>
-                    <button 
+                    <button
                         onClick={() => setCurrentNav('details')}
                         className={`admin-nav-item ${currentNav === 'details' ? 'admin-nav-item-active' : ''}`}
                     >
                          Approved Details
+                    </button>
+                    <button
+                        onClick={() => setCurrentNav('html-editor')}
+                        className={`admin-nav-item admin-nav-html-editor-btn ${currentNav === 'html-editor' ? 'admin-nav-item-active' : ''}`}
+                    >
+                        <FiCode size={16} /> HTML Editor
                     </button>
                 </div>
                 <div style={{ marginTop: 'auto' }}>
@@ -616,6 +648,47 @@ export default function AdminDashboard() {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                ) : currentNav === 'html-editor' ? (
+                    /* HTML EDITOR */
+                    <div className="admin-page admin-html-editor-page">
+                        <div className="admin-header">
+                            <h1>HTML Editor</h1>
+                            <div className="admin-header-actions">
+                                {htmlSaveStatus === 'saving' && <span style={{ fontSize: '13px', color: '#718096' }}>Saving...</span>}
+                                {htmlSaveStatus === 'saved' && <span style={{ fontSize: '13px', color: '#38a169', fontWeight: '600' }}>Saved!</span>}
+                                {htmlSaveStatus === 'error' && <span style={{ fontSize: '13px', color: '#e53e3e', fontWeight: '600' }}>Save failed</span>}
+                                <button
+                                    onClick={saveHtmlBanner}
+                                    className="admin-btn admin-btn-primary"
+                                    disabled={htmlSaveStatus === 'saving'}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+
+                        <label className="admin-label">Paste HTML code — it will render above the mobile bottom nav after saving</label>
+                        <textarea
+                            className="admin-html-textarea"
+                            value={htmlCode}
+                            onChange={(e) => setHtmlCode(e.target.value)}
+                            placeholder="<div>Your HTML here...</div>"
+                            spellCheck={false}
+                            autoCapitalize="none"
+                            autoCorrect="off"
+                        />
+
+                        {/* Live preview while editing */}
+                        {htmlCode.trim() && (
+                            <>
+                                <p className="admin-label" style={{ marginTop: '20px' }}>Preview</p>
+                                <div
+                                    className="admin-html-preview-bar"
+                                    dangerouslySetInnerHTML={{ __html: htmlCode }}
+                                />
+                            </>
+                        )}
                     </div>
                 ) : (
                     /* FEATURED CONTACT FORMS MANAGEMENT */
@@ -918,6 +991,39 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             )}
+
+            {/* Mobile-only bottom nav for admin */}
+            <nav className="admin-mobile-bottom-nav">
+                <button
+                    onClick={() => setCurrentNav('posts')}
+                    className={`admin-mobile-nav-item ${currentNav === 'posts' ? 'admin-mobile-nav-item-active' : ''}`}
+                >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Posts</span>
+                </button>
+                <button
+                    onClick={() => setCurrentNav('featured')}
+                    className={`admin-mobile-nav-item ${currentNav === 'featured' ? 'admin-mobile-nav-item-active' : ''}`}
+                >
+                    {pendingCount > 0 && <span className="admin-mobile-nav-badge">{pendingCount}</span>}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Featured</span>
+                </button>
+                <button
+                    onClick={() => setCurrentNav('details')}
+                    className={`admin-mobile-nav-item ${currentNav === 'details' ? 'admin-mobile-nav-item-active' : ''}`}
+                >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span>Approved</span>
+                </button>
+                <button
+                    onClick={() => setCurrentNav('html-editor')}
+                    className={`admin-mobile-nav-item ${currentNav === 'html-editor' ? 'admin-mobile-nav-item-active' : ''}`}
+                >
+                    <FiCode size={22} />
+                    <span>HTML</span>
+                </button>
+            </nav>
 
             {/* EDIT MODE MODAL FOR DRIVEN BY PURPOSE */}
             {selectedSub && isEditMode && (

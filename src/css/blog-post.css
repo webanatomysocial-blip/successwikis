@@ -9,17 +9,14 @@
 /* 1. Hero Section */
 .pod-hero-section {
   max-width: 1400px;
-  /* Wider for hero */
   margin: 0 auto;
   padding: 120px 40px 60px 40px;
-  /* Top padding clears the Fixed Main Navbar */
 }
 
 .pod-split-header {
   display: flex;
   gap: 60px;
   align-items: center;
-  /* Center vertically align title and image */
   justify-content: space-between;
 }
 
@@ -725,4 +722,107 @@
 .social-icons-header{
   width: 70%;
 }
+}
+
+/* ===== Mobile Sponsored Popup ===== */
+.sp-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sp-overlay {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    animation: sp-fade-in 0.25s ease;
+  }
+
+  @keyframes sp-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .sp-popup {
+    background: #fff;
+    width: 90%;
+    max-width: 450px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 24px 20px 32px;
+    position: relative;
+    animation: sp-zoom-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  }
+
+  @keyframes sp-zoom-in {
+    from { transform: scale(0.9); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .sp-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #333;
+    transition: background 0.2s;
+  }
+
+  .sp-close:hover {
+    background: #e0e0e0;
+  }
+
+  .sp-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 14px;
+  }
+
+  .sp-img-link {
+    display: block;
+    width: 100%;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .sp-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sp-text h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #111;
+    margin-bottom: 6px;
+  }
+
+  .sp-text p {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+  }
 }

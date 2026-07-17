@@ -103,3 +103,47 @@
 .mobile-search-close:active {
   color: #000;
 }
+
+/* HTML banner rendered above the mobile bottom nav */
+@keyframes bannerSlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobile-html-banner {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  z-index: 1999;
+  max-height: 40vh;
+  -webkit-overflow-scrolling: touch;
+  animation: bannerSlideUp 0.4s ease forwards;
+  animation-delay: 3s;
+  opacity: 0;
+}
+
+.mobile-html-banner-close {
+  position: absolute;
+  top: -30px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}

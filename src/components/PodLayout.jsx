@@ -20,6 +20,7 @@ import LikeButton from "./LikeButton";
 import CommentSection from "./CommentSection";
 import Footer from "./Footer";
 import AudioReader from "./AudioReader";
+import SponsoredPopup from "./SponsoredPopup";
 import "../css/interactive.css";
 
 const PodLayout = ({
@@ -118,6 +119,8 @@ const PodLayout = ({
 
   return (
     <>
+      {/* Mobile Sponsored Popup */}
+      <SponsoredPopup sponsoredImage={sponsoredImage} />
       <div className="pod-post-page">
         {/* Hero Section */}
         <div className="pod-hero-section">

@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../css/blog-post.css";
 import ShareButton from "./ShareButton";
 import AudioReader from "./AudioReader";
+import SponsoredPopup from "./SponsoredPopup";
 
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -75,6 +76,8 @@ const PodLayout = ({
 
   return (
     <div className="pod-post-page">
+      {/* Mobile Sponsored Popup */}
+      <SponsoredPopup sponsoredImage={sponsoredImage} />
       {/* Sticky Scroll Header */}
       <div
         className="pod-sticky-header visible"

@@ -487,4 +487,167 @@ body.admin-body {
     margin-top: 30px;
 }
 
+/* ── Mobile-only admin bottom nav ─────────────────────────────────── */
+.admin-mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Hide desktop sidebar on mobile */
+    .admin-sidebar {
+        display: none;
+    }
+
+    /* Full-width main content on mobile */
+    .admin-layout-container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-main-content {
+        padding: 20px 16px;
+        padding-bottom: 100px; /* space for bottom nav */
+    }
+
+    /* Mobile bottom nav */
+    .admin-mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: #1a202c;
+        border-top: 1px solid #2d3748;
+        z-index: 2000;
+        justify-content: space-evenly;
+        align-items: flex-end;
+        padding: 12px 10px 0;
+    }
+
+    .admin-mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        color: #a0aec0;
+        cursor: pointer;
+        min-width: 65px;
+        position: relative;
+        padding: 0;
+        transition: color 0.2s;
+    }
+
+    .admin-mobile-nav-item span {
+        font-size: 10px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .admin-mobile-nav-item-active {
+        color: #63b3ed;
+        border-top: 2px solid #63b3ed;
+        padding-top: 5px;
+    }
+
+    .admin-mobile-nav-badge {
+        position: absolute;
+        top: -6px;
+        right: 8px;
+        background: #e53e3e;
+        color: #fff;
+        font-size: 9px;
+        font-weight: bold;
+        padding: 1px 5px;
+        border-radius: 9999px;
+    }
+
+    /* Hide the sidebar-only HTML editor button on mobile (mobile nav handles it) */
+    .admin-nav-html-editor-btn {
+        display: none;
+    }
+
+    /* HTML editor page */
+    .admin-html-editor-page {
+        padding: 0;
+    }
+
+    .admin-html-editor-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .admin-html-textarea {
+        width: 100%;
+        min-height: 260px;
+        padding: 12px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 13px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        resize: vertical;
+        background: #1a202c;
+        color: #e2e8f0;
+        line-height: 1.6;
+        outline: none;
+    }
+
+    .admin-html-textarea::placeholder {
+        color: #4a5568;
+    }
+
+    /* Rendered HTML preview — sits above mobile bottom nav */
+    .admin-html-preview-bar {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        z-index: 1999;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        padding: 10px 16px;
+        max-height: 40vh;
+        overflow-y: auto;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* On desktop: HTML editor textarea (in sidebar nav view) */
+@media (min-width: 769px) {
+    .admin-mobile-bottom-nav {
+        display: none !important;
+    }
+
+    .admin-html-textarea {
+        width: 100%;
+        min-height: 320px;
+        padding: 14px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        resize: vertical;
+        background: #1a202c;
+        color: #e2e8f0;
+        line-height: 1.6;
+        outline: none;
+    }
+
+    .admin-html-preview-bar {
+        position: static;
+        margin-top: 20px;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #fff;
+        min-height: 80px;
+        box-shadow: none;
+        max-height: none;
+    }
+}
+
 

@@ -4,9 +4,20 @@ import { FiHome, FiCalendar, FiAperture } from "react-icons/fi";
 import { BsSearch } from "react-icons/bs";
 import "../css/mobile-nav.css";
 
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
+
 const MobileNav = ({ onSearch, searchQuery }) => {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
+  const [bannerHtml, setBannerHtml] = React.useState('');
+  const [bannerClosed, setBannerClosed] = React.useState(false);
+
+  React.useEffect(() => {
+    fetch(`${API_BASE}/api/html-banner.php`)
+      .then(r => r.json())
+      .then(d => { if (d.status === 'success' && d.html) setBannerHtml(d.html); })
+      .catch(() => {});
+  }, []);
 
   // Sync with parent search query
   React.useEffect(() => {
@@ -30,6 +41,19 @@ const MobileNav = ({ onSearch, searchQuery }) => {
   };
 
   return (
+    <>
+      {bannerHtml && !bannerClosed && (
+        <div className="mobile-html-banner only-mobile">
+          <button
+            className="mobile-html-banner-close"
+            onClick={() => setBannerClosed(true)}
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <div dangerouslySetInnerHTML={{ __html: bannerHtml }} />
+        </div>
+      )}
     <nav className="mobile-bottom-nav only-mobile">
       <div className="mobile-nav-container">
         {!isSearchOpen ? (
@@ -91,6 +115,7 @@ const MobileNav = ({ onSearch, searchQuery }) => {
         )}
       </div>
     </nav>
+    </>
   );
 };
 

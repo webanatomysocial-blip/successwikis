@@ -11,6 +11,7 @@ import ShareButton from './ShareButton';
 import CommentSection from './CommentSection';
 import Footer from './Footer';
 import AudioReader from './AudioReader';
+import SponsoredPopup from './SponsoredPopup';
 import '../css/interactive.css';
 import sponsoredDefault from '../assets/Sponsored/sponsored-image.jpg';
 
@@ -77,6 +78,8 @@ const EventLayout = ({ category, title, content, image, sponsoredImage, date }) 
 
     return (
         <>
+            {/* Mobile Sponsored Popup */}
+            <SponsoredPopup sponsoredImage={sponsoredImage} />
             <div className="pod-post-page">
                 {/* Hero Section */}
                 <div className="pod-hero-section">

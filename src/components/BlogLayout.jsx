@@ -12,6 +12,7 @@ import GetFeaturedWidget from "./GetFeaturedWidget";
 import ShareButton from "./ShareButton";
 import Footer from "./Footer";
 import AudioReader from "./AudioReader";
+import SponsoredPopup from "./SponsoredPopup";
 
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -82,6 +83,8 @@ const BlogLayout = ({
 
   return (
     <>
+      {/* Mobile Sponsored Popup */}
+      <SponsoredPopup />
       <div className="pod-post-page">
         {/* Hero Section */}
         <div className="pod-hero-section">
