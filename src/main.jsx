@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
@@ -30,6 +30,8 @@ import GetFeatured from "./pages/GetFeatured";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminEditor from "./pages/admin/AdminEditor";
+import PodcastPage from "./components/Podcast";
+import PodcastIntroOverlay from "./components/PodcastIntroOverlay";
 
 import Lenis from "lenis";
 import { HelmetProvider } from "react-helmet-async";
@@ -48,19 +50,43 @@ const lenis = new Lenis({
 });
 window.lenis = lenis;
 
+function PodcastRoute() {
+  const [showIntro, setShowIntro] = React.useState(true);
+  return (
+    <>
+      <PodcastIntroOverlay
+        isOpen={showIntro}
+        onDismiss={() => setShowIntro(false)}
+      />
+      <PodcastPage
+        isIntroOpen={showIntro}
+        onReopenIntro={() => setShowIntro(true)}
+      />
+    </>
+  );
+}
 function raf(time) {
   lenis.raf(time);
   requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
 
+function WithLayout() {
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
+}
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <Layout>
-          <Routes>
+        <Routes>
+          <Route path="/podcast" element={<PodcastRoute />} />
+          <Route element={<WithLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/careers" element={<Careers />} />
@@ -100,8 +126,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
             {/* 404 Not Found - Must be last */}
             <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+          </Route>
+        </Routes>
       </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>,
