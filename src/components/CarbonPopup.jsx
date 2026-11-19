@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { IoClose } from "react-icons/io5";
 import { MdVerified } from "react-icons/md";
-import logo from "../assets/ze-netzero-badge.png";
+import carbonNeutralBadge from "../assets/carbon-neutral-website-badge.png";
 import "../css/carbon-popup.css";
 import tree from "../assets/trees.jpg";
 
@@ -84,10 +84,10 @@ const CarbonPopup = ({ isOpen, onClose }) => {
             rel="noopener noreferrer"
           >
             <img
-              src={logo}
-              alt="Carbon Neutral Website"
-              width="200"
-              height="44"
+              src={carbonNeutralBadge}
+              alt="Carbon Neutral Website approved by ZC"
+              width="300"
+              height="67"
             />
           </a>
         </div>

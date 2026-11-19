@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../css/blog-post.css"; // Using the styles that match this footer structure
 import whiteLogo from "../assets/logo-white.png";
-import carbonBadge from "../assets/carbon-footer.png";
+import carbonBadge from "../assets/carbon-neutral-website-badge.png";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import CarbonPopup from "./CarbonPopup";
 import { useState } from "react";
@@ -52,10 +52,11 @@ const Footer = () => {
         >
           <img
             src={carbonBadge}
-            alt="Carbon-Neutral Website"
+            alt="Carbon Neutral Website approved by ZC"
+            className="footer-carbon-badge"
             width="250"
-            height="auto"
-            style={{ objectFit: "cover" }}
+            height="56"
+            style={{ objectFit: "contain", borderRadius: "8px" }}
           />
         </div>
       </div>

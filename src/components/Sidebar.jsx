@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/sidebar.css";
 import { FaLinkedinIn, FaInstagram, FaYoutube } from "react-icons/fa6";
-import logo from "../assets/ze-netzero-badge.png";
+import carbonBadge from "../assets/carbon-neutral-website-badge.png";
 import CarbonPopup from "./CarbonPopup";
 
 const Sidebar = () => {
@@ -37,7 +37,12 @@ const Sidebar = () => {
         onClick={() => setIsPopupOpen(true)}
         style={{ cursor: "pointer" }}
       >
-        <img src={logo} alt="Carbon Neutral Badge" width="200" height="44" />
+        <img
+          src={carbonBadge}
+          alt="Carbon Neutral Website approved by ZC"
+          width="200"
+          height="45"
+        />
       </div>
 
       <nav className="sidebar-legal">

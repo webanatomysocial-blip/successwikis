@@ -42,7 +42,9 @@
 
 .sidebar-badge img {
   width: 200px;
-  height: auto;
+  height: 45px;
+  object-fit: contain;
+  border-radius: 7px;
 }
 
 .sidebar-legal {
