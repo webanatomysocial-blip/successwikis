@@ -32,12 +32,15 @@
 .pod-hero-img-container {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
 .pod-hero-img-container img {
-  width: 60%;
+  width: min(100%, 472px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: top center;
   border-radius: 0;
   /* Sharp edges typically looked better in screenshot, user wants 'just like image' */
   display: block;
